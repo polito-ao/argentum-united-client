@@ -25,20 +25,25 @@ offset_bottom = 26.0
 text = "v"
 
 [node name="NameLabel" type="Label" parent="PlayerSprite"]
-offset_top = -16.0
-offset_right = 100.0
+offset_left = -30.0
+offset_top = 34.0
+offset_right = 62.0
+offset_bottom = 50.0
 text = "You"
+horizontal_alignment = 1
 theme_override_font_sizes/font_size = 10
 
 [node name="Entities" type="Node2D" parent="."]
 
-[node name="HUD" type="Control" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="UILayer"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/HUD"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -46,22 +51,22 @@ anchor_right = 1.0
 offset_left = -200.0
 offset_bottom = 120.0
 
-[node name="InfoLabel" type="Label" parent="HUD/VBoxContainer"]
+[node name="InfoLabel" type="Label" parent="UILayer/HUD/VBoxContainer"]
 layout_mode = 2
 text = "Character"
 theme_override_font_sizes/font_size = 12
 
-[node name="HPBar" type="ProgressBar" parent="HUD/VBoxContainer"]
+[node name="HPBar" type="ProgressBar" parent="UILayer/HUD/VBoxContainer"]
 layout_mode = 2
 max_value = 100.0
 value = 100.0
 
-[node name="MPBar" type="ProgressBar" parent="HUD/VBoxContainer"]
+[node name="MPBar" type="ProgressBar" parent="UILayer/HUD/VBoxContainer"]
 layout_mode = 2
 max_value = 100.0
 value = 100.0
 
-[node name="ChatPanel" type="VBoxContainer" parent="HUD"]
+[node name="ChatPanel" type="VBoxContainer" parent="UILayer/HUD"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -70,16 +75,16 @@ offset_left = 10.0
 offset_top = -200.0
 offset_right = 350.0
 
-[node name="ChatDisplay" type="RichTextLabel" parent="HUD/ChatPanel"]
+[node name="ChatDisplay" type="RichTextLabel" parent="UILayer/HUD/ChatPanel"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 140)
 scroll_following = true
 
-[node name="ChatInput" type="LineEdit" parent="HUD/ChatPanel"]
+[node name="ChatInput" type="LineEdit" parent="UILayer/HUD/ChatPanel"]
 layout_mode = 2
 placeholder_text = "Press T to chat..."
 
-[node name="MessagesLabel" type="Label" parent="HUD"]
+[node name="MessagesLabel" type="Label" parent="UILayer/HUD"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0

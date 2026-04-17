@@ -14,15 +14,16 @@ var npcs: Dictionary = {}     # id -> { pos: Vector2i, name: String, hp: int, ma
 @onready var camera: Camera2D = $Camera
 @onready var player_sprite: Node2D = $PlayerSprite
 @onready var entities_layer: Node2D = $Entities
-@onready var hud: Control = $HUD
-@onready var hp_bar: ProgressBar = $HUD/VBoxContainer/HPBar
-@onready var mp_bar: ProgressBar = $HUD/VBoxContainer/MPBar
-@onready var info_label: Label = $HUD/VBoxContainer/InfoLabel
-@onready var chat_display: RichTextLabel = $HUD/ChatPanel/ChatDisplay
-@onready var chat_input: LineEdit = $HUD/ChatPanel/ChatInput
-@onready var messages_label: Label = $HUD/MessagesLabel
+@onready var hud: Control = $UILayer/HUD
+@onready var hp_bar: ProgressBar = $UILayer/HUD/VBoxContainer/HPBar
+@onready var mp_bar: ProgressBar = $UILayer/HUD/VBoxContainer/MPBar
+@onready var info_label: Label = $UILayer/HUD/VBoxContainer/InfoLabel
+@onready var chat_display: RichTextLabel = $UILayer/HUD/ChatPanel/ChatDisplay
+@onready var chat_input: LineEdit = $UILayer/HUD/ChatPanel/ChatInput
+@onready var messages_label: Label = $UILayer/HUD/MessagesLabel
 
 var _messages: Array = []
+var _is_dead: bool = false
 const MAX_MESSAGES = 6
 
 func setup(conn: ServerConnection, character: Dictionary, map_data: Dictionary):
@@ -39,6 +40,9 @@ func setup(conn: ServerConnection, character: Dictionary, map_data: Dictionary):
 		character.get("race", "?"),
 		character.get("level", 1)
 	]
+
+	# Show character name under player sprite
+	$PlayerSprite/NameLabel.text = character.get("name", "You")
 
 	_update_player_position()
 
@@ -93,8 +97,14 @@ func _input(event):
 				_add_message("Mana potion!")
 			KEY_T:
 				chat_input.grab_focus()
+				chat_input.text = "" # prevent the 'T' from appearing
+				get_viewport().set_input_as_handled()
 			KEY_I:
 				connection.send_packet(PacketIds.INVENTORY_REQUEST)
+			KEY_SPACE:
+				if _is_dead:
+					connection.send_packet(PacketIds.RESPAWN)
+					_add_message("Respawning...")
 
 func _send_move(dx: int, dy: int):
 	var new_x = my_pos.x + dx
@@ -180,16 +190,24 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.UPDATE_HP:
 			hp_bar.value = payload.get("hp", 0)
 			hp_bar.max_value = payload.get("max_hp", 1)
+			if payload.get("hp", 0) > 0 and _is_dead:
+				_is_dead = false
+				_add_message("You have respawned!")
 		PacketIds.UPDATE_MANA:
 			mp_bar.value = payload.get("mana", 0)
 			mp_bar.max_value = payload.get("max_mana", 1)
 		PacketIds.CHAR_DEATH:
-			_add_message("DEATH!")
+			_add_message("YOU DIED! Press SPACE to respawn")
+			_is_dead = true
 		PacketIds.CHAT_BROADCAST:
-			chat_display.append_text("[%s]: %s\n" % [
-				payload.get("from_name", "?"),
-				payload.get("message", "")
-			])
+			var from_name = payload.get("from_name", null)
+			var from_id = payload.get("from_id", null)
+			var msg = payload.get("message", "")
+			if from_name == null:
+				from_name = "?"
+			chat_display.append_text("[%s]: %s\n" % [from_name, msg])
+			# Show bubble above the speaker
+			_show_chat_bubble(from_id, msg)
 		PacketIds.INVENTORY_RESPONSE:
 			_handle_inventory(payload)
 
@@ -284,6 +302,41 @@ func _handle_inventory(payload: Dictionary):
 			var eq = " [E]" if item.get("equipped", false) else ""
 			_add_message("  %s x%d%s" % [item.get("name", "?"), item.get("amount", 0), eq])
 
+func _show_chat_bubble(from_id, msg: String):
+	var target_node: Node2D = null
+
+	if from_id == null:
+		return
+
+	# Check if it's us
+	if from_id is int or from_id is float:
+		# Check players
+		if int(from_id) in players:
+			target_node = players[int(from_id)].node
+
+	if target_node == null:
+		# It's our own message — show on player sprite
+		target_node = player_sprite
+
+	# Remove existing bubble if any
+	var existing = target_node.get_node_or_null("ChatBubble")
+	if existing:
+		existing.queue_free()
+
+	var bubble = Label.new()
+	bubble.name = "ChatBubble"
+	bubble.text = msg
+	bubble.position = Vector2(0, -32)
+	bubble.add_theme_font_size_override("font_size", 10)
+	bubble.add_theme_color_override("font_color", Color.WHITE)
+	target_node.add_child(bubble)
+
+	# Auto-remove after 3 seconds
+	get_tree().create_timer(3.0).timeout.connect(func():
+		if is_instance_valid(bubble):
+			bubble.queue_free()
+	)
+
 func _create_entity_node(entity_name: String, color: Color) -> Node2D:
 	var node = Node2D.new()
 
@@ -295,7 +348,9 @@ func _create_entity_node(entity_name: String, color: Color) -> Node2D:
 
 	var label = Label.new()
 	label.text = entity_name
-	label.position = Vector2(0, -16)
+	label.position = Vector2(-30, 34)
+	label.size = Vector2(92, 16)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.add_theme_font_size_override("font_size", 10)
 	node.add_child(label)
 
