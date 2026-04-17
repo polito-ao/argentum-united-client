@@ -26,13 +26,16 @@ var _messages: Array = []
 var _is_dead: bool = false
 const MAX_MESSAGES = 6
 
-func setup(conn: ServerConnection, character: Dictionary, map_data: Dictionary):
+func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Dictionary):
 	connection = conn
 	connection.packet_received.connect(_on_packet_received)
 
 	map_id = map_data.get("map_id", 1)
 	my_pos = Vector2i(map_data.get("x", 50), map_data.get("y", 50))
 	map_size = Vector2i(map_data.get("width", 100), map_data.get("height", 100))
+
+	var character = select_payload.get("character", {})
+	var state = select_payload.get("state", {})
 
 	info_label.text = "%s (%s %s Lv%d)" % [
 		character.get("name", "?"),
@@ -41,8 +44,18 @@ func setup(conn: ServerConnection, character: Dictionary, map_data: Dictionary):
 		character.get("level", 1)
 	]
 
-	# Show character name under player sprite
 	$PlayerSprite/NameLabel.text = character.get("name", "You")
+
+	# Initialize HP/MP bars from state snapshot
+	hp_bar.max_value = state.get("max_hp", 100)
+	hp_bar.value = state.get("hp", 100)
+	mp_bar.max_value = state.get("max_mana", 100)
+	mp_bar.value = state.get("mana", 0)
+
+	# Restore death state if character logged in dead
+	if not state.get("alive", true):
+		_is_dead = true
+		_add_message("You are a ghost. Press SPACE to respawn.")
 
 	_update_player_position()
 
@@ -109,8 +122,25 @@ func _input(event):
 func _send_move(dx: int, dy: int):
 	var new_x = my_pos.x + dx
 	var new_y = my_pos.y + dy
+
+	# Client-side prediction: refuse to move optimistically if we know it's invalid
+	if new_x < 0 or new_y < 0 or new_x >= map_size.x or new_y >= map_size.y:
+		_update_player_sprite() # still update facing
+		return
+
+	# Check if target tile has an NPC (clients knows NPC positions)
+	for npc_id in npcs:
+		if npcs[npc_id].pos == Vector2i(new_x, new_y):
+			_update_player_sprite() # face it, don't move
+			return
+
+	# Check if target tile has another alive player
+	for player_id in players:
+		if players[player_id].pos == Vector2i(new_x, new_y):
+			_update_player_sprite()
+			return
+
 	connection.send_packet(PacketIds.PLAYER_MOVE, {"x": new_x, "y": new_y})
-	# Optimistic update
 	my_pos = Vector2i(new_x, new_y)
 	_update_player_position()
 	_update_player_sprite()
@@ -183,6 +213,10 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			])
 		PacketIds.MAP_TRANSITION:
 			_handle_map_transition(payload)
+		PacketIds.MOVE_REJECTED:
+			# Server rejected our optimistic move — revert to authoritative position
+			my_pos = Vector2i(payload.get("x", my_pos.x), payload.get("y", my_pos.y))
+			_update_player_position()
 		PacketIds.DAMAGE_NUMBER:
 			_handle_damage(payload)
 		PacketIds.MISS:
@@ -210,6 +244,8 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			_show_chat_bubble(from_id, msg)
 		PacketIds.INVENTORY_RESPONSE:
 			_handle_inventory(payload)
+		_:
+			push_error("DRIFT or MALICIOUS: unknown packet_id 0x%04x" % packet_id)
 
 func _handle_player_spawn(payload: Dictionary):
 	var id = payload.get("id", 0)

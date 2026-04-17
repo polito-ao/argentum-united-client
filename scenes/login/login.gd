@@ -24,13 +24,8 @@ func _on_login_pressed():
 		login_button.disabled = false
 
 func _on_connected():
-	status_label.text = "TCP connected. Sending auth..."
-	connection.send_packet(PacketIds.DEV_LOGIN, {
-		"account_id": account_input.text
-	})
-	# If this text changes, we know _on_connected fires
-	await get_tree().create_timer(0.5).timeout
-	status_label.text = status_label.text + " (waiting for response...)"
+	status_label.text = "TCP connected. Fetching config..."
+	connection.send_packet(PacketIds.CONFIG_REQUEST)
 
 func _on_disconnected():
 	status_label.text = "Disconnected"
@@ -38,7 +33,7 @@ func _on_disconnected():
 
 var _char_select_scene = preload("res://scenes/character/character_select.tscn")
 var _world_scene = preload("res://scenes/world/world.tscn")
-var _selected_character: Dictionary = {}
+var _select_payload: Dictionary = {}
 var _char_select_instance: Control = null
 
 func _show_character_select():
@@ -56,9 +51,9 @@ func _show_character_select():
 	# Also listen for MAP_LOAD which comes right after character select
 	conn.packet_received.connect(_on_world_packet)
 
-func _on_character_selected(character: Dictionary):
-	print("[login] Character selected: ", character)
-	_selected_character = character
+func _on_character_selected(select_payload: Dictionary):
+	print("[login] Character selected: ", select_payload)
+	_select_payload = select_payload
 
 func _on_world_packet(packet_id: int, payload: Dictionary):
 	if packet_id == PacketIds.MAP_LOAD:
@@ -77,18 +72,34 @@ func _on_world_packet(packet_id: int, payload: Dictionary):
 		# Create world scene
 		var world = _world_scene.instantiate()
 		get_parent().add_child(world)
-		world.setup(conn, _selected_character, payload)
+		world.setup(conn, _select_payload, payload)
 
 		# Remove self (login control)
 		queue_free()
 
 func _on_packet_received(packet_id: int, payload: Dictionary):
-	print("[login] Packet received: 0x%04x payload: %s" % [packet_id, payload])
 	match packet_id:
+		PacketIds.CONFIG_RESPONSE:
+			_handle_config(payload)
 		PacketIds.AUTH_RESPONSE:
-			print("[login] Auth response success=%s" % payload.get("success", false))
 			if payload.get("success", false):
 				_show_character_select()
 			else:
 				status_label.text = "Auth failed: %s" % payload.get("error", "unknown")
 				login_button.disabled = false
+		_:
+			push_error("DRIFT or MALICIOUS: unknown packet_id 0x%04x" % packet_id)
+
+func _handle_config(payload: Dictionary):
+	var server_ids = payload.get("packet_ids", {})
+	var mismatches = PacketIds.validate_server_config(server_ids)
+	if mismatches.size() > 0:
+		push_error("PROTOCOL DRIFT — client/server packet IDs mismatch: %s" % mismatches)
+		status_label.text = "Protocol mismatch! Update client."
+		return
+
+	PacketIds.load_game_config(payload)
+	print("[login] Config OK (%d classes, %d races)" % [PacketIds.classes.size(), PacketIds.races.size()])
+
+	status_label.text = "Authenticating..."
+	connection.send_packet(PacketIds.DEV_LOGIN, {"account_id": account_input.text})

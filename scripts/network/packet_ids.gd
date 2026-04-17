@@ -1,11 +1,15 @@
 class_name PacketIds
 
-# Auth
+# ONLY sacred IDs hardcoded in the client — needed to bootstrap the config fetch.
+const CONFIG_REQUEST = 0x0002
+const CONFIG_RESPONSE = 0x0003
+const DEV_LOGIN = 0x0012 # dev bypass, disappears in production
+
+# All other IDs are mirrored from the server for convenience + client-side lookup,
+# but validated against the server's config on boot. Drift = hard error.
 const AUTH_REQUEST = 0x0010
 const AUTH_RESPONSE = 0x0011
-const DEV_LOGIN = 0x0012
 
-# Character
 const CHARACTER_LIST_REQUEST = 0x0020
 const CHARACTER_LIST_RESPONSE = 0x0021
 const CHARACTER_SELECT = 0x0022
@@ -13,20 +17,18 @@ const CHARACTER_SELECT_RESPONSE = 0x0023
 const CHARACTER_CREATE = 0x0024
 const CHARACTER_CREATE_RESPONSE = 0x0025
 
-# World
 const MAP_LOAD = 0x0030
 const PLAYER_SPAWN = 0x0031
 const PLAYER_MOVE = 0x0032
 const PLAYER_MOVED = 0x0033
 const PLAYER_DESPAWN = 0x0034
 const MAP_TRANSITION = 0x0035
+const MOVE_REJECTED = 0x0036
 
-# Chat
 const CHAT_SEND = 0x0040
 const CHAT_BROADCAST = 0x0041
 const CHAT_CLEAR = 0x0042
 
-# Combat
 const ATTACK = 0x0050
 const DAMAGE_NUMBER = 0x0051
 const MISS = 0x0052
@@ -38,13 +40,46 @@ const RESPAWN = 0x0057
 const USE_POTION = 0x0058
 const ATTACK_NPC = 0x0059
 
-# NPCs
 const NPC_SPAWN = 0x0060
 const NPC_MOVED = 0x0061
 const NPC_DEATH = 0x0062
 const NPC_ATTACK = 0x0063
 const NPC_RESPAWN = 0x0064
 
-# Inventory
 const INVENTORY_REQUEST = 0x0070
 const INVENTORY_RESPONSE = 0x0071
+
+# Called on boot after CONFIG_RESPONSE arrives.
+# Errors hard if server's IDs don't match our constants.
+static func validate_server_config(server_packet_ids: Dictionary) -> Array:
+	var mismatches: Array = []
+
+	# Iterate over all our constants
+	for prop in _get_all_constants():
+		var our_value = prop.value
+		var server_value = server_packet_ids.get(prop.name, null)
+		if server_value != null and server_value != our_value:
+			mismatches.append({
+				"name": prop.name,
+				"client": our_value,
+				"server": server_value
+			})
+
+	return mismatches
+
+# Returns game constants (classes, races) loaded from server
+static var classes: Array = []
+static var races: Array = []
+static var max_character_slots: int = 3
+
+static func load_game_config(config: Dictionary) -> void:
+	classes = config.get("classes", [])
+	races = config.get("races", [])
+	max_character_slots = config.get("max_character_slots", 3)
+
+# Lists all constants in this script via reflection.
+# Returns array of { name: String, value: int }.
+static func _get_all_constants() -> Array:
+	var script = load("res://scripts/network/packet_ids.gd")
+	var consts = script.get_script_constant_map()
+	return consts.keys().map(func(k): return {"name": k, "value": consts[k]})

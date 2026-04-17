@@ -17,12 +17,15 @@ var connection: ServerConnection
 var _characters: Array = []
 var _dice_throws: Array = []
 
-const CLASSES = ["guerrero", "paladin", "cazador", "clerigo", "bardo", "asesino", "mago"]
-const RACES = ["gnomo", "elfo", "humano", "enano", "orco"]
+var CLASSES: Array = []
+var RACES: Array = []
 
 func setup(conn: ServerConnection):
 	connection = conn
 	connection.packet_received.connect(_on_packet_received)
+
+	CLASSES = PacketIds.classes
+	RACES = PacketIds.races
 
 	class_selector.clear()
 	for c in CLASSES:
@@ -137,6 +140,7 @@ func _handle_create_response(payload: Dictionary):
 
 func _handle_select_response(payload: Dictionary):
 	if payload.get("success", false):
-		character_selected.emit(payload.get("character", {}))
+		# Pass the full payload so world can read state (hp, mana, attrs, alive)
+		character_selected.emit(payload)
 	else:
 		status_label.text = "Select failed: %s" % payload.get("error", "unknown")
