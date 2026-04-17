@@ -50,8 +50,10 @@ func send_packet(packet_id: int, payload: Dictionary = {}) -> void:
 
 	var header = PackedByteArray()
 	header.resize(4)
-	header.encode_u16(0, body_length)  # length
-	header.encode_u16(2, packet_id)    # packet_id
+	header[0] = (body_length >> 8) & 0xff  # big-endian length
+	header[1] = body_length & 0xff
+	header[2] = (packet_id >> 8) & 0xff    # big-endian packet_id
+	header[3] = packet_id & 0xff
 
 	_socket.put_data(header + packed)
 
@@ -70,26 +72,34 @@ func _read_packets() -> void:
 
 	var result = _socket.get_data(available)
 	if result[0] != OK:
+		print("[net] get_data error: ", result[0])
 		return
 
+	print("[net] Received %d bytes" % result[1].size())
 	_buffer.append_array(result[1])
 	_process_buffer()
 
+func _read_u16_be(data: PackedByteArray, offset: int) -> int:
+	return (data[offset] << 8) | data[offset + 1]
+
 func _process_buffer() -> void:
 	while _buffer.size() >= 4:
-		var body_length = _buffer.decode_u16(0)
+		var body_length = _read_u16_be(_buffer, 0)
 		var total_length = 2 + body_length
 
 		if _buffer.size() < total_length:
-			break  # not enough data yet
+			break
 
-		var packet_id = _buffer.decode_u16(2)
+		var packet_id = _read_u16_be(_buffer, 2)
 		var payload_bytes = _buffer.slice(4, total_length)
+
+		print("[net] Decoding packet 0x%04x, %d payload bytes" % [packet_id, payload_bytes.size()])
 
 		var payload = {}
 		if payload_bytes.size() > 0:
 			payload = _msgpack_decode(payload_bytes)
 
+		print("[net] Decoded: %s" % payload)
 		_buffer = _buffer.slice(total_length)
 		packet_received.emit(packet_id, payload)
 
