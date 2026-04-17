@@ -82,6 +82,27 @@ func _read_packets() -> void:
 func _read_u16_be(data: PackedByteArray, offset: int) -> int:
 	return (data[offset] << 8) | data[offset + 1]
 
+func _read_u32_be(data: PackedByteArray, offset: int) -> int:
+	return (data[offset] << 24) | (data[offset + 1] << 16) | (data[offset + 2] << 8) | data[offset + 3]
+
+func _read_s16_be(data: PackedByteArray, offset: int) -> int:
+	var v = _read_u16_be(data, offset)
+	if v >= 0x8000: v -= 0x10000
+	return v
+
+func _read_s32_be(data: PackedByteArray, offset: int) -> int:
+	var v = _read_u32_be(data, offset)
+	if v >= 0x80000000: v -= 0x100000000
+	return v
+
+func _read_double_be(data: PackedByteArray, offset: int) -> float:
+	# Reverse 8 bytes to little-endian, then decode
+	var le_bytes = PackedByteArray()
+	le_bytes.resize(8)
+	for i in 8:
+		le_bytes[i] = data[offset + 7 - i]
+	return le_bytes.decode_double(0)
+
 func _process_buffer() -> void:
 	while _buffer.size() >= 4:
 		var body_length = _read_u16_be(_buffer, 0)
@@ -121,37 +142,37 @@ func _msgpack_encode(value) -> PackedByteArray:
 			buf.append(value & 0xff)
 		elif value >= 0 and value <= 0xffff:
 			buf.append(0xcd)
-			var b = PackedByteArray()
-			b.resize(2)
-			b.encode_u16(0, value)
-			buf.append_array(b)
+			buf.append((value >> 8) & 0xff)
+			buf.append(value & 0xff)
 		elif value >= 0 and value <= 0xffffffff:
 			buf.append(0xce)
-			var b = PackedByteArray()
-			b.resize(4)
-			b.encode_u32(0, value)
-			buf.append_array(b)
+			buf.append((value >> 24) & 0xff)
+			buf.append((value >> 16) & 0xff)
+			buf.append((value >> 8) & 0xff)
+			buf.append(value & 0xff)
 		elif value >= -128 and value < 0:
 			buf.append(0xd0)
 			buf.append(value & 0xff)
 		elif value >= -32768 and value < 0:
 			buf.append(0xd1)
-			var b = PackedByteArray()
-			b.resize(2)
-			b.encode_s16(0, value)
-			buf.append_array(b)
+			var v = value & 0xffff
+			buf.append((v >> 8) & 0xff)
+			buf.append(v & 0xff)
 		else:
 			buf.append(0xd2)
-			var b = PackedByteArray()
-			b.resize(4)
-			b.encode_s32(0, value)
-			buf.append_array(b)
+			var v = value & 0xffffffff
+			buf.append((v >> 24) & 0xff)
+			buf.append((v >> 16) & 0xff)
+			buf.append((v >> 8) & 0xff)
+			buf.append(v & 0xff)
 	elif value is float:
 		buf.append(0xcb)
-		var b = PackedByteArray()
-		b.resize(8)
-		b.encode_double(0, value)
-		buf.append_array(b)
+		var le = PackedByteArray()
+		le.resize(8)
+		le.encode_double(0, value)
+		# Reverse to big-endian
+		for i in 8:
+			buf.append(le[7 - i])
 	elif value is String:
 		var utf8 = value.to_utf8_buffer()
 		if utf8.size() <= 31:
@@ -161,20 +182,16 @@ func _msgpack_encode(value) -> PackedByteArray:
 			buf.append(utf8.size())
 		elif utf8.size() <= 0xffff:
 			buf.append(0xda)
-			var b = PackedByteArray()
-			b.resize(2)
-			b.encode_u16(0, utf8.size())
-			buf.append_array(b)
+			buf.append((utf8.size() >> 8) & 0xff)
+			buf.append(utf8.size() & 0xff)
 		buf.append_array(utf8)
 	elif value is Array:
 		if value.size() <= 15:
 			buf.append(0x90 | value.size())
 		elif value.size() <= 0xffff:
 			buf.append(0xdc)
-			var b = PackedByteArray()
-			b.resize(2)
-			b.encode_u16(0, value.size())
-			buf.append_array(b)
+			buf.append((value.size() >> 8) & 0xff)
+			buf.append(value.size() & 0xff)
 		for item in value:
 			buf.append_array(_msgpack_encode(item))
 	elif value is Dictionary:
@@ -182,10 +199,8 @@ func _msgpack_encode(value) -> PackedByteArray:
 			buf.append(0x80 | value.size())
 		elif value.size() <= 0xffff:
 			buf.append(0xde)
-			var b = PackedByteArray()
-			b.resize(2)
-			b.encode_u16(0, value.size())
-			buf.append_array(b)
+			buf.append((value.size() >> 8) & 0xff)
+			buf.append(value.size() & 0xff)
 		for key in value:
 			buf.append_array(_msgpack_encode(key))
 			buf.append_array(_msgpack_encode(value[key]))
@@ -231,28 +246,28 @@ func _msgpack_decode_at(data: PackedByteArray, offset: int) -> Array:
 		0xc2: return [false, offset + 1]  # false
 		0xc3: return [true, offset + 1]   # true
 		0xcc: return [data[offset + 1], offset + 2]  # uint8
-		0xcd: return [data.decode_u16(offset + 1), offset + 3]  # uint16
-		0xce: return [data.decode_u32(offset + 1), offset + 5]  # uint32
+		0xcd: return [_read_u16_be(data, offset + 1), offset + 3]  # uint16 BE
+		0xce: return [_read_u32_be(data, offset + 1), offset + 5]  # uint32 BE
 		0xd0: # int8
 			var v = data[offset + 1]
 			if v >= 128: v -= 256
 			return [v, offset + 2]
-		0xd1: return [data.decode_s16(offset + 1), offset + 3]  # int16
-		0xd2: return [data.decode_s32(offset + 1), offset + 5]  # int32
-		0xcb: return [data.decode_double(offset + 1), offset + 9]  # float64
+		0xd1: return [_read_s16_be(data, offset + 1), offset + 3]  # int16 BE
+		0xd2: return [_read_s32_be(data, offset + 1), offset + 5]  # int32 BE
+		0xcb: return [_read_double_be(data, offset + 1), offset + 9]  # float64 BE
 		0xd9: # str8
 			var length = data[offset + 1]
 			var str_data = data.slice(offset + 2, offset + 2 + length)
 			return [str_data.get_string_from_utf8(), offset + 2 + length]
 		0xda: # str16
-			var length = data.decode_u16(offset + 1)
+			var length = _read_u16_be(data, offset + 1)
 			var str_data = data.slice(offset + 3, offset + 3 + length)
 			return [str_data.get_string_from_utf8(), offset + 3 + length]
 		0xdc: # array16
-			var count = data.decode_u16(offset + 1)
+			var count = _read_u16_be(data, offset + 1)
 			return _decode_array(data, offset + 3, count)
 		0xde: # map16
-			var count = data.decode_u16(offset + 1)
+			var count = _read_u16_be(data, offset + 1)
 			return _decode_map(data, offset + 3, count)
 
 	push_warning("Unknown msgpack byte: 0x%02x at offset %d" % [byte, offset])
