@@ -9,6 +9,9 @@ var my_heading: String = "south"
 var map_id: int = 1
 var map_size: Vector2i = Vector2i(100, 100)
 var my_level: int = 1
+# Server's connection.id for this client — used to tell own HIDE_STATE_CHANGED
+# events apart from those broadcast for other players.
+var _self_id: int = -1
 
 var players: Dictionary = {}       # id -> { pos: Vector2i, name: String, node: Node2D }
 var npcs: Dictionary = {}          # id -> { pos: Vector2i, name: String, hp: int, max_hp: int, node: Node2D }
@@ -105,6 +108,8 @@ const DEFAULT_BINDINGS = {
 	"equip_item": KEY_E,
 	"drop_item": KEY_D,
 	"pickup_item": KEY_A,
+	"exit_to_select": KEY_F1,
+	"hide": KEY_O,
 }
 
 const ACTION_LABELS = {
@@ -123,6 +128,8 @@ const ACTION_LABELS = {
 	"equip_item": "Equipar",
 	"drop_item": "Tirar",
 	"pickup_item": "Agarrar",
+	"exit_to_select": "Salir",
+	"hide": "Ocultar",
 }
 
 var bindings: Dictionary = DEFAULT_BINDINGS.duplicate()
@@ -141,6 +148,12 @@ var _drop_pending_max: int = 0
 func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Dictionary):
 	connection = conn
 	connection.packet_received.connect(_on_packet_received)
+	# Two ways out of the world scene:
+	#   - Willful /salir → EXITED_TO_SELECT packet (handled in _on_packet_received)
+	#   - Unexpected drop → connection.disconnected signal
+	# Both end at the login scene; the log messages differ.
+	if not connection.disconnected.is_connected(_on_connection_lost):
+		connection.disconnected.connect(_on_connection_lost)
 
 	map_id = map_data.get("map_id", 1)
 	my_pos = Vector2i(map_data.get("x", 50), map_data.get("y", 50))
@@ -149,6 +162,7 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	var character = select_payload.get("character", {})
 	var state = select_payload.get("state", {})
 	my_level = int(character.get("level", 1))
+	_self_id = int(state.get("self_id", -1))
 
 	# Header
 	level_label.text = str(my_level)
@@ -279,6 +293,58 @@ func _action_for_keycode(keycode: int) -> String:
 		if bindings[action] == keycode:
 			return action
 	return ""
+
+func _handle_exit_confirmed():
+	# Willful /salir — server rewound the connection to :character_select and kept
+	# the socket open. Swap to the character_select scene without dropping connection.
+	print("[world] /salir confirmed — returning to character select")
+	_swap_to_character_select()
+
+func _on_connection_lost():
+	# Socket dropped unexpectedly — genuinely logged out. Back to login.
+	print("[world] connection dropped — returning to login")
+	_return_to_login()
+
+var _leaving_world: bool = false
+
+func _swap_to_character_select():
+	if _leaving_world:
+		return
+	_leaving_world = true
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+	# Detach our packet handlers before swapping — otherwise we'd briefly receive
+	# character_select's packets while queue_free runs deferred.
+	if is_instance_valid(connection):
+		if connection.packet_received.is_connected(_on_packet_received):
+			connection.packet_received.disconnect(_on_packet_received)
+		if connection.disconnected.is_connected(_on_connection_lost):
+			connection.disconnected.disconnect(_on_connection_lost)
+
+	# load() not preload() — character_select.gd may well end up preloading world
+	# later; avoiding the cycle preemptively.
+	var cs_scene: PackedScene = load("res://scenes/character/character_select.tscn")
+	var cs = cs_scene.instantiate()
+	get_parent().add_child(cs)
+	get_tree().current_scene = cs
+	cs.setup(connection)
+
+	queue_free()
+
+func _return_to_login():
+	if _leaving_world:
+		return
+	_leaving_world = true
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+	var login_scene: PackedScene = load("res://scenes/login/login.tscn")
+	var login = login_scene.instantiate()
+	get_parent().add_child(login)
+	get_tree().current_scene = login
+
+	if is_instance_valid(connection):
+		connection.queue_free()
+	queue_free()
 
 # --- Drop-amount dialog ---
 
@@ -415,9 +481,29 @@ class _MinimapDrawer extends Control:
 		draw_rect(Rect2(Vector2.ZERO, sz), Color(0.4, 0.4, 0.5), false, 1.0)
 		if host == null or host.map_size.x <= 0 or host.map_size.y <= 0:
 			return
-		var px = (float(host.my_pos.x) / host.map_size.x) * sz.x
-		var py = (float(host.my_pos.y) / host.map_size.y) * sz.y
-		draw_circle(Vector2(px, py), 3.0, Color(1, 0.2, 0.2))
+
+		# Ground items first (lowest priority visual)
+		for id in host.ground_items:
+			var p = host.ground_items[id].pos
+			_dot(p, sz, Color(1, 0.85, 0.2), 1.5)
+
+		# NPCs — red
+		for id in host.npcs:
+			var p = host.npcs[id].pos
+			_dot(p, sz, Color(1, 0.3, 0.2), 2.0)
+
+		# Other players — cyan
+		for id in host.players:
+			var p = host.players[id].pos
+			_dot(p, sz, Color(0.3, 0.85, 1), 2.0)
+
+		# Self — bright red, largest, drawn last (on top)
+		_dot(host.my_pos, sz, Color(1, 0.2, 0.2), 3.0)
+
+	func _dot(world_pos: Vector2i, sz: Vector2, color: Color, radius: float):
+		var px = (float(world_pos.x) / host.map_size.x) * sz.x
+		var py = (float(world_pos.y) / host.map_size.y) * sz.y
+		draw_circle(Vector2(px, py), radius, color)
 
 # --- Inventory grid ---
 
@@ -552,8 +638,10 @@ func _update_player_position():
 
 var _move_cooldown: float = 0.0
 var _fps_cooldown: float = 0.0
+var _minimap_cooldown: float = 0.0
 const MOVE_INTERVAL: float = 0.15
 const FPS_REFRESH: float = 0.5
+const MINIMAP_REFRESH: float = 0.2 # 5Hz — cheap, catches NPC/player/ground item changes
 
 func _process(delta):
 	if _move_cooldown > 0:
@@ -563,6 +651,11 @@ func _process(delta):
 	if _fps_cooldown <= 0 and fps_label:
 		fps_label.text = "FPS %d" % Engine.get_frames_per_second()
 		_fps_cooldown = FPS_REFRESH
+
+	_minimap_cooldown -= delta
+	if _minimap_cooldown <= 0 and _minimap_drawer:
+		_minimap_drawer.queue_redraw()
+		_minimap_cooldown = MINIMAP_REFRESH
 
 	# Safety net: when no modal is open, only chat_input may hold focus.
 	# Inside a modal (settings, drop dialog) the modal's own controls legitimately need it.
@@ -676,6 +769,10 @@ func _input(event):
 			_start_drop_from_focused_slot()
 		"pickup_item":
 			connection.send_packet(PacketIds.PICKUP_ITEM)
+		"exit_to_select":
+			connection.send_packet(PacketIds.EXIT_TO_SELECT)
+		"hide":
+			connection.send_packet(PacketIds.HIDE_TOGGLE)
 
 func _send_move(dx: int, dy: int):
 	var new_x = my_pos.x + dx
@@ -759,10 +856,11 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.NPC_DEATH:
 			_handle_npc_death(payload)
 		PacketIds.NPC_ATTACK:
-			_add_message("%s hits you for %d!" % [
-				npcs.get(payload.get("npc_id", 0), {}).get("name", "NPC"),
-				payload.get("damage", 0)
-			])
+			var npc_name = npcs.get(payload.get("npc_id", 0), {}).get("name", "NPC")
+			var npc_damage = int(payload.get("damage", 0))
+			_add_message("%s hits you for %d!" % [npc_name, npc_damage])
+			if npc_damage > 0:
+				_spawn_floating(player_sprite, "-%d" % npc_damage, Color(1, 0.35, 0.35))
 		PacketIds.MAP_TRANSITION:
 			_handle_map_transition(payload)
 		PacketIds.MOVE_REJECTED:
@@ -780,11 +878,26 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 				_add_message("You have respawned!")
 		PacketIds.UPDATE_MANA:
 			_update_mp(int(payload.get("mana", 0)), int(payload.get("max_mana", 1)))
+		PacketIds.UPDATE_GOLD:
+			gold_label.text = "$ %s" % _format_gold(int(payload.get("gold", 0)))
+		PacketIds.UPDATE_XP:
+			var new_level = int(payload.get("level", my_level))
+			if new_level != my_level:
+				my_level = new_level
+				level_label.text = str(my_level)
+			# Use the server's authoritative xp-for-level if provided, falling back to the local exp_table.
+			var xp_in = int(payload.get("xp_in_level", 0))
+			var xp_for = int(payload.get("xp_for_level", PacketIds.xp_for_level(my_level)))
+			xp_bar.max_value = max(xp_for, 1)
+			xp_bar.value = clamp(xp_in, 0, xp_for)
+			xp_label.text = "EXP %d / %d" % [xp_in, xp_for]
 		PacketIds.CHAR_DEATH:
 			_add_message("YOU DIED! Press SPACE to respawn")
 			_is_dead = true
 		PacketIds.SYSTEM_MESSAGE:
 			_add_message(payload.get("text", ""))
+		PacketIds.EXITED_TO_SELECT:
+			_handle_exit_confirmed()
 		PacketIds.CHAT_BROADCAST:
 			var from_name = payload.get("from_name", null)
 			var from_id = payload.get("from_id", null)
@@ -793,6 +906,9 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 				from_name = "?"
 			chat_display.append_text("[%s]: %s\n" % [from_name, msg])
 			_show_chat_bubble(from_id, msg)
+		PacketIds.CHAT_CLEAR:
+			# Server tells us to drop the bubble over the given player (empty message).
+			_clear_chat_bubble(payload.get("id", 0))
 		PacketIds.INVENTORY_RESPONSE:
 			_render_inventory(payload.get("items", []))
 		PacketIds.INVENTORY_UPDATE:
@@ -803,6 +919,8 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			_handle_ground_item_spawn(payload)
 		PacketIds.GROUND_ITEM_DESPAWN:
 			_handle_ground_item_despawn(payload)
+		PacketIds.HIDE_STATE_CHANGED:
+			_handle_hide_state_changed(payload)
 		_:
 			push_error("DRIFT or MALICIOUS: unknown packet_id 0x%04x" % packet_id)
 
@@ -875,10 +993,11 @@ func _handle_map_transition(payload: Dictionary):
 	_add_message("Map %d (%dx%d)" % [map_id, map_size.x, map_size.y])
 
 func _handle_damage(payload: Dictionary):
-	var dmg = payload.get("damage", 0)
+	var dmg = int(payload.get("damage", 0))
 	var type = payload.get("type", "")
-	var xp = payload.get("xp", 0)
-	var gold = payload.get("gold", 0)
+	var xp = int(payload.get("xp", 0))
+	var gold = int(payload.get("gold", 0))
+	var target_id = int(payload.get("target_id", 0))
 
 	if type == "gold":
 		_add_message("+%d gold" % gold)
@@ -889,6 +1008,58 @@ func _handle_damage(payload: Dictionary):
 		if xp > 0:
 			msg += " [+%d XP]" % xp
 		_add_message(msg)
+
+	# Floating number above the target.
+	var target_node = _resolve_damage_target(target_id)
+	if target_node == null:
+		return
+	if type == "gold":
+		_spawn_floating(target_node, "+%d gold" % gold, Color(1, 0.85, 0.2))
+	elif dmg < 0:
+		_spawn_floating(target_node, "+%d" % (-dmg), Color(0.3, 1, 0.3))
+	elif dmg > 0:
+		var color = Color(1, 0.35, 0.35) if type == "physical" else Color(0.5, 0.7, 1)
+		_spawn_floating(target_node, "-%d" % dmg, color)
+
+func _resolve_damage_target(target_id: int) -> Node2D:
+	if target_id in npcs:
+		return npcs[target_id].node
+	if target_id in players:
+		return players[target_id].node
+	return null
+
+func _spawn_floating(target_node: Node2D, text: String, color: Color):
+	var label = Label.new()
+	label.text = text
+	label.position = Vector2(4, -6)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_color_override("font_color", color)
+	label.add_theme_font_size_override("font_size", 14)
+	label.z_index = 50 # above sprites
+	target_node.add_child(label)
+
+	var tween = create_tween().set_parallel(true)
+	tween.tween_property(label, "position:y", -38, 1.0)
+	tween.tween_property(label, "modulate:a", 0.0, 1.0).set_delay(0.3)
+	# Don't chain a tween_callback — capturing `label` in a lambda blows up if the
+	# target_node is freed mid-tween. An async await on self survives that.
+	_free_after(label, 1.1)
+
+func _free_after(node: Node, secs: float):
+	await get_tree().create_timer(secs).timeout
+	if is_instance_valid(node):
+		node.queue_free()
+
+func _clear_chat_bubble(from_id):
+	var target: Node2D = null
+	if from_id is int or from_id is float:
+		if int(from_id) in players:
+			target = players[int(from_id)].node
+	if target == null:
+		target = player_sprite # ourselves
+	var existing = target.get_node_or_null("ChatBubble")
+	if existing:
+		existing.queue_free()
 
 func _show_chat_bubble(from_id, msg: String):
 	var target_node: Node2D = null
@@ -916,10 +1087,7 @@ func _show_chat_bubble(from_id, msg: String):
 	bubble.add_theme_color_override("font_color", Color.WHITE)
 	target_node.add_child(bubble)
 
-	get_tree().create_timer(3.0).timeout.connect(func():
-		if is_instance_valid(bubble):
-			bubble.queue_free()
-	)
+	_free_after(bubble, 3.0)
 
 func _handle_ground_item_spawn(payload: Dictionary):
 	var id = int(payload.get("ground_id", 0))
@@ -941,6 +1109,28 @@ func _handle_ground_item_spawn(payload: Dictionary):
 	ground_items_layer.add_child(node)
 
 	ground_items[id] = {"pos": pos, "node": node}
+
+func _handle_hide_state_changed(payload: Dictionary):
+	var id = int(payload.get("id", 0))
+	var hidden = bool(payload.get("hidden", false))
+	if id == _self_id:
+		_apply_self_hidden(hidden)
+	elif id in players:
+		_apply_other_hidden(id, hidden)
+
+func _apply_self_hidden(hidden: bool):
+	var name_label = $PlayerSprite/NameLabel
+	if hidden:
+		# Green + 20% opacity (see-through to self; reinforces "oculto" state).
+		player_sprite.modulate = Color(1, 1, 1, 0.2)
+		name_label.add_theme_color_override("font_color", Color(1, 1, 0.2, 1)) # yellow
+	else:
+		player_sprite.modulate = Color(1, 1, 1, 1)
+		name_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+
+func _apply_other_hidden(id: int, hidden: bool):
+	var node = players[id].node
+	node.modulate = Color(1, 1, 1, 0.2) if hidden else Color(1, 1, 1, 1)
 
 func _handle_ground_item_despawn(payload: Dictionary):
 	var id = int(payload.get("ground_id", 0))

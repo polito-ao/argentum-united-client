@@ -31,51 +31,25 @@ func _on_disconnected():
 	status_label.text = "Disconnected"
 	login_button.disabled = false
 
-var _char_select_scene = preload("res://scenes/character/character_select.tscn")
-var _world_scene = preload("res://scenes/world/world.tscn")
-var _select_payload: Dictionary = {}
-var _char_select_instance: Control = null
-
 func _show_character_select():
-	print("[login] Auth success — transitioning to character select")
-	$VBoxContainer.visible = false
-
-	var conn = connection
+	print("[login] Auth success — swapping to character_select")
 	connection.packet_received.disconnect(_on_packet_received)
+	connection.connected.disconnect(_on_connected)
+	connection.disconnected.disconnect(_on_disconnected)
 
-	_char_select_instance = _char_select_scene.instantiate()
-	add_child(_char_select_instance)
-	_char_select_instance.setup(conn)
-	_char_select_instance.character_selected.connect(_on_character_selected)
+	# Reparent connection out of login (which is about to free) so it survives.
+	var conn = connection
+	remove_child(conn)
+	get_parent().add_child(conn)
 
-	# Also listen for MAP_LOAD which comes right after character select
-	conn.packet_received.connect(_on_world_packet)
+	# character_select handles its own MAP_LOAD → world instantiation now.
+	var cs_scene: PackedScene = load("res://scenes/character/character_select.tscn")
+	var cs = cs_scene.instantiate()
+	get_parent().add_child(cs)
+	get_tree().current_scene = cs
+	cs.setup(conn)
 
-func _on_character_selected(select_payload: Dictionary):
-	print("[login] Character selected: ", select_payload)
-	_select_payload = select_payload
-
-func _on_world_packet(packet_id: int, payload: Dictionary):
-	if packet_id == PacketIds.MAP_LOAD:
-		print("[login] MAP_LOAD received — entering world")
-		connection.packet_received.disconnect(_on_world_packet)
-
-		# Reparent connection to root before destroying login
-		var conn = connection
-		remove_child(conn)
-		get_parent().add_child(conn)
-
-		# Remove character select
-		if _char_select_instance:
-			_char_select_instance.queue_free()
-
-		# Create world scene
-		var world = _world_scene.instantiate()
-		get_parent().add_child(world)
-		world.setup(conn, _select_payload, payload)
-
-		# Remove self (login control)
-		queue_free()
+	queue_free()
 
 func _on_packet_received(packet_id: int, payload: Dictionary):
 	match packet_id:

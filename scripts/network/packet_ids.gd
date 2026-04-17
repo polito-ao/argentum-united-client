@@ -46,6 +46,8 @@ const NPC_MOVED = 0x0061
 const NPC_DEATH = 0x0062
 const NPC_ATTACK = 0x0063
 const NPC_RESPAWN = 0x0064
+const UPDATE_GOLD = 0x0065
+const UPDATE_XP = 0x0066
 
 const INVENTORY_REQUEST = 0x0070
 const INVENTORY_RESPONSE = 0x0071
@@ -61,6 +63,8 @@ const SETTINGS_SAVE = 0x0080
 const MEDITATE_TOGGLE = 0x0081
 const HIDE_TOGGLE = 0x0082
 const EXIT_TO_SELECT = 0x0083
+const EXITED_TO_SELECT = 0x0084
+const HIDE_STATE_CHANGED = 0x0085
 
 # Called on boot after CONFIG_RESPONSE arrives.
 # Errors hard if server's IDs don't match our constants.

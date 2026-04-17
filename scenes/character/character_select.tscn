@@ -70,3 +70,16 @@ layout_mode = 2
 text = ""
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="LogoutSep" type="HSeparator" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="LogoutButton" type="Button" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Logout"
+
+[node name="LogoutConfirm" type="ConfirmationDialog" parent="."]
+title = "Logout"
+ok_button_text = "Salir"
+cancel_button_text = "Quedarme"
+dialog_text = "¿Cerrar sesión y volver a la pantalla de login?"

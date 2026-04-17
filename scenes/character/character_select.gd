@@ -12,10 +12,14 @@ signal character_selected(character: Dictionary)
 @onready var create_button: Button = $Panel/VBoxContainer/CreatePanel/CreateButton
 @onready var status_label: Label = $Panel/VBoxContainer/StatusLabel
 @onready var title_label: Label = $Panel/VBoxContainer/TitleLabel
+@onready var logout_button: Button = $Panel/VBoxContainer/LogoutButton
+@onready var logout_confirm: ConfirmationDialog = $LogoutConfirm
 
 var connection: ServerConnection
 var _characters: Array = []
 var _dice_throws: Array = []
+# Cache the select payload so we can hand it to world on MAP_LOAD (happens right after SELECT_RESPONSE).
+var _pending_select_payload: Dictionary = {}
 
 var CLASSES: Array = []
 var RACES: Array = []
@@ -23,6 +27,8 @@ var RACES: Array = []
 func setup(conn: ServerConnection):
 	connection = conn
 	connection.packet_received.connect(_on_packet_received)
+	if not connection.disconnected.is_connected(_on_connection_lost):
+		connection.disconnected.connect(_on_connection_lost)
 
 	CLASSES = PacketIds.classes
 	RACES = PacketIds.races
@@ -36,6 +42,8 @@ func setup(conn: ServerConnection):
 		race_selector.add_item(r.capitalize())
 
 	create_button.pressed.connect(_on_create_pressed)
+	logout_button.pressed.connect(func(): logout_confirm.popup_centered())
+	logout_confirm.confirmed.connect(_on_logout_confirmed)
 
 	# Request character list
 	connection.send_packet(PacketIds.CHARACTER_LIST_REQUEST)
@@ -49,6 +57,8 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			_handle_create_response(payload)
 		PacketIds.CHARACTER_SELECT_RESPONSE:
 			_handle_select_response(payload)
+		PacketIds.MAP_LOAD:
+			_enter_world(payload)
 
 func _handle_character_list(payload: Dictionary):
 	_characters = payload.get("characters", [])
@@ -140,7 +150,47 @@ func _handle_create_response(payload: Dictionary):
 
 func _handle_select_response(payload: Dictionary):
 	if payload.get("success", false):
-		# Pass the full payload so world can read state (hp, mana, attrs, alive)
-		character_selected.emit(payload)
+		_pending_select_payload = payload
+		character_selected.emit(payload) # kept for login.gd's orchestration on first entry
 	else:
 		status_label.text = "Select failed: %s" % payload.get("error", "unknown")
+
+# MAP_LOAD arrives right after a successful select. When we're the scene that owns
+# the connection (i.e. post-/salir re-entry), we swap into world ourselves.
+# When login.gd is still orchestrating (first login), it handles MAP_LOAD first
+# and this method is a no-op because we're already queue_freed by then.
+func _enter_world(map_payload: Dictionary):
+	if not is_instance_valid(self) or _pending_select_payload.is_empty():
+		return
+
+	connection.packet_received.disconnect(_on_packet_received)
+	if connection.disconnected.is_connected(_on_connection_lost):
+		connection.disconnected.disconnect(_on_connection_lost)
+
+	var world_scene: PackedScene = load("res://scenes/world/world.tscn")
+	var world = world_scene.instantiate()
+	get_parent().add_child(world)
+	get_tree().current_scene = world
+	world.setup(connection, _pending_select_payload, map_payload)
+	queue_free()
+
+func _on_logout_confirmed():
+	# Willful logout — drop the connection; login scene will create a fresh one.
+	connection.packet_received.disconnect(_on_packet_received)
+	if connection.disconnected.is_connected(_on_connection_lost):
+		connection.disconnected.disconnect(_on_connection_lost)
+	if is_instance_valid(connection):
+		connection.disconnect_from_server()
+		connection.queue_free()
+	_return_to_login()
+
+func _on_connection_lost():
+	# Unexpected drop (server crashed, wifi, etc.). Back to login.
+	_return_to_login()
+
+func _return_to_login():
+	var login_scene: PackedScene = load("res://scenes/login/login.tscn")
+	var login = login_scene.instantiate()
+	get_parent().add_child(login)
+	get_tree().current_scene = login
+	queue_free()
