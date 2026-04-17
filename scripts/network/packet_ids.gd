@@ -28,6 +28,7 @@ const MOVE_REJECTED = 0x0036
 const CHAT_SEND = 0x0040
 const CHAT_BROADCAST = 0x0041
 const CHAT_CLEAR = 0x0042
+const SYSTEM_MESSAGE = 0x0043
 
 const ATTACK = 0x0050
 const DAMAGE_NUMBER = 0x0051
@@ -48,6 +49,18 @@ const NPC_RESPAWN = 0x0064
 
 const INVENTORY_REQUEST = 0x0070
 const INVENTORY_RESPONSE = 0x0071
+const USE_ITEM = 0x0072
+const EQUIP_ITEM = 0x0073
+const INVENTORY_UPDATE = 0x0074
+const DROP_ITEM = 0x0075
+const PICKUP_ITEM = 0x0076
+const GROUND_ITEM_SPAWN = 0x0077
+const GROUND_ITEM_DESPAWN = 0x0078
+
+const SETTINGS_SAVE = 0x0080
+const MEDITATE_TOGGLE = 0x0081
+const HIDE_TOGGLE = 0x0082
+const EXIT_TO_SELECT = 0x0083
 
 # Called on boot after CONFIG_RESPONSE arrives.
 # Errors hard if server's IDs don't match our constants.
@@ -71,11 +84,30 @@ static func validate_server_config(server_packet_ids: Dictionary) -> Array:
 static var classes: Array = []
 static var races: Array = []
 static var max_character_slots: int = 3
+# exp_table[N] = XP needed to advance within level N (index 0 = level 1)
+static var exp_table: Array = []
+# Full spell catalog from server; client filters by class + level to build a character's spellbook.
+static var spells: Array = []
 
 static func load_game_config(config: Dictionary) -> void:
 	classes = config.get("classes", [])
 	races = config.get("races", [])
 	max_character_slots = config.get("max_character_slots", 3)
+	exp_table = config.get("exp_table", [])
+	spells = config.get("spells", [])
+
+# Spells the character can currently cast (class matches + level >= learn_level).
+static func spells_for(class_type: String, level: int) -> Array:
+	return spells.filter(func(s):
+		return s.get("classes", []).has(class_type) and level >= int(s.get("learn_level", 999))
+	)
+
+# XP needed within `level` to reach the next one. Returns 0 if table is empty.
+static func xp_for_level(level: int) -> int:
+	var idx = level - 1
+	if idx < 0 or idx >= exp_table.size():
+		return 0
+	return int(exp_table[idx])
 
 # Lists all constants in this script via reflection.
 # Returns array of { name: String, value: int }.

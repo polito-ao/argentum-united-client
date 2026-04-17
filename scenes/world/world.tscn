@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="HPFill"]
+bg_color = Color(0.85, 0.18, 0.18, 1)
+
+[sub_resource type="StyleBoxFlat" id="MPFill"]
+bg_color = Color(0.22, 0.45, 0.95, 1)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1")
@@ -8,13 +14,18 @@ script = ExtResource("1")
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
+[node name="Ground" type="Node2D" parent="."]
+z_index = -10
+
 [node name="PlayerSprite" type="Node2D" parent="."]
+z_index = 10
 
 [node name="Rect" type="ColorRect" parent="PlayerSprite"]
 offset_left = 1.0
 offset_top = 1.0
 offset_right = 31.0
 offset_bottom = 31.0
+mouse_filter = 2
 color = Color(0.2, 0.8, 0.2, 1)
 
 [node name="FacingLabel" type="Label" parent="PlayerSprite"]
@@ -22,6 +33,7 @@ offset_left = 10.0
 offset_top = 6.0
 offset_right = 50.0
 offset_bottom = 26.0
+mouse_filter = 2
 text = "v"
 
 [node name="NameLabel" type="Label" parent="PlayerSprite"]
@@ -29,9 +41,13 @@ offset_left = -30.0
 offset_top = 34.0
 offset_right = 62.0
 offset_bottom = 50.0
+mouse_filter = 2
 text = "You"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 10
+
+[node name="GroundItems" type="Node2D" parent="."]
+z_index = -5
 
 [node name="Entities" type="Node2D" parent="."]
 
@@ -39,59 +55,409 @@ theme_override_font_sizes/font_size = 10
 
 [node name="HUD" type="Control" parent="UILayer"]
 layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+; -------- Chat panel — top-left, fixed size --------
+[node name="ChatPanel" type="PanelContainer" parent="UILayer/HUD"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -380.0
+offset_bottom = 110.0
+
+[node name="ChatVBox" type="VBoxContainer" parent="UILayer/HUD/ChatPanel"]
+
+[node name="ChatDisplay" type="RichTextLabel" parent="UILayer/HUD/ChatPanel/ChatVBox"]
+custom_minimum_size = Vector2(0, 55)
+scroll_following = true
+bbcode_enabled = true
+
+[node name="ChatInput" type="LineEdit" parent="UILayer/HUD/ChatPanel/ChatVBox"]
+placeholder_text = "Press T to chat..."
+
+; -------- Minimap — right of chat, square (same side as chat height) --------
+[node name="MinimapPanel" type="PanelContainer" parent="UILayer/HUD"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -370.0
+offset_top = 10.0
+offset_right = -270.0
+offset_bottom = 110.0
+
+[node name="Minimap" type="Control" parent="UILayer/HUD/MinimapPanel"]
+
+; -------- Right panel — full height right side --------
+[node name="RightPanel" type="PanelContainer" parent="UILayer/HUD"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/HUD/RightPanel"]
+
+; ---- Top button bar: map pos + fps + help + settings ----
+[node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/RightPanel/VBox"]
+
+[node name="PositionLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/ButtonBar"]
+size_flags_horizontal = 3
+text = "Map 1 @ (50, 50)"
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(1, 1, 0.5, 1)
+vertical_alignment = 1
+
+[node name="FPSLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/ButtonBar"]
+text = "FPS 0"
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+vertical_alignment = 1
+
+[node name="HelpButton" type="Button" parent="UILayer/HUD/RightPanel/VBox/ButtonBar"]
+custom_minimum_size = Vector2(28, 28)
+focus_mode = 0
+text = "?"
+tooltip_text = "Help"
+
+[node name="SettingsButton" type="Button" parent="UILayer/HUD/RightPanel/VBox/ButtonBar"]
+custom_minimum_size = Vector2(28, 28)
+focus_mode = 0
+text = "S"
+tooltip_text = "Settings"
+
+; ---- Header: big level number + name/city ----
+[node name="HeaderRow" type="HBoxContainer" parent="UILayer/HUD/RightPanel/VBox"]
+
+[node name="LevelLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/HeaderRow"]
+custom_minimum_size = Vector2(60, 55)
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="HeaderInfo" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/HeaderRow"]
+size_flags_horizontal = 3
+size_flags_vertical = 5
+
+[node name="NameLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo"]
+text = "Name"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.95, 0.4, 0.4, 1)
+
+[node name="CityLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo"]
+text = "<SIN CIUDAD>"
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.75, 0.75, 0.9, 1)
+
+; ---- XP bar + label ----
+[node name="XPBar" type="ProgressBar" parent="UILayer/HUD/RightPanel/VBox"]
+custom_minimum_size = Vector2(0, 14)
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="XPLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox"]
+text = "EXP 0 / 0"
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+
+; ---- Inventory / Spells tabs ----
+[node name="InvTabs" type="TabContainer" parent="UILayer/HUD/RightPanel/VBox"]
+custom_minimum_size = Vector2(0, 340)
+focus_mode = 0
+
+[node name="Inventario" type="GridContainer" parent="UILayer/HUD/RightPanel/VBox/InvTabs"]
+columns = 5
+
+[node name="Hechizos" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/InvTabs"]
+
+[node name="SpellList" type="ItemList" parent="UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos"]
+size_flags_vertical = 3
+focus_mode = 0
+
+[node name="LanzarButton" type="Button" parent="UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos"]
+custom_minimum_size = Vector2(0, 32)
+focus_mode = 0
+text = "LANZAR"
+
+; ---- STATS / MENU tabs ----
+[node name="StatsTabs" type="TabContainer" parent="UILayer/HUD/RightPanel/VBox"]
+custom_minimum_size = Vector2(0, 180)
+focus_mode = 0
+tabs_position = 1
+
+; STATS tab — HP/MP bars + stats split + gold
+[node name="STATS" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/StatsTabs"]
+
+[node name="HPBar" type="ProgressBar" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS"]
+custom_minimum_size = Vector2(0, 20)
+max_value = 100.0
+value = 100.0
+show_percentage = false
+theme_override_styles/fill = SubResource("HPFill")
+
+[node name="HPText" type="Label" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+text = "100 / 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UILayer/HUD"]
+[node name="MPBar" type="ProgressBar" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS"]
+custom_minimum_size = Vector2(0, 20)
+max_value = 100.0
+value = 100.0
+show_percentage = false
+theme_override_styles/fill = SubResource("MPFill")
+
+[node name="MPText" type="Label" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = -200.0
-offset_bottom = 120.0
-
-[node name="InfoLabel" type="Label" parent="UILayer/HUD/VBoxContainer"]
-layout_mode = 2
-text = "Character"
-theme_override_font_sizes/font_size = 12
-
-[node name="HPBar" type="ProgressBar" parent="UILayer/HUD/VBoxContainer"]
-layout_mode = 2
-max_value = 100.0
-value = 100.0
-
-[node name="MPBar" type="ProgressBar" parent="UILayer/HUD/VBoxContainer"]
-layout_mode = 2
-max_value = 100.0
-value = 100.0
-
-[node name="ChatPanel" type="VBoxContainer" parent="UILayer/HUD"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = -200.0
-offset_right = 350.0
+text = "100 / 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 
-[node name="ChatDisplay" type="RichTextLabel" parent="UILayer/HUD/ChatPanel"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 140)
-scroll_following = true
+[node name="SplitRow" type="HBoxContainer" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS"]
+size_flags_vertical = 3
 
-[node name="ChatInput" type="LineEdit" parent="UILayer/HUD/ChatPanel"]
-layout_mode = 2
-placeholder_text = "Press T to chat..."
+[node name="LeftCol" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow"]
+size_flags_horizontal = 3
 
+[node name="StrLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol"]
+text = "STR 00"
+horizontal_alignment = 1
+
+[node name="CeleLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol"]
+text = "CELE 00"
+horizontal_alignment = 1
+
+[node name="QuestsButton" type="Button" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol"]
+custom_minimum_size = Vector2(40, 40)
+focus_mode = 0
+text = "Q"
+tooltip_text = "Quests (coming soon)"
+
+[node name="RightCol" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow"]
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="GoldLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/RightCol"]
+text = "$ 0"
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 14
+
+; MENU tab — placeholder buttons
+[node name="MENU" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/StatsTabs"]
+
+[node name="MenuButton1" type="Button" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/MENU"]
+focus_mode = 0
+text = "menu button 1"
+
+[node name="MenuButton2" type="Button" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/MENU"]
+focus_mode = 0
+text = "menu button 2"
+
+; ---- Equipment row (always visible at bottom) ----
+[node name="EquipmentRow" type="HBoxContainer" parent="UILayer/HUD/RightPanel/VBox"]
+
+[node name="Helm" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow"]
+size_flags_horizontal = 3
+
+[node name="Letter" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Helm"]
+text = "H"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
+
+[node name="Value" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Helm"]
+text = "00"
+horizontal_alignment = 1
+
+[node name="Armor" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow"]
+size_flags_horizontal = 3
+
+[node name="Letter" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Armor"]
+text = "A"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
+
+[node name="Value" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Armor"]
+text = "00"
+horizontal_alignment = 1
+
+[node name="Weapon" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow"]
+size_flags_horizontal = 3
+
+[node name="Letter" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Weapon"]
+text = "W"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
+
+[node name="Value" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Weapon"]
+text = "00"
+horizontal_alignment = 1
+
+[node name="Shield" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow"]
+size_flags_horizontal = 3
+
+[node name="Letter" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Shield"]
+text = "S"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
+
+[node name="Value" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Shield"]
+text = "00"
+horizontal_alignment = 1
+
+[node name="MagRes" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow"]
+size_flags_horizontal = 3
+
+[node name="Letter" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/MagRes"]
+text = "MR"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
+
+[node name="Value" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/MagRes"]
+text = "00"
+horizontal_alignment = 1
+
+; -------- Settings overlay — hidden by default; shown via `S` button --------
+[node name="SettingsOverlay" type="Control" parent="UILayer/HUD"]
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="UILayer/HUD/SettingsOverlay"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/HUD/SettingsOverlay"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -180.0
+offset_right = 320.0
+offset_bottom = 180.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/HUD/SettingsOverlay/Panel"]
+
+[node name="Title" type="Label" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
+text = "CONFIGURACIÓN DE TECLAS"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="BindingsGrid" type="GridContainer" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4
+
+[node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
+
+[node name="DefaultsButton" type="Button" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar"]
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Cargar por defecto"
+
+[node name="CancelButton" type="Button" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar"]
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Cancelar"
+
+[node name="SaveButton" type="Button" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar"]
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Guardar y salir"
+
+; -------- Drop-amount dialog — prompts when dropping from a stacked slot --------
+[node name="DropAmountOverlay" type="Control" parent="UILayer/HUD"]
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="UILayer/HUD/DropAmountOverlay"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.5)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/HUD/DropAmountOverlay"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -70.0
+offset_right = 140.0
+offset_bottom = 70.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/HUD/DropAmountOverlay/Panel"]
+
+[node name="Title" type="Label" parent="UILayer/HUD/DropAmountOverlay/Panel/VBox"]
+text = "¿Cuántos?"
+horizontal_alignment = 1
+
+[node name="AmountInput" type="LineEdit" parent="UILayer/HUD/DropAmountOverlay/Panel/VBox"]
+alignment = 1
+
+[node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/DropAmountOverlay/Panel/VBox"]
+
+[node name="ConfirmButton" type="Button" parent="UILayer/HUD/DropAmountOverlay/Panel/VBox/ButtonBar"]
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Tirar"
+
+[node name="CancelButton" type="Button" parent="UILayer/HUD/DropAmountOverlay/Panel/VBox/ButtonBar"]
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Cancelar"
+
+; -------- Floating messages — center-left over the game viewport --------
 [node name="MessagesLabel" type="Label" parent="UILayer/HUD"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -250.0
-offset_top = 130.0
-offset_right = -10.0
-offset_bottom = 300.0
+anchor_left = 0.0
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -40.0
+offset_right = 400.0
+offset_bottom = 100.0
+mouse_filter = 2
 theme_override_font_sizes/font_size = 11
 theme_override_colors/font_color = Color(1, 1, 0.6, 1)

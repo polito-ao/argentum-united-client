@@ -1,30 +1,142 @@
 extends Node2D
 
 const TILE_SIZE = 32
+const INVENTORY_SLOTS = 35 # 5 wide × 7 tall grid (capacity is 30; last row is visual padding for now)
 
 var connection: ServerConnection
 var my_pos: Vector2i = Vector2i(50, 50)
 var my_heading: String = "south"
 var map_id: int = 1
 var map_size: Vector2i = Vector2i(100, 100)
+var my_level: int = 1
 
-var players: Dictionary = {}  # id -> { pos: Vector2i, name: String, node: Node2D }
-var npcs: Dictionary = {}     # id -> { pos: Vector2i, name: String, hp: int, max_hp: int, node: Node2D }
+var players: Dictionary = {}       # id -> { pos: Vector2i, name: String, node: Node2D }
+var npcs: Dictionary = {}          # id -> { pos: Vector2i, name: String, hp: int, max_hp: int, node: Node2D }
+var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D }
 
 @onready var camera: Camera2D = $Camera
+@onready var ground_layer: Node2D = $Ground
 @onready var player_sprite: Node2D = $PlayerSprite
 @onready var entities_layer: Node2D = $Entities
-@onready var hud: Control = $UILayer/HUD
-@onready var hp_bar: ProgressBar = $UILayer/HUD/VBoxContainer/HPBar
-@onready var mp_bar: ProgressBar = $UILayer/HUD/VBoxContainer/MPBar
-@onready var info_label: Label = $UILayer/HUD/VBoxContainer/InfoLabel
-@onready var chat_display: RichTextLabel = $UILayer/HUD/ChatPanel/ChatDisplay
-@onready var chat_input: LineEdit = $UILayer/HUD/ChatPanel/ChatInput
+@onready var ground_items_layer: Node2D = $GroundItems
+
+# HUD — top-left: chat + minimap
+@onready var chat_display: RichTextLabel = $UILayer/HUD/ChatPanel/ChatVBox/ChatDisplay
+@onready var chat_input: LineEdit = $UILayer/HUD/ChatPanel/ChatVBox/ChatInput
+@onready var minimap: Control = $UILayer/HUD/MinimapPanel/Minimap
+
+# HUD — right panel button bar
+@onready var position_label: Label = $UILayer/HUD/RightPanel/VBox/ButtonBar/PositionLabel
+@onready var fps_label: Label = $UILayer/HUD/RightPanel/VBox/ButtonBar/FPSLabel
+@onready var help_button: Button = $UILayer/HUD/RightPanel/VBox/ButtonBar/HelpButton
+@onready var settings_button: Button = $UILayer/HUD/RightPanel/VBox/ButtonBar/SettingsButton
+
+# HUD — right panel header / progression
+@onready var level_label: Label = $UILayer/HUD/RightPanel/VBox/HeaderRow/LevelLabel
+@onready var name_label: Label = $UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo/NameLabel
+@onready var city_label: Label = $UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo/CityLabel
+@onready var xp_bar: ProgressBar = $UILayer/HUD/RightPanel/VBox/XPBar
+@onready var xp_label: Label = $UILayer/HUD/RightPanel/VBox/XPLabel
+
+# HUD — inventory/spells tabs
+@onready var inventory_grid: GridContainer = $UILayer/HUD/RightPanel/VBox/InvTabs/Inventario
+@onready var spell_list: ItemList = $UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos/SpellList
+@onready var lanzar_button: Button = $UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos/LanzarButton
+
+# HUD — STATS tab (HP/MP, stats split, gold)
+@onready var hp_bar: ProgressBar = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar
+@onready var hp_text: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar/HPText
+@onready var mp_bar: ProgressBar = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar
+@onready var mp_text: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar/MPText
+@onready var str_label: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/StrLabel
+@onready var cele_label: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/CeleLabel
+@onready var quests_button: Button = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/QuestsButton
+@onready var gold_label: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/RightCol/GoldLabel
+
+# HUD — equipment quick-stats row
+@onready var eq_helm: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Helm/Value
+@onready var eq_armor: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Armor/Value
+@onready var eq_weapon: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Weapon/Value
+@onready var eq_shield: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Shield/Value
+@onready var eq_magres: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/MagRes/Value
+
+# HUD — floating messages
 @onready var messages_label: Label = $UILayer/HUD/MessagesLabel
 
+# HUD — drop-amount dialog
+@onready var drop_amount_overlay: Control = $UILayer/HUD/DropAmountOverlay
+@onready var drop_amount_input: LineEdit = $UILayer/HUD/DropAmountOverlay/Panel/VBox/AmountInput
+@onready var drop_confirm_button: Button = $UILayer/HUD/DropAmountOverlay/Panel/VBox/ButtonBar/ConfirmButton
+@onready var drop_cancel_button: Button = $UILayer/HUD/DropAmountOverlay/Panel/VBox/ButtonBar/CancelButton
+
+# HUD — settings overlay (hidden by default)
+@onready var settings_overlay: Control = $UILayer/HUD/SettingsOverlay
+@onready var bindings_grid: GridContainer = $UILayer/HUD/SettingsOverlay/Panel/VBox/BindingsGrid
+@onready var defaults_button: Button = $UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar/DefaultsButton
+@onready var cancel_settings_button: Button = $UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar/CancelButton
+@onready var save_settings_button: Button = $UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar/SaveButton
+
+var _minimap_drawer: _MinimapDrawer
 var _messages: Array = []
 var _is_dead: bool = false
 const MAX_MESSAGES = 6
+
+# Spellbook for this character — populated from server config in setup() based on
+# class + level. Empty for non-caster classes or levels below the lowest learn_level.
+var _my_spells: Array = []
+# Click-to-cast: after pressing LANZAR with a spell selected, the NEXT click on the
+# game viewport sends CAST_SPELL with the tile coords. Escape or another LANZAR cancels.
+var _casting_armed: bool = false
+
+# Action name → default keycode. Order here also drives the row order in the settings UI.
+const DEFAULT_BINDINGS = {
+	"move_up": KEY_UP,
+	"move_down": KEY_DOWN,
+	"move_left": KEY_LEFT,
+	"move_right": KEY_RIGHT,
+	"attack": KEY_CTRL,
+	"hp_potion": KEY_R,
+	"mana_potion": KEY_B,
+	"chat_toggle": KEY_T,
+	"inventory": KEY_I,
+	"respawn": KEY_SPACE,
+	"meditate": KEY_M,
+	"use_item": KEY_U,
+	"equip_item": KEY_E,
+	"drop_item": KEY_D,
+	"pickup_item": KEY_A,
+}
+
+const ACTION_LABELS = {
+	"move_up": "Arriba",
+	"move_down": "Abajo",
+	"move_left": "Izquierda",
+	"move_right": "Derecha",
+	"attack": "Atacar",
+	"hp_potion": "Poción HP",
+	"mana_potion": "Poción Maná",
+	"chat_toggle": "Hablar",
+	"inventory": "Inventario",
+	"respawn": "Resucitar",
+	"meditate": "Meditar",
+	"use_item": "Usar",
+	"equip_item": "Equipar",
+	"drop_item": "Tirar",
+	"pickup_item": "Agarrar",
+}
+
+var bindings: Dictionary = DEFAULT_BINDINGS.duplicate()
+var _pending_bindings: Dictionary = {}
+var _capturing_action: String = ""
+var _capturing_button: Button = null
+# Focused inventory slot — target of USE_ITEM / EQUIP_ITEM. -1 means no selection.
+var _focused_slot: int = -1
+# Local mirror of the server's inventory (same shape as INVENTORY_UPDATE.inventory).
+# Needed for UI decisions like "prompt for amount if stack > 1" on drop.
+var _inventory: Array = []
+# Drop-amount dialog state
+var _drop_pending_slot: int = -1
+var _drop_pending_max: int = 0
 
 func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Dictionary):
 	connection = conn
@@ -36,105 +148,548 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 
 	var character = select_payload.get("character", {})
 	var state = select_payload.get("state", {})
+	my_level = int(character.get("level", 1))
 
-	info_label.text = "%s (%s %s Lv%d)" % [
-		character.get("name", "?"),
-		character.get("class", "?"),
-		character.get("race", "?"),
-		character.get("level", 1)
-	]
+	# Header
+	level_label.text = str(my_level)
+	name_label.text = character.get("name", "?")
+	var city = character.get("city", null)
+	city_label.text = "<%s>" % city if city else "<SIN CIUDAD>"
 
 	$PlayerSprite/NameLabel.text = character.get("name", "You")
 
-	# Initialize HP/MP bars from state snapshot
-	hp_bar.max_value = state.get("max_hp", 100)
-	hp_bar.value = state.get("hp", 100)
-	mp_bar.max_value = state.get("max_mana", 100)
-	mp_bar.value = state.get("mana", 0)
+	# Spellbook — from server config, filtered to spells this character can actually cast.
+	_my_spells = PacketIds.spells_for(character.get("class", ""), my_level)
+	_populate_spell_list()
 
-	# Restore death state if character logged in dead
+	# Bars
+	_update_hp(int(state.get("hp", 100)), int(state.get("max_hp", 100)))
+	_update_mp(int(state.get("mana", 0)), int(state.get("max_mana", 100)))
+	_update_xp_bar(int(state.get("xp_in_level", 0)))
+
+	# Stats + gold
+	var attrs = state.get("attrs", {})
+	str_label.text = "STR %d" % int(attrs.get("str", 0))
+	cele_label.text = "CELE %d" % int(attrs.get("agi", 0))
+	gold_label.text = "$ %s" % _format_gold(int(state.get("gold", 0)))
+
+	# Equipment
+	_update_equipment(state.get("equipment", {}))
+
+	# Inventory — build the grid once, then populate from state
+	_build_inventory_slots()
+	_inventory = state.get("inventory", [])
+	_render_inventory(_inventory)
+
+	# Restore persisted key bindings (server-side JSONB state)
+	_apply_saved_bindings(state.get("key_bindings", {}))
+
 	if not state.get("alive", true):
 		_is_dead = true
 		_add_message("You are a ghost. Press SPACE to respawn.")
 
 	_update_player_position()
+	_render_ground()
+	_setup_minimap()
 
 func _ready():
 	chat_input.text_submitted.connect(_on_chat_submitted)
+	help_button.pressed.connect(func(): _add_message("Help — coming soon"))
+	settings_button.pressed.connect(_show_settings)
+	quests_button.pressed.connect(func(): _add_message("Quests — coming soon"))
+	lanzar_button.pressed.connect(_on_lanzar_pressed)
+	defaults_button.pressed.connect(func(): _add_message("Defaults — coming soon"))
+	cancel_settings_button.pressed.connect(_hide_settings)
+	save_settings_button.pressed.connect(_on_save_settings)
+	drop_confirm_button.pressed.connect(_on_drop_confirm)
+	drop_cancel_button.pressed.connect(_hide_drop_dialog)
+	drop_amount_input.text_submitted.connect(func(_t): _on_drop_confirm())
+	_populate_spell_list()
+	# Arrow keys drive movement; they must never be consumed by UI focus navigation.
+	# TabContainer's internal TabBar has its own focus_mode that ignores ours — strip it here.
+	$UILayer/HUD/RightPanel/VBox/InvTabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
+	$UILayer/HUD/RightPanel/VBox/StatsTabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
+	get_viewport().gui_release_focus()
+
+# --- Key bindings + settings overlay ---
+
+func _apply_saved_bindings(saved: Dictionary):
+	for action in DEFAULT_BINDINGS:
+		if saved.has(action):
+			bindings[action] = int(saved[action])
+		else:
+			bindings[action] = DEFAULT_BINDINGS[action]
+
+func _show_settings():
+	_pending_bindings = bindings.duplicate()
+	_capturing_action = ""
+	_capturing_button = null
+	_build_bindings_ui()
+	settings_overlay.visible = true
+
+func _hide_settings():
+	_capturing_action = ""
+	_capturing_button = null
+	settings_overlay.visible = false
+
+func _on_save_settings():
+	bindings = _pending_bindings.duplicate()
+	# Server persists as-is; keys are Godot keycodes, opaque to the server.
+	connection.send_packet(PacketIds.SETTINGS_SAVE, {"key_bindings": bindings})
+	_add_message("Settings saved")
+	_hide_settings()
+
+func _build_bindings_ui():
+	for child in bindings_grid.get_children():
+		child.queue_free()
+	# Iterate DEFAULT_BINDINGS for stable row order (Dictionary iteration follows insert order).
+	for action in DEFAULT_BINDINGS:
+		var lbl = Label.new()
+		lbl.text = ACTION_LABELS.get(action, action)
+		bindings_grid.add_child(lbl)
+		var btn = Button.new()
+		btn.focus_mode = Control.FOCUS_NONE
+		btn.custom_minimum_size = Vector2(140, 0)
+		btn.text = OS.get_keycode_string(_pending_bindings[action])
+		btn.pressed.connect(_start_capturing.bind(action, btn))
+		bindings_grid.add_child(btn)
+
+func _start_capturing(action: String, btn: Button):
+	# If another capture is active, cancel it visually first
+	if _capturing_button and is_instance_valid(_capturing_button):
+		_capturing_button.text = OS.get_keycode_string(_pending_bindings[_capturing_action])
+	_capturing_action = action
+	_capturing_button = btn
+	btn.text = "..."
+
+func _finish_capturing(keycode: int):
+	_pending_bindings[_capturing_action] = keycode
+	_capturing_button.text = OS.get_keycode_string(keycode)
+	_capturing_action = ""
+	_capturing_button = null
+
+func _cancel_capturing():
+	if _capturing_button and is_instance_valid(_capturing_button):
+		_capturing_button.text = OS.get_keycode_string(_pending_bindings[_capturing_action])
+	_capturing_action = ""
+	_capturing_button = null
+
+func _action_for_keycode(keycode: int) -> String:
+	for action in bindings:
+		if bindings[action] == keycode:
+			return action
+	return ""
+
+# --- Drop-amount dialog ---
+
+func _start_drop_from_focused_slot():
+	if _focused_slot < 0:
+		_add_message("Select an inventory slot first")
+		return
+
+	var item = _inventory[_focused_slot] if _focused_slot < _inventory.size() else null
+	if item == null:
+		return
+
+	var amount = int(item.get("amount", 1))
+	if amount <= 1:
+		connection.send_packet(PacketIds.DROP_ITEM, {"slot": _focused_slot})
+		return
+
+	# Stacked — prompt for amount
+	_drop_pending_slot = _focused_slot
+	_drop_pending_max = amount
+	drop_amount_input.text = str(amount)
+	drop_amount_overlay.visible = true
+	drop_amount_input.grab_focus()
+	drop_amount_input.select_all()
+
+func _on_drop_confirm():
+	var raw = drop_amount_input.text.strip_edges()
+	var amount = int(raw) if raw.is_valid_int() else 0
+	amount = clamp(amount, 1, _drop_pending_max)
+	connection.send_packet(PacketIds.DROP_ITEM, {"slot": _drop_pending_slot, "amount": amount})
+	_hide_drop_dialog()
+
+func _hide_drop_dialog():
+	drop_amount_overlay.visible = false
+	_drop_pending_slot = -1
+	_drop_pending_max = 0
+	drop_amount_input.release_focus()
+
+func _populate_spell_list():
+	spell_list.clear()
+	if _my_spells.is_empty():
+		spell_list.add_item("(no spells at this level)")
+		return
+	for spell in _my_spells:
+		spell_list.add_item("%s  (%d MP)" % [spell.get("name", "?"), int(spell.get("mana_cost", 0))])
+
+func _on_lanzar_pressed():
+	if _my_spells.is_empty():
+		_add_message("No spells available")
+		return
+	var selected = spell_list.get_selected_items()
+	if selected.is_empty():
+		_add_message("Select a spell first")
+		return
+	_casting_armed = true
+	Input.set_default_cursor_shape(Input.CURSOR_CROSS)
+	var spell_name = _my_spells[selected[0]].get("name", "?")
+	_add_message("Click target for %s (Esc to cancel)" % spell_name)
+
+func _unhandled_input(event):
+	# Click-to-cast: only fires for clicks NOT absorbed by HUD Controls (buttons, tabs, chat).
+	if not _casting_armed:
+		return
+	if not (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
+		return
+
+	var world_pos = get_global_mouse_position()
+	var tile = Vector2i(int(world_pos.x / TILE_SIZE), int(world_pos.y / TILE_SIZE))
+	var selected = spell_list.get_selected_items()
+	if selected.is_empty():
+		_casting_armed = false
+		return
+	var spell = _my_spells[selected[0]]
+	connection.send_packet(PacketIds.CAST_SPELL, {
+		"spell_id": int(spell.get("id", 0)),
+		"x": tile.x,
+		"y": tile.y,
+	})
+	_add_message("Casting %s at (%d, %d)" % [spell.get("name", "?"), tile.x, tile.y])
+	_casting_armed = false
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+	get_viewport().set_input_as_handled()
+
+func _cancel_armed_cast():
+	if not _casting_armed:
+		return
+	_casting_armed = false
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+	_add_message("Cast cancelled")
+
+# Per-map palette for procedural ground (placeholder until real tiles)
+const MAP_PALETTE = {
+	1: { "a": Color(0.25, 0.45, 0.20), "b": Color(0.20, 0.40, 0.18) }, # map 1 = green
+	2: { "a": Color(0.55, 0.45, 0.25), "b": Color(0.50, 0.40, 0.22) }, # map 2 = sandy
+}
+
+func _render_ground():
+	for child in ground_layer.get_children():
+		child.queue_free()
+
+	var drawer = _GroundDrawer.new()
+	drawer.map_size = map_size
+	drawer.palette = MAP_PALETTE.get(map_id, { "a": Color.DARK_GRAY, "b": Color.GRAY })
+	ground_layer.add_child(drawer)
+
+class _GroundDrawer extends Node2D:
+	var map_size: Vector2i
+	var palette: Dictionary
+
+	func _draw():
+		const TILE = 32
+		for y in map_size.y:
+			for x in map_size.x:
+				var color = palette["a"] if (x + y) % 2 == 0 else palette["b"]
+				draw_rect(Rect2(x * TILE, y * TILE, TILE, TILE), color)
+
+# --- Minimap ---
+
+func _setup_minimap():
+	if _minimap_drawer:
+		_minimap_drawer.queue_free()
+	_minimap_drawer = _MinimapDrawer.new()
+	_minimap_drawer.host = self
+	_minimap_drawer.anchor_right = 1.0
+	_minimap_drawer.anchor_bottom = 1.0
+	minimap.add_child(_minimap_drawer)
+
+class _MinimapDrawer extends Control:
+	var host = null
+
+	func _draw():
+		var sz = size
+		draw_rect(Rect2(Vector2.ZERO, sz), Color(0.05, 0.05, 0.08), true)
+		draw_rect(Rect2(Vector2.ZERO, sz), Color(0.4, 0.4, 0.5), false, 1.0)
+		if host == null or host.map_size.x <= 0 or host.map_size.y <= 0:
+			return
+		var px = (float(host.my_pos.x) / host.map_size.x) * sz.x
+		var py = (float(host.my_pos.y) / host.map_size.y) * sz.y
+		draw_circle(Vector2(px, py), 3.0, Color(1, 0.2, 0.2))
+
+# --- Inventory grid ---
+
+func _build_inventory_slots():
+	for child in inventory_grid.get_children():
+		child.queue_free()
+	for i in INVENTORY_SLOTS:
+		var slot = _InventorySlot.new()
+		slot.slot_index = i
+		slot.clicked.connect(_on_inventory_slot_clicked)
+		inventory_grid.add_child(slot)
+
+func _render_inventory(items: Array):
+	var slots = inventory_grid.get_children()
+	for i in slots.size():
+		var item = null
+		if i < items.size():
+			item = items[i]
+		slots[i].set_item(item)
+		if i == _focused_slot and item == null:
+			_focused_slot = -1
+	_refresh_focus_highlights()
+
+func _on_inventory_slot_clicked(slot_index: int):
+	var slot_node = inventory_grid.get_child(slot_index)
+	# Toggle focus off if clicking the same slot, clear on empty slot, else set.
+	if not slot_node.has_item:
+		_focused_slot = -1
+	elif _focused_slot == slot_index:
+		_focused_slot = -1
+	else:
+		_focused_slot = slot_index
+	_refresh_focus_highlights()
+
+func _refresh_focus_highlights():
+	for i in inventory_grid.get_child_count():
+		inventory_grid.get_child(i).set_focused(i == _focused_slot)
+
+class _InventorySlot extends PanelContainer:
+	signal clicked(slot_index: int)
+	var slot_index: int = -1
+	var has_item: bool = false
+	var label: Label
+	const SLOT_SIZE = 42
+
+	func _init():
+		custom_minimum_size = Vector2(SLOT_SIZE, SLOT_SIZE)
+		label = Label.new()
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.add_theme_font_size_override("font_size", 10)
+		add_child(label)
+
+	func _ready():
+		gui_input.connect(_on_gui_input)
+
+	func _on_gui_input(event):
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			clicked.emit(slot_index)
+
+	func set_focused(focused: bool):
+		# Yellow tint when this slot is the USE/EQUIP target; full-color otherwise.
+		modulate = Color(1.2, 1.2, 0.5, 1) if focused else Color(1, 1, 1, 1)
+
+	func set_item(item):
+		has_item = item != null
+		if not has_item:
+			label.text = ""
+			return
+		var data = item.get("item_data", {})
+		var nm: String = data.get("name", "?")
+		var amount = int(item.get("amount", 0))
+		var short = nm.substr(0, min(3, nm.length())) if nm else "?"
+		if amount > 1:
+			label.text = "%s\nx%d" % [short, amount]
+		else:
+			label.text = short
+		var color = Color(0.5, 1, 0.5) if item.get("equipped", false) else Color(1, 1, 1)
+		label.add_theme_color_override("font_color", color)
+
+# --- Stats / XP / equipment ---
+
+func _update_hp(hp: int, max_hp: int):
+	hp_bar.max_value = max(max_hp, 1)
+	hp_bar.value = clamp(hp, 0, max_hp)
+	hp_text.text = "%d / %d" % [hp, max_hp]
+
+func _update_mp(mana: int, max_mana: int):
+	mp_bar.max_value = max(max_mana, 1)
+	mp_bar.value = clamp(mana, 0, max_mana)
+	mp_text.text = "%d / %d" % [mana, max_mana]
+
+func _update_xp_bar(xp_in_level: int):
+	var needed = PacketIds.xp_for_level(my_level)
+	if needed <= 0:
+		xp_bar.max_value = 1
+		xp_bar.value = 0
+		xp_label.text = "EXP %d" % xp_in_level
+		return
+	xp_bar.max_value = needed
+	xp_bar.value = clamp(xp_in_level, 0, needed)
+	xp_label.text = "EXP %d / %d" % [xp_in_level, needed]
+
+func _update_equipment(eq: Dictionary):
+	eq_helm.text = "%02d" % int(eq.get("helmet", 0))
+	eq_armor.text = "%02d" % int(eq.get("armor", 0))
+	eq_weapon.text = "%02d" % int(eq.get("weapon", 0))
+	eq_shield.text = "%02d" % int(eq.get("shield", 0))
+	eq_magres.text = "%02d" % int(eq.get("mag_res", 0))
+
+func _format_gold(n: int) -> String:
+	# Thousands separator with dots (Argentum/Spanish style): 1.091.884
+	var s = str(n)
+	var out := ""
+	var count = 0
+	for i in range(s.length() - 1, -1, -1):
+		if count > 0 and count % 3 == 0:
+			out = "." + out
+		out = s[i] + out
+		count += 1
+	return out
+
+# --- Movement / player sprite ---
 
 func _update_player_position():
 	player_sprite.position = Vector2(my_pos.x * TILE_SIZE, my_pos.y * TILE_SIZE)
 	camera.position = player_sprite.position
+	position_label.text = "Map %d @ (%d, %d)" % [map_id, my_pos.x, my_pos.y]
+	if _minimap_drawer:
+		_minimap_drawer.queue_redraw()
 
 var _move_cooldown: float = 0.0
-const MOVE_INTERVAL: float = 0.15  # seconds between steps when holding arrow
+var _fps_cooldown: float = 0.0
+const MOVE_INTERVAL: float = 0.15
+const FPS_REFRESH: float = 0.5
 
 func _process(delta):
 	if _move_cooldown > 0:
 		_move_cooldown -= delta
 
-	if chat_input.has_focus():
+	_fps_cooldown -= delta
+	if _fps_cooldown <= 0 and fps_label:
+		fps_label.text = "FPS %d" % Engine.get_frames_per_second()
+		_fps_cooldown = FPS_REFRESH
+
+	# Safety net: when no modal is open, only chat_input may hold focus.
+	# Inside a modal (settings, drop dialog) the modal's own controls legitimately need it.
+	if not settings_overlay.visible and not drop_amount_overlay.visible:
+		var focused = get_viewport().gui_get_focus_owner()
+		if focused != null and focused != chat_input:
+			get_viewport().gui_release_focus()
+
+	if chat_input.has_focus() or settings_overlay.visible or drop_amount_overlay.visible:
 		return
 
 	if _move_cooldown <= 0:
-		if Input.is_key_pressed(KEY_UP):
+		if Input.is_key_pressed(bindings["move_up"]):
 			my_heading = "north"
 			_send_move(0, -1)
 			_move_cooldown = MOVE_INTERVAL
-		elif Input.is_key_pressed(KEY_DOWN):
+		elif Input.is_key_pressed(bindings["move_down"]):
 			my_heading = "south"
 			_send_move(0, 1)
 			_move_cooldown = MOVE_INTERVAL
-		elif Input.is_key_pressed(KEY_RIGHT):
+		elif Input.is_key_pressed(bindings["move_right"]):
 			my_heading = "east"
 			_send_move(1, 0)
 			_move_cooldown = MOVE_INTERVAL
-		elif Input.is_key_pressed(KEY_LEFT):
+		elif Input.is_key_pressed(bindings["move_left"]):
 			my_heading = "west"
 			_send_move(-1, 0)
 			_move_cooldown = MOVE_INTERVAL
 
 func _input(event):
+	if not (event is InputEventKey) or not event.pressed:
+		return
+
+	# Rebinding: intercept the next non-echo keypress and assign it to the action.
+	# Escape cancels. All keystrokes are consumed so nothing else reacts.
+	if _capturing_action != "":
+		if not event.echo:
+			if event.keycode == KEY_ESCAPE:
+				_cancel_capturing()
+			else:
+				_finish_capturing(event.keycode)
+		get_viewport().set_input_as_handled()
+		return
+
+	# Drop-amount dialog open — only handle Escape here; LineEdit captures other keys.
+	if drop_amount_overlay.visible:
+		if event.keycode == KEY_ESCAPE and not event.echo:
+			_hide_drop_dialog()
+			get_viewport().set_input_as_handled()
+		return
+
+	# Settings overlay open — ignore world input (Escape closes).
+	if settings_overlay.visible:
+		if event.keycode == KEY_ESCAPE and not event.echo:
+			_hide_settings()
+			get_viewport().set_input_as_handled()
+		return
+
+	# Escape cancels an armed cast.
+	if _casting_armed and event.keycode == KEY_ESCAPE and not event.echo:
+		_cancel_armed_cast()
+		get_viewport().set_input_as_handled()
+		return
+
+	# Typing in chat: let LineEdit have everything.
 	if chat_input.has_focus():
 		return
 
-	if event is InputEventKey and event.pressed and not event.echo:
-		match event.keycode:
-			KEY_CTRL:
-				_attack_facing()
-			KEY_R:
-				connection.send_packet(PacketIds.USE_POTION, {"hp": 150})
-				_add_message("HP potion!")
-			KEY_B:
-				connection.send_packet(PacketIds.USE_POTION, {"mana": 300})
-				_add_message("Mana potion!")
-			KEY_T:
-				chat_input.grab_focus()
-				chat_input.text = "" # prevent the 'T' from appearing
-				get_viewport().set_input_as_handled()
-			KEY_I:
-				connection.send_packet(PacketIds.INVENTORY_REQUEST)
-			KEY_SPACE:
-				if _is_dead:
-					connection.send_packet(PacketIds.RESPAWN)
-					_add_message("Respawning...")
+	var action = _action_for_keycode(event.keycode)
+
+	# Consume any game-bound key so Godot's GUI focus nav never steals arrow movement
+	# (TabContainer/ItemList can ignore focus_mode = 0 — belt and braces).
+	if action != "":
+		get_viewport().set_input_as_handled()
+
+	if event.echo:
+		return
+
+	match action:
+		"attack":
+			_attack_facing()
+		"hp_potion":
+			connection.send_packet(PacketIds.USE_POTION, {"hp": 150})
+			_add_message("HP potion!")
+		"mana_potion":
+			connection.send_packet(PacketIds.USE_POTION, {"mana": 300})
+			_add_message("Mana potion!")
+		"chat_toggle":
+			chat_input.grab_focus()
+			chat_input.text = ""
+		"inventory":
+			connection.send_packet(PacketIds.INVENTORY_REQUEST)
+		"respawn":
+			if _is_dead:
+				connection.send_packet(PacketIds.RESPAWN)
+				_add_message("Respawning...")
+		"meditate":
+			connection.send_packet(PacketIds.MEDITATE_TOGGLE)
+			_add_message("Meditar (toggle)")
+		"use_item":
+			if _focused_slot < 0:
+				_add_message("Select an inventory slot first")
+			else:
+				connection.send_packet(PacketIds.USE_ITEM, {"slot": _focused_slot})
+		"equip_item":
+			if _focused_slot < 0:
+				_add_message("Select an inventory slot first")
+			else:
+				connection.send_packet(PacketIds.EQUIP_ITEM, {"slot": _focused_slot})
+		"drop_item":
+			_start_drop_from_focused_slot()
+		"pickup_item":
+			connection.send_packet(PacketIds.PICKUP_ITEM)
 
 func _send_move(dx: int, dy: int):
 	var new_x = my_pos.x + dx
 	var new_y = my_pos.y + dy
 
-	# Client-side prediction: refuse to move optimistically if we know it's invalid
 	if new_x < 0 or new_y < 0 or new_x >= map_size.x or new_y >= map_size.y:
-		_update_player_sprite() # still update facing
+		_update_player_sprite()
 		return
 
-	# Check if target tile has an NPC (clients knows NPC positions)
 	for npc_id in npcs:
 		if npcs[npc_id].pos == Vector2i(new_x, new_y):
-			_update_player_sprite() # face it, don't move
+			_update_player_sprite()
 			return
 
-	# Check if target tile has another alive player
 	for player_id in players:
 		if players[player_id].pos == Vector2i(new_x, new_y):
 			_update_player_sprite()
@@ -149,7 +704,6 @@ func _attack_facing():
 	var facing = _facing_offset()
 	var target_pos = my_pos + facing
 
-	# Find NPC at faced tile
 	for npc_id in npcs:
 		var npc = npcs[npc_id]
 		if npc.pos == target_pos:
@@ -157,7 +711,6 @@ func _attack_facing():
 			_add_message("Attacking %s!" % npc.name)
 			return
 
-	# Find player at faced tile
 	for player_id in players:
 		var player = players[player_id]
 		if player.pos == target_pos:
@@ -176,7 +729,6 @@ func _facing_offset() -> Vector2i:
 	return Vector2i(0, 1)
 
 func _update_player_sprite():
-	# Simple facing indicator using Label for now
 	var arrow = {"north": "^", "south": "v", "east": ">", "west": "<"}
 	$PlayerSprite/FacingLabel.text = arrow.get(my_heading, "v")
 
@@ -214,7 +766,6 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.MAP_TRANSITION:
 			_handle_map_transition(payload)
 		PacketIds.MOVE_REJECTED:
-			# Server rejected our optimistic move — revert to authoritative position
 			my_pos = Vector2i(payload.get("x", my_pos.x), payload.get("y", my_pos.y))
 			_update_player_position()
 		PacketIds.DAMAGE_NUMBER:
@@ -222,17 +773,18 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.MISS:
 			_add_message("MISS!")
 		PacketIds.UPDATE_HP:
-			hp_bar.value = payload.get("hp", 0)
-			hp_bar.max_value = payload.get("max_hp", 1)
-			if payload.get("hp", 0) > 0 and _is_dead:
+			var hp = int(payload.get("hp", 0))
+			_update_hp(hp, int(payload.get("max_hp", 1)))
+			if hp > 0 and _is_dead:
 				_is_dead = false
 				_add_message("You have respawned!")
 		PacketIds.UPDATE_MANA:
-			mp_bar.value = payload.get("mana", 0)
-			mp_bar.max_value = payload.get("max_mana", 1)
+			_update_mp(int(payload.get("mana", 0)), int(payload.get("max_mana", 1)))
 		PacketIds.CHAR_DEATH:
 			_add_message("YOU DIED! Press SPACE to respawn")
 			_is_dead = true
+		PacketIds.SYSTEM_MESSAGE:
+			_add_message(payload.get("text", ""))
 		PacketIds.CHAT_BROADCAST:
 			var from_name = payload.get("from_name", null)
 			var from_id = payload.get("from_id", null)
@@ -240,10 +792,17 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			if from_name == null:
 				from_name = "?"
 			chat_display.append_text("[%s]: %s\n" % [from_name, msg])
-			# Show bubble above the speaker
 			_show_chat_bubble(from_id, msg)
 		PacketIds.INVENTORY_RESPONSE:
-			_handle_inventory(payload)
+			_render_inventory(payload.get("items", []))
+		PacketIds.INVENTORY_UPDATE:
+			_inventory = payload.get("inventory", [])
+			_render_inventory(_inventory)
+			_update_equipment(payload.get("equipment", {}))
+		PacketIds.GROUND_ITEM_SPAWN:
+			_handle_ground_item_spawn(payload)
+		PacketIds.GROUND_ITEM_DESPAWN:
+			_handle_ground_item_despawn(payload)
 		_:
 			push_error("DRIFT or MALICIOUS: unknown packet_id 0x%04x" % packet_id)
 
@@ -280,7 +839,6 @@ func _handle_npc_spawn(payload: Dictionary):
 	var hp = payload.get("hp", 0)
 	var max_hp = payload.get("max_hp", 0)
 
-	# Remove existing if respawn
 	if id in npcs and npcs[id].has("node"):
 		npcs[id].node.queue_free()
 
@@ -302,15 +860,18 @@ func _handle_map_transition(payload: Dictionary):
 	my_pos = Vector2i(payload.get("x", 50), payload.get("y", 50))
 	map_size = Vector2i(payload.get("width", 100), payload.get("height", 100))
 
-	# Clear all entities
 	for id in players:
 		players[id].node.queue_free()
 	players.clear()
 	for id in npcs:
 		npcs[id].node.queue_free()
 	npcs.clear()
+	for id in ground_items:
+		ground_items[id].node.queue_free()
+	ground_items.clear()
 
 	_update_player_position()
+	_render_ground()
 	_add_message("Map %d (%dx%d)" % [map_id, map_size.x, map_size.y])
 
 func _handle_damage(payload: Dictionary):
@@ -329,32 +890,19 @@ func _handle_damage(payload: Dictionary):
 			msg += " [+%d XP]" % xp
 		_add_message(msg)
 
-func _handle_inventory(payload: Dictionary):
-	var items = payload.get("items", [])
-	if items.is_empty():
-		_add_message("Inventory: empty")
-	else:
-		for item in items:
-			var eq = " [E]" if item.get("equipped", false) else ""
-			_add_message("  %s x%d%s" % [item.get("name", "?"), item.get("amount", 0), eq])
-
 func _show_chat_bubble(from_id, msg: String):
 	var target_node: Node2D = null
 
 	if from_id == null:
 		return
 
-	# Check if it's us
 	if from_id is int or from_id is float:
-		# Check players
 		if int(from_id) in players:
 			target_node = players[int(from_id)].node
 
 	if target_node == null:
-		# It's our own message — show on player sprite
 		target_node = player_sprite
 
-	# Remove existing bubble if any
 	var existing = target_node.get_node_or_null("ChatBubble")
 	if existing:
 		existing.queue_free()
@@ -363,15 +911,64 @@ func _show_chat_bubble(from_id, msg: String):
 	bubble.name = "ChatBubble"
 	bubble.text = msg
 	bubble.position = Vector2(0, -32)
+	bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bubble.add_theme_font_size_override("font_size", 10)
 	bubble.add_theme_color_override("font_color", Color.WHITE)
 	target_node.add_child(bubble)
 
-	# Auto-remove after 3 seconds
 	get_tree().create_timer(3.0).timeout.connect(func():
 		if is_instance_valid(bubble):
 			bubble.queue_free()
 	)
+
+func _handle_ground_item_spawn(payload: Dictionary):
+	var id = int(payload.get("ground_id", 0))
+	var pos = Vector2i(int(payload.get("x", 0)), int(payload.get("y", 0)))
+	var item_data = payload.get("item_data", {})
+	var amount = int(payload.get("amount", 1))
+
+	# Replace if already present (map re-entry, etc.)
+	if id in ground_items and ground_items[id].has("node"):
+		ground_items[id].node.queue_free()
+
+	var nm: String = item_data.get("name", "?")
+	var label_text = nm.substr(0, min(4, nm.length()))
+	if amount > 1:
+		label_text = "%s\nx%d" % [label_text, amount]
+
+	var node = _create_ground_item_node(label_text)
+	node.position = Vector2(pos.x * TILE_SIZE, pos.y * TILE_SIZE)
+	ground_items_layer.add_child(node)
+
+	ground_items[id] = {"pos": pos, "node": node}
+
+func _handle_ground_item_despawn(payload: Dictionary):
+	var id = int(payload.get("ground_id", 0))
+	if id in ground_items:
+		ground_items[id].node.queue_free()
+		ground_items.erase(id)
+
+func _create_ground_item_node(text: String) -> Node2D:
+	var node = Node2D.new()
+
+	var rect = ColorRect.new()
+	rect.size = Vector2(TILE_SIZE - 10, TILE_SIZE - 10)
+	rect.position = Vector2(5, 5)
+	rect.color = Color(0.9, 0.8, 0.3)
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	node.add_child(rect)
+
+	var label = Label.new()
+	label.text = text
+	label.position = Vector2(-8, -18)
+	label.size = Vector2(48, 16)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_font_size_override("font_size", 8)
+	label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+	node.add_child(label)
+
+	return node
 
 func _create_entity_node(entity_name: String, color: Color) -> Node2D:
 	var node = Node2D.new()
@@ -380,6 +977,7 @@ func _create_entity_node(entity_name: String, color: Color) -> Node2D:
 	rect.size = Vector2(TILE_SIZE - 2, TILE_SIZE - 2)
 	rect.position = Vector2(1, 1)
 	rect.color = color
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	node.add_child(rect)
 
 	var label = Label.new()
@@ -388,6 +986,7 @@ func _create_entity_node(entity_name: String, color: Color) -> Node2D:
 	label.size = Vector2(92, 16)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.add_theme_font_size_override("font_size", 10)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	node.add_child(label)
 
 	return node
