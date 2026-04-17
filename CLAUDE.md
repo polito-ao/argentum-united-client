@@ -53,6 +53,11 @@ MessagePack decoded in GDScript (lightweight addon or custom decoder).
 - Settings overlay with key mapping (stored in server DB via JSONB)
 - Sprite PoC: one character, one armor, 4 directions
 
+## Tech debt (before M3)
+
+- **CONFIG_REQUEST (0x0000)**: client should request packet IDs, classes, races from server on connect. Only hardcode 0x0000 itself. Server is single source of truth.
+- **TLS**: wrap TCP in TLS before deploying to a real server. Godot: StreamPeerTLS. Server: OpenSSL via async. Localhost dev doesn't need it.
+
 ## What to skip in M2
 
 - Auth0 integration (M3)
