@@ -198,7 +198,6 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	city_label.text = "<%s>" % city if city else "<SIN CIUDAD>"
 
 	$PlayerSprite/NameLabel.text = character.get("name", "You")
-	_apply_self_body_sprite(character.get("body_sprite_ref", null))
 
 	# Spellbook — from server config, filtered to spells this character can actually cast.
 	_my_spells = PacketIds.spells_for(character.get("class", ""), my_level)
@@ -230,10 +229,12 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 		_is_dead = true
 		_add_message("You are a ghost. Press SPACE to respawn.")
 
-	# _render_ground must run FIRST — it reads tile_size from the JSON.
-	# Otherwise _update_player_position uses the fallback (32) and the
-	# player spawns visually off-center until the first movement.
+	# _render_ground must run FIRST — it reads tile_size + graficos_root from
+	# the JSON. Otherwise _update_player_position uses the fallback tile size
+	# AND _apply_self_body_sprite can't resolve its atlas (graficos_root is
+	# still empty at this point, so _get_map_texture returns null).
 	_render_ground()
+	_apply_self_body_sprite(character.get("body_sprite_ref", null))
 	_update_player_position()
 	_setup_minimap()
 
