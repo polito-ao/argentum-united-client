@@ -198,6 +198,7 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	city_label.text = "<%s>" % city if city else "<SIN CIUDAD>"
 
 	$PlayerSprite/NameLabel.text = character.get("name", "You")
+	_apply_self_body_sprite(character.get("body_sprite_ref", null))
 
 	# Spellbook — from server config, filtered to spells this character can actually cast.
 	_my_spells = PacketIds.spells_for(character.get("class", ""), my_level)
@@ -1332,6 +1333,24 @@ func _create_entity_node(entity_name: String, color: Color, sprite_ref = null) -
 	node.add_child(label)
 
 	return node
+
+
+func _apply_self_body_sprite(sprite_ref):
+	# Own player renders via the $PlayerSprite node (scene-authored, not
+	# server-spawned like other entities). If the server shipped a
+	# body_sprite_ref, hide the placeholder ColorRect and mount a Sprite2D
+	# in its place so we match how NPCs / other players are drawn.
+	var sprite := _make_entity_sprite(sprite_ref)
+	if sprite == null:
+		return
+	$PlayerSprite/Rect.hide()
+	# Remove any previously-added body sprite (in case this gets called
+	# twice, e.g. on map transition).
+	for existing in $PlayerSprite.get_children():
+		if existing is Sprite2D and existing.name == "BodySprite":
+			existing.queue_free()
+	sprite.name = "BodySprite"
+	$PlayerSprite.add_child(sprite)
 
 
 func _make_entity_sprite(sprite_ref) -> Sprite2D:
