@@ -1,7 +1,26 @@
 extends Node2D
 
-const TILE_SIZE = 32
+# Base tile size in the Cucsi .map files; the real render uses `_tile_size`
+# below, which is driven by the per-map JSON (64 for the 2x-upscaled pipeline,
+# falls back to this constant if the JSON is missing the field).
+const FALLBACK_TILE_SIZE := 32
 const INVENTORY_SLOTS = 35 # 5 wide × 7 tall grid (capacity is 30; last row is visual padding for now)
+
+# Map rendering — mirrors the dev ulla_preview scene. The JSON produced by
+# scripts/parse_map_binary.py + scripts/apply_floor_catalog.py drives everything:
+#   tile_size, graficos_root, floors_root, per-grh lookup entries (atlas region
+#   for L2-4 or {floor:true, file} for individualised L1 floor tiles).
+const DRAW_LAYERS := [1, 2, 3, 4]
+const BLACK_KEY_THRESHOLD_255 := 16
+var _tile_size: int = FALLBACK_TILE_SIZE
+var _graficos_root: String = ""
+var _floors_root: String = ""
+var _texture_cache: Dictionary = {}     # cache_key -> ImageTexture
+var _missing_files: Dictionary = {}     # cache_key -> true (diag)
+var _black_key_max: float = float(BLACK_KEY_THRESHOLD_255) / 255.0
+# Absolute path to the parsed map JSON — server sends `map_id`, client resolves
+# to docs/maps/parsed/mapa<N>.json on the sibling server repo.
+const MAP_JSON_DIR := "C:/Users/agusp/Documents/GitHub/argentum-united-server/docs/maps/parsed"
 
 var connection: ServerConnection
 var my_pos: Vector2i = Vector2i(50, 50)
@@ -412,7 +431,7 @@ func _unhandled_input(event):
 		return
 
 	var world_pos = get_global_mouse_position()
-	var tile = Vector2i(int(world_pos.x / TILE_SIZE), int(world_pos.y / TILE_SIZE))
+	var tile = Vector2i(int(world_pos.x / _tile_size), int(world_pos.y / _tile_size))
 	var selected = spell_list.get_selected_items()
 	if selected.is_empty():
 		_casting_armed = false
@@ -442,15 +461,66 @@ const MAP_PALETTE = {
 }
 
 func _render_ground():
+	# Port of the ulla_preview loader: read the per-map JSON, paint layers 1-4
+	# as Sprite2D + AtlasTexture (or individualised floor PNG for L1).
+	# Falls back to the old procedural checker if the JSON isn't found.
 	for child in ground_layer.get_children():
 		child.queue_free()
+	_texture_cache.clear()
+	_missing_files.clear()
 
-	var drawer = _GroundDrawer.new()
+	var json_path := "%s/mapa%d.json" % [MAP_JSON_DIR, map_id]
+	var data := _load_map_json(json_path)
+	if data.is_empty():
+		push_warning("[world] map JSON not found at %s — falling back to checker" % json_path)
+		_render_checker_fallback()
+		return
+
+	# Pick up tile_size + roots from the JSON.
+	_tile_size = int(data.get("tile_size", FALLBACK_TILE_SIZE))
+	_graficos_root = String(data.get("graficos_root", ""))
+	_floors_root = String(data.get("floors_root", ""))
+	map_size = Vector2i(int(data.get("width", 100)), int(data.get("height", 100)))
+
+	var grh_lookup: Dictionary = data.get("grh_lookup", {})
+	var tiles: Array = data.get("tiles", [])
+	var drawn := 0
+	for tile in tiles:
+		for layer_num in DRAW_LAYERS:
+			var grh_id: int = int(tile["layer%d" % layer_num])
+			if grh_id == 0:
+				continue
+			var info = grh_lookup.get(str(grh_id))
+			var texture := _get_map_texture(info) if info != null else null
+			if texture == null:
+				continue  # missing atlases in a live game: skip rather than paint magenta
+			var sprite := Sprite2D.new()
+			sprite.centered = false
+			sprite.texture = texture
+			sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			# Cucsi anchor: bottom-center of the sprite sits on the tile's
+			# bottom-center. For 32px (64px at 2x) the offsets are zero.
+			var sprite_w: int = int(info["w"])
+			var sprite_h: int = int(info["h"])
+			sprite.position = Vector2(
+				(tile["x"] - 1) * _tile_size - (sprite_w - _tile_size) / 2.0,
+				(tile["y"] - 1) * _tile_size - (sprite_h - _tile_size)
+			)
+			sprite.z_index = layer_num
+			ground_layer.add_child(sprite)
+			drawn += 1
+	print("[world] map %d: %d sprites, tile_size=%d" % [map_id, drawn, _tile_size])
+
+
+func _render_checker_fallback():
+	_tile_size = FALLBACK_TILE_SIZE
+	var drawer = _CheckerDrawer.new()
 	drawer.map_size = map_size
 	drawer.palette = MAP_PALETTE.get(map_id, { "a": Color.DARK_GRAY, "b": Color.GRAY })
 	ground_layer.add_child(drawer)
 
-class _GroundDrawer extends Node2D:
+
+class _CheckerDrawer extends Node2D:
 	var map_size: Vector2i
 	var palette: Dictionary
 
@@ -460,6 +530,63 @@ class _GroundDrawer extends Node2D:
 			for x in map_size.x:
 				var color = palette["a"] if (x + y) % 2 == 0 else palette["b"]
 				draw_rect(Rect2(x * TILE, y * TILE, TILE, TILE), color)
+
+
+func _load_map_json(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		return {}
+	var file := FileAccess.open(path, FileAccess.READ)
+	var text := file.get_as_text()
+	file.close()
+	var parsed = JSON.parse_string(text)
+	return parsed if parsed is Dictionary else {}
+
+
+func _get_map_texture(info: Dictionary) -> Texture2D:
+	var file_name := String(info["file"])
+	var is_floor: bool = bool(info.get("floor", false))
+	var cache_key := ("floor:" + file_name) if is_floor else file_name
+	if _missing_files.has(cache_key):
+		return null
+	if not _texture_cache.has(cache_key):
+		var root: String
+		if is_floor and _floors_root != "":
+			root = _floors_root
+		else:
+			root = _graficos_root
+		if root == "":
+			_missing_files[cache_key] = true
+			return null
+		var img_path := "%s/%s" % [root, file_name]
+		var img := Image.load_from_file(img_path)
+		if img == null:
+			_missing_files[cache_key] = true
+			return null
+		# Floor tiles are opaque-by-construction (isolated upscale). Only the
+		# atlas sprites carry Cucsi's pure-black color-key convention.
+		if not is_floor:
+			_color_key_near_black(img)
+		_texture_cache[cache_key] = ImageTexture.create_from_image(img)
+	var atlas := AtlasTexture.new()
+	atlas.atlas = _texture_cache[cache_key]
+	atlas.region = Rect2(
+		int(info["sx"]), int(info["sy"]),
+		int(info["w"]),  int(info["h"])
+	)
+	return atlas
+
+
+func _color_key_near_black(img: Image):
+	if img.get_format() != Image.FORMAT_RGBA8:
+		img.convert(Image.FORMAT_RGBA8)
+	var w := img.get_width()
+	var h := img.get_height()
+	var thresh := _black_key_max
+	for y in range(h):
+		for x in range(w):
+			var c := img.get_pixel(x, y)
+			if c.r <= thresh and c.g <= thresh and c.b <= thresh:
+				img.set_pixel(x, y, Color(0, 0, 0, 0))
 
 # --- Minimap ---
 
@@ -630,7 +757,7 @@ func _format_gold(n: int) -> String:
 # --- Movement / player sprite ---
 
 func _update_player_position():
-	player_sprite.position = Vector2(my_pos.x * TILE_SIZE, my_pos.y * TILE_SIZE)
+	player_sprite.position = Vector2(my_pos.x * _tile_size, my_pos.y * _tile_size)
 	camera.position = player_sprite.position
 	position_label.text = "Map %d @ (%d, %d)" % [map_id, my_pos.x, my_pos.y]
 	if _minimap_drawer:
@@ -930,7 +1057,7 @@ func _handle_player_spawn(payload: Dictionary):
 	var char_name = payload.get("character", {}).get("name", "?")
 
 	var node = _create_entity_node(char_name, Color.CYAN)
-	node.position = Vector2(pos.x * TILE_SIZE, pos.y * TILE_SIZE)
+	node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
 	entities_layer.add_child(node)
 
 	players[id] = {"pos": pos, "name": char_name, "node": node}
@@ -941,7 +1068,7 @@ func _handle_player_moved(payload: Dictionary):
 	if id in players:
 		var pos = Vector2i(payload.get("x", 0), payload.get("y", 0))
 		players[id].pos = pos
-		players[id].node.position = Vector2(pos.x * TILE_SIZE, pos.y * TILE_SIZE)
+		players[id].node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
 
 func _handle_player_despawn(payload: Dictionary):
 	var id = payload.get("id", 0)
@@ -961,7 +1088,7 @@ func _handle_npc_spawn(payload: Dictionary):
 		npcs[id].node.queue_free()
 
 	var node = _create_entity_node(npc_name, Color.RED)
-	node.position = Vector2(pos.x * TILE_SIZE, pos.y * TILE_SIZE)
+	node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
 	entities_layer.add_child(node)
 
 	npcs[id] = {"pos": pos, "name": npc_name, "hp": hp, "max_hp": max_hp, "node": node}
@@ -1105,7 +1232,7 @@ func _handle_ground_item_spawn(payload: Dictionary):
 		label_text = "%s\nx%d" % [label_text, amount]
 
 	var node = _create_ground_item_node(label_text)
-	node.position = Vector2(pos.x * TILE_SIZE, pos.y * TILE_SIZE)
+	node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
 	ground_items_layer.add_child(node)
 
 	ground_items[id] = {"pos": pos, "node": node}
@@ -1142,7 +1269,7 @@ func _create_ground_item_node(text: String) -> Node2D:
 	var node = Node2D.new()
 
 	var rect = ColorRect.new()
-	rect.size = Vector2(TILE_SIZE - 10, TILE_SIZE - 10)
+	rect.size = Vector2(_tile_size - 10, _tile_size - 10)
 	rect.position = Vector2(5, 5)
 	rect.color = Color(0.9, 0.8, 0.3)
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -1164,7 +1291,7 @@ func _create_entity_node(entity_name: String, color: Color) -> Node2D:
 	var node = Node2D.new()
 
 	var rect = ColorRect.new()
-	rect.size = Vector2(TILE_SIZE - 2, TILE_SIZE - 2)
+	rect.size = Vector2(_tile_size - 2, _tile_size - 2)
 	rect.position = Vector2(1, 1)
 	rect.color = color
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
