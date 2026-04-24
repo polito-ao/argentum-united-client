@@ -221,8 +221,11 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 		_is_dead = true
 		_add_message("You are a ghost. Press SPACE to respawn.")
 
-	_update_player_position()
+	# _render_ground must run FIRST — it reads tile_size from the JSON.
+	# Otherwise _update_player_position uses the fallback (32) and the
+	# player spawns visually off-center until the first movement.
 	_render_ground()
+	_update_player_position()
 	_setup_minimap()
 
 func _ready():
@@ -1120,8 +1123,9 @@ func _handle_map_transition(payload: Dictionary):
 		ground_items[id].node.queue_free()
 	ground_items.clear()
 
-	_update_player_position()
+	# Same ordering constraint as on initial world-entry.
 	_render_ground()
+	_update_player_position()
 	_add_message("Map %d (%dx%d)" % [map_id, map_size.x, map_size.y])
 
 func _handle_damage(payload: Dictionary):
