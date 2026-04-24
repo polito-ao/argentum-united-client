@@ -1054,9 +1054,13 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 func _handle_player_spawn(payload: Dictionary):
 	var id = payload.get("id", 0)
 	var pos = Vector2i(payload.get("x", 0), payload.get("y", 0))
-	var char_name = payload.get("character", {}).get("name", "?")
+	var character_payload = payload.get("character", {})
+	var char_name = character_payload.get("name", "?")
+	# Server stamps body_sprite_ref onto the character summary in bootstrap.rb;
+	# nil-default means the old colored-square path still works.
+	var sprite_ref = character_payload.get("body_sprite_ref", null)
 
-	var node = _create_entity_node(char_name, Color.CYAN)
+	var node = _create_entity_node(char_name, Color.CYAN, sprite_ref)
 	node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
 	entities_layer.add_child(node)
 
@@ -1083,11 +1087,12 @@ func _handle_npc_spawn(payload: Dictionary):
 	var npc_name = payload.get("name", "NPC")
 	var hp = payload.get("hp", 0)
 	var max_hp = payload.get("max_hp", 0)
+	var sprite_ref = payload.get("sprite_ref", null)
 
 	if id in npcs and npcs[id].has("node"):
 		npcs[id].node.queue_free()
 
-	var node = _create_entity_node(npc_name, Color.RED)
+	var node = _create_entity_node(npc_name, Color.RED, sprite_ref)
 	node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
 	entities_layer.add_child(node)
 
@@ -1287,19 +1292,27 @@ func _create_ground_item_node(text: String) -> Node2D:
 
 	return node
 
-func _create_entity_node(entity_name: String, color: Color) -> Node2D:
+func _create_entity_node(entity_name: String, color: Color, sprite_ref = null) -> Node2D:
 	var node = Node2D.new()
 
-	var rect = ColorRect.new()
-	rect.size = Vector2(_tile_size - 2, _tile_size - 2)
-	rect.position = Vector2(1, 1)
-	rect.color = color
-	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	node.add_child(rect)
+	# Prefer a real sprite when the server sends one (NPCs + players with
+	# body_sprite_ref). Fall back to the legacy colored square if the ref is
+	# missing or the atlas file can't be resolved — keeps the old rendering
+	# path alive for entities that haven't been art-wired yet.
+	var sprite := _make_entity_sprite(sprite_ref)
+	if sprite != null:
+		node.add_child(sprite)
+	else:
+		var rect = ColorRect.new()
+		rect.size = Vector2(_tile_size - 2, _tile_size - 2)
+		rect.position = Vector2(1, 1)
+		rect.color = color
+		rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		node.add_child(rect)
 
 	var label = Label.new()
 	label.text = entity_name
-	label.position = Vector2(-30, 34)
+	label.position = Vector2(-30, _tile_size + 2)
 	label.size = Vector2(92, 16)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.add_theme_font_size_override("font_size", 10)
@@ -1307,3 +1320,25 @@ func _create_entity_node(entity_name: String, color: Color) -> Node2D:
 	node.add_child(label)
 
 	return node
+
+
+func _make_entity_sprite(sprite_ref) -> Sprite2D:
+	# sprite_ref is a Dictionary from MessagePack: {file, sx, sy, w, h}. nil
+	# or missing fields -> return null and let caller use the fallback square.
+	if sprite_ref == null or not (sprite_ref is Dictionary):
+		return null
+	if not sprite_ref.has("file"):
+		return null
+	# Anchor sprite to the tile's bottom-center (Cucsi convention) so tall
+	# bodies overflow upward and read naturally against the grid.
+	var texture := _get_map_texture(sprite_ref)
+	if texture == null:
+		return null
+	var sprite := Sprite2D.new()
+	sprite.texture = texture
+	sprite.centered = false
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	var w: int = int(sprite_ref.get("w", _tile_size))
+	var h: int = int(sprite_ref.get("h", _tile_size))
+	sprite.position = Vector2(-(w - _tile_size) / 2.0, -(h - _tile_size))
+	return sprite
