@@ -22,6 +22,16 @@ var _black_key_max: float = float(BLACK_KEY_THRESHOLD_255) / 255.0
 # to docs/maps/parsed/mapa<N>.json on the sibling server repo.
 const MAP_JSON_DIR := "C:/Users/agusp/Documents/GitHub/argentum-united-server/docs/maps/parsed"
 
+# Camera follows the player, but the HUD panels cover parts of the viewport
+# (right panel ~260px, chat panel ~120px top-left). Offsetting the camera by
+# half the HUD widths pushes the player into the VISUAL center of what's
+# actually visible, instead of the raw screen center (which would be behind
+# HUD). Cast-range = viewport-radius + 1 tile, so you always get a peek of
+# threats before they can land a hit.
+const HUD_RIGHT_WIDTH := 260
+const HUD_TOP_HEIGHT := 120
+const CAMERA_WORLD_OFFSET := Vector2(HUD_RIGHT_WIDTH / 2.0, -HUD_TOP_HEIGHT / 2.0)
+
 var connection: ServerConnection
 var my_pos: Vector2i = Vector2i(50, 50)
 var my_heading: String = "south"
@@ -761,7 +771,7 @@ func _format_gold(n: int) -> String:
 
 func _update_player_position():
 	player_sprite.position = Vector2(my_pos.x * _tile_size, my_pos.y * _tile_size)
-	camera.position = player_sprite.position
+	camera.position = player_sprite.position + CAMERA_WORLD_OFFSET
 	position_label.text = "Map %d @ (%d, %d)" % [map_id, my_pos.x, my_pos.y]
 	if _minimap_drawer:
 		_minimap_drawer.queue_redraw()
