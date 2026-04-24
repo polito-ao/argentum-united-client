@@ -23,24 +23,24 @@ z_index = 10
 [node name="Rect" type="ColorRect" parent="PlayerSprite"]
 offset_left = 1.0
 offset_top = 1.0
-offset_right = 31.0
-offset_bottom = 31.0
+offset_right = 63.0
+offset_bottom = 63.0
 mouse_filter = 2
 color = Color(0.2, 0.8, 0.2, 1)
 
 [node name="FacingLabel" type="Label" parent="PlayerSprite"]
-offset_left = 10.0
-offset_top = 6.0
-offset_right = 50.0
-offset_bottom = 26.0
+offset_left = 20.0
+offset_top = 14.0
+offset_right = 60.0
+offset_bottom = 54.0
 mouse_filter = 2
 text = "v"
 
 [node name="NameLabel" type="Label" parent="PlayerSprite"]
-offset_left = -30.0
-offset_top = 34.0
-offset_right = 62.0
-offset_bottom = 50.0
+offset_left = -14.0
+offset_top = 66.0
+offset_right = 78.0
+offset_bottom = 82.0
 mouse_filter = 2
 text = "You"
 horizontal_alignment = 1

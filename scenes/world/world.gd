@@ -22,15 +22,13 @@ var _black_key_max: float = float(BLACK_KEY_THRESHOLD_255) / 255.0
 # to docs/maps/parsed/mapa<N>.json on the sibling server repo.
 const MAP_JSON_DIR := "C:/Users/agusp/Documents/GitHub/argentum-united-server/docs/maps/parsed"
 
-# Camera follows the player, but the HUD panels cover parts of the viewport
-# (right panel ~260px, chat panel ~120px top-left). Offsetting the camera by
-# half the HUD widths pushes the player into the VISUAL center of what's
-# actually visible, instead of the raw screen center (which would be behind
-# HUD). Cast-range = viewport-radius + 1 tile, so you always get a peek of
-# threats before they can land a hit.
-const HUD_RIGHT_WIDTH := 260
-const HUD_TOP_HEIGHT := 120
-const CAMERA_WORLD_OFFSET := Vector2(HUD_RIGHT_WIDTH / 2.0, -HUD_TOP_HEIGHT / 2.0)
+# Camera follows the player without HUD-aware offset. An earlier experiment
+# shifted the player into the geometric center of the HUD-excluded rectangle,
+# but in practice the natural "player at screen center" read better — the
+# chat panel is small (top-left only) and the right panel visually balances
+# it enough that the raw center feels right. Restore offset behaviour by
+# flipping this to a computed Vector2 if HUD layout changes noticeably.
+const CAMERA_WORLD_OFFSET := Vector2.ZERO
 
 var connection: ServerConnection
 var my_pos: Vector2i = Vector2i(50, 50)
