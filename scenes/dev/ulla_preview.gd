@@ -12,10 +12,28 @@ extends Node2D
 # overlays. Layer 3/4 (walls/roofs) need z-ordering + character-occlusion
 # logic we haven't written yet — see docs/maps/ulla_port_notes.md.
 
-const DEFAULT_MAP_JSON := "C:/Users/agusp/Documents/GitHub/argentum-united-server/docs/maps/parsed/room64_demo.json"
+const DEFAULT_MAP_JSON := "C:/Users/agusp/Documents/GitHub/argentum-united-server/docs/maps/parsed/mapa15.json"
 const DEFAULT_GRAFICOS := "C:/Users/agusp/Documents/Cucsiii/clientecucsi/Graficos"
-const TILE_SIZE := 32
+const FALLBACK_TILE_SIZE := 32  # used only if the JSON doesn't carry tile_size
 const DRAW_LAYERS := [1, 2, 3, 4]  # PoC has no characters; full compositing is safe
+
+# Cucsi PNGs use pure (0,0,0) as a color-key for transparency. AI upscaling
+# (FakeFaith-Lite) smudges exact black into near-black (~(2,4,3)), producing
+# dark halos around sprites. Any pixel whose R, G, and B are all below this
+# threshold (in 0..255) becomes fully transparent. Raise if halos persist;
+# lower if legitimate dark sprite pixels are disappearing.
+const BLACK_KEY_THRESHOLD_255 := 0  # temp: 0 = exact-black only (isolates whether seams are alpha-key artifacts)
+var _black_key_max: float = float(BLACK_KEY_THRESHOLD_255) / 255.0
+
+# Populated from the JSON at load time; parse_map_binary.py emits both fields.
+# Newer JSONs generated with --scale 2 / --graficos-root drive these at runtime,
+# older ones fall back to the constants above.
+var _tile_size: int = FALLBACK_TILE_SIZE
+var _graficos_root: String = DEFAULT_GRAFICOS
+# Individualized floor tiles (from extract_floor_tiles.py) live under a
+# separate folder — apply_floor_catalog.py sets floors_root in the JSON.
+# Grh lookup entries carry a "floor" flag to pick which root to resolve from.
+var _floors_root: String = ""
 
 @onready var tiles_root: Node2D = $Tiles
 @onready var camera: Camera2D = $Camera
@@ -51,7 +69,16 @@ func _ready() -> void:
 	var height: int = int(data.get("height", 100))
 	_grid_w = width
 	_grid_h = height
-	camera.position = Vector2(width * TILE_SIZE / 2.0, height * TILE_SIZE / 2.0)
+	_tile_size = int(data.get("tile_size", FALLBACK_TILE_SIZE))
+	var jroot = data.get("graficos_root", "")
+	if jroot is String and jroot != "":
+		_graficos_root = jroot
+	var jfloors = data.get("floors_root", "")
+	if jfloors is String and jfloors != "":
+		_floors_root = jfloors
+	print("[ulla_preview] tile_size=%d  graficos_root=%s  floors_root=%s"
+		% [_tile_size, _graficos_root, _floors_root])
+	camera.position = Vector2(width * _tile_size / 2.0, height * _tile_size / 2.0)
 
 	var grh_lookup: Dictionary = data["grh_lookup"]
 	var tiles: Array = data["tiles"]
@@ -71,15 +98,20 @@ func _ready() -> void:
 			var sprite := Sprite2D.new()
 			sprite.centered = false
 			sprite.texture = texture
+			# Nearest filter: at 2x upscaled art, Linear (the Godot default)
+			# bilinearly blends edge pixels with the void outside the atlas
+			# region, producing thin dark seams at every tile boundary. Pixel
+			# art wants 1:1 sampling anyway.
+			sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 			# Cucsi anchor convention: bottom-CENTER of the sprite sits on the
 			# tile's bottom-center. Tall sprites rise into lower-y tiles; wide
 			# sprites straddle the tile horizontally. For 32x32 both adjustments
 			# are zero.
-			var sprite_w: int = int(info["w"]) if info != null else TILE_SIZE
-			var sprite_h: int = int(info["h"]) if info != null else TILE_SIZE
+			var sprite_w: int = int(info["w"]) if info != null else _tile_size
+			var sprite_h: int = int(info["h"]) if info != null else _tile_size
 			sprite.position = Vector2(
-				(tile["x"] - 1) * TILE_SIZE - (sprite_w - TILE_SIZE) / 2,
-				(tile["y"] - 1) * TILE_SIZE - (sprite_h - TILE_SIZE)
+				(tile["x"] - 1) * _tile_size - (sprite_w - _tile_size) / 2,
+				(tile["y"] - 1) * _tile_size - (sprite_h - _tile_size)
 			)
 			sprite.z_index = layer_num
 			tiles_root.add_child(sprite)
@@ -115,16 +147,16 @@ func _process(_delta: float) -> void:
 func _draw() -> void:
 	if not _show_grid:
 		return
-	var w := _grid_w * TILE_SIZE
-	var h := _grid_h * TILE_SIZE
+	var w := _grid_w * _tile_size
+	var h := _grid_h * _tile_size
 	var color := Color(1, 1, 1, 0.15)
 	# z_index default 0; layers use 1..4, so grid sits under tiles unless we
 	# bump z_as_relative/ordering. For now, thin semi-transparent lines read
 	# well enough on top of most tile art.
 	for i in range(_grid_w + 1):
-		draw_line(Vector2(i * TILE_SIZE, 0), Vector2(i * TILE_SIZE, h), color, 1.0)
+		draw_line(Vector2(i * _tile_size, 0), Vector2(i * _tile_size, h), color, 1.0)
 	for i in range(_grid_h + 1):
-		draw_line(Vector2(0, i * TILE_SIZE), Vector2(w, i * TILE_SIZE), color, 1.0)
+		draw_line(Vector2(0, i * _tile_size), Vector2(w, i * _tile_size), color, 1.0)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -136,8 +168,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		and event.button_index == MOUSE_BUTTON_LEFT):
 		return
 	var world_pos := get_global_mouse_position()
-	var tx := int(floor(world_pos.x / TILE_SIZE))
-	var ty := int(floor(world_pos.y / TILE_SIZE))
+	var tx := int(floor(world_pos.x / _tile_size))
+	var ty := int(floor(world_pos.y / _tile_size))
 	var tile = _tiles_by_pos.get(Vector2i(tx, ty))
 	if tile == null:
 		_set_status("clicked outside map")
@@ -164,19 +196,29 @@ func _load_json(path: String) -> Dictionary:
 
 func _get_atlas_texture(info: Dictionary) -> Texture2D:
 	var file_name := String(info["file"])
-	if _missing_files.has(file_name):
+	var is_floor: bool = bool(info.get("floor", false))
+	# Cache key differs by root so the same short name under floors/ vs. the
+	# upscaled atlas can never collide.
+	var cache_key := ("floor:" + file_name) if is_floor else file_name
+	if _missing_files.has(cache_key):
 		return null
-	if not _texture_cache.has(file_name):
-		var graficos_root := _resolve_path("CUCSI_GRAFICOS", DEFAULT_GRAFICOS)
-		var img_path := "%s/%s" % [graficos_root, file_name]
+	if not _texture_cache.has(cache_key):
+		# env var override still wins over whatever the JSON carried, useful
+		# for A/B testing upscaled vs. original without regenerating JSON
+		var root: String
+		if is_floor and _floors_root != "":
+			root = _floors_root
+		else:
+			root = _resolve_path("CUCSI_GRAFICOS", _graficos_root)
+		var img_path := "%s/%s" % [root, file_name]
 		var img := Image.load_from_file(img_path)
 		if img == null:
-			_missing_files[file_name] = true
+			_missing_files[cache_key] = true
 			return null
 		_color_key_black_to_alpha(img)
-		_texture_cache[file_name] = ImageTexture.create_from_image(img)
+		_texture_cache[cache_key] = ImageTexture.create_from_image(img)
 	var atlas := AtlasTexture.new()
-	atlas.atlas = _texture_cache[file_name]
+	atlas.atlas = _texture_cache[cache_key]
 	atlas.region = Rect2(
 		int(info["sx"]), int(info["sy"]),
 		int(info["w"]),  int(info["h"])
@@ -186,8 +228,10 @@ func _get_atlas_texture(info: Dictionary) -> Texture2D:
 
 func _color_key_black_to_alpha(img: Image) -> void:
 	# Cucsi PNGs use pure (0,0,0) as the color-key for transparency rather
-	# than an alpha channel. Convert to RGBA8 and zero-alpha any pure-black
-	# pixel so wall interiors stop rendering as solid black rectangles.
+	# than an alpha channel. After AI upscaling (FakeFaith-Lite) those black
+	# pixels drift to near-black (e.g. (3,5,2)), producing dark halos unless
+	# we treat "any channel below threshold" as transparent. Convert to
+	# RGBA8 and zero-alpha any such near-black pixel.
 	if img.get_format() != Image.FORMAT_RGBA8:
 		img.convert(Image.FORMAT_RGBA8)
 	var w := img.get_width()
@@ -195,12 +239,12 @@ func _color_key_black_to_alpha(img: Image) -> void:
 	for y in range(h):
 		for x in range(w):
 			var c := img.get_pixel(x, y)
-			if c.r == 0.0 and c.g == 0.0 and c.b == 0.0:
+			if c.r <= _black_key_max and c.g <= _black_key_max and c.b <= _black_key_max:
 				img.set_pixel(x, y, Color(0, 0, 0, 0))
 
 
 func _make_fallback_texture() -> Texture2D:
-	var img := Image.create(TILE_SIZE, TILE_SIZE, false, Image.FORMAT_RGB8)
+	var img := Image.create(_tile_size, _tile_size, false, Image.FORMAT_RGB8)
 	img.fill(Color.MAGENTA)
 	return ImageTexture.create_from_image(img)
 
