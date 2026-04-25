@@ -94,6 +94,7 @@ var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D 
 # === Controllers (extracted state machines — see scripts/ui/) ===
 var bank: BankController
 var chat: ChatController
+var dev: DevController
 var hud: HUDController
 var inventory: InventoryController
 
@@ -194,6 +195,23 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	%BankAmountConfirmButton.pressed.connect(bank.confirm_amount)
 	%BankAmountCancelButton.pressed.connect(bank.cancel_amount)
 	%BankAmountInput.text_submitted.connect(func(_t): bank.confirm_amount())
+
+	dev = DevController.new({
+		overlay        = %DevOverlay,
+		amount_overlay = %DevAmountOverlay,
+		query_input    = %DevQueryInput,
+		amount_input   = %DevAmountInput,
+		results        = %DevResultsList,
+		item_tab       = %DevItemTab,
+		creature_tab   = %DevCreatureTab,
+		connection     = connection,
+		hud            = hud,
+	})
+	%DevCloseButton.pressed.connect(dev.close)
+	%DevAmountConfirmButton.pressed.connect(dev.confirm_amount)
+	%DevAmountCancelButton.pressed.connect(dev.cancel_amount)
+	%DevAmountInput.text_submitted.connect(func(_t): dev.confirm_amount())
+	%DevQueryInput.text_submitted.connect(func(_t): dev._request_list())
 	# Two ways out of the world scene:
 	#   - Willful /salir → EXITED_TO_SELECT packet (handled in _on_packet_received)
 	#   - Unexpected drop → connection.disconnected signal
@@ -798,12 +816,21 @@ func _process(delta):
 
 	# Safety net: when no modal is open, only chat_input may hold focus.
 	# Inside a modal (settings, drop dialog) the modal's own controls legitimately need it.
-	if not settings_overlay.visible and not inventory.is_drop_dialog_open() and not bank.is_open():
+	var any_modal_open = (
+		settings_overlay.visible
+		or inventory.is_drop_dialog_open()
+		or bank.is_open()
+		or dev.is_open()
+	)
+	if not any_modal_open:
 		var focused = get_viewport().gui_get_focus_owner()
 		if focused != null and focused != chat_input:
 			get_viewport().gui_release_focus()
 
-	if chat.has_focus() or settings_overlay.visible or inventory.is_drop_dialog_open() or bank.is_open():
+	if chat.has_focus() or any_modal_open:
+		# Tick the dev controller's query debounce while its overlay is open.
+		if dev.is_open():
+			dev.process(int(delta * 1000))
 		return
 
 	if _move_cooldown <= 0:
@@ -865,6 +892,27 @@ func _input(event):
 		if event.keycode == KEY_ESCAPE and not event.echo:
 			bank.close()
 			get_viewport().set_input_as_handled()
+		return
+
+	# Dev amount prompt open — Esc cancels; LineEdit captures other keys.
+	if dev.is_amount_prompt_open():
+		if event.keycode == KEY_ESCAPE and not event.echo:
+			dev.cancel_amount()
+			get_viewport().set_input_as_handled()
+		return
+
+	# Dev overlay open — ignore world input (Escape closes).
+	if dev.is_open():
+		if event.keycode == KEY_ESCAPE and not event.echo:
+			dev.close()
+			get_viewport().set_input_as_handled()
+		return
+
+	# F2 toggles the dev overlay (dev-only — server gates response on
+	# ENV["DEV_AUTH"]; in production the overlay opens but stays empty).
+	if event.keycode == KEY_F2 and not event.echo:
+		dev.toggle()
+		get_viewport().set_input_as_handled()
 		return
 
 	# Escape cancels an armed cast.
@@ -1047,6 +1095,8 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			bank.refresh_inventory_mirror() # mirror tracks live inventory while bank is open
 		PacketIds.BANK_CONTENTS:
 			bank.handle_contents(payload)
+		PacketIds.DEV_LIST_RESPONSE:
+			dev.handle_list_response(payload)
 		PacketIds.GROUND_ITEM_SPAWN:
 			_handle_ground_item_spawn(payload)
 		PacketIds.GROUND_ITEM_DESPAWN:

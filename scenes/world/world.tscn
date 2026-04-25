@@ -615,6 +615,128 @@ size_flags_horizontal = 3
 focus_mode = 0
 text = "Cancelar"
 
+; -------- Dev overlay (F2) — search-and-spawn items/creatures, dev mode only --------
+[node name="DevOverlay" type="Control" parent="UILayer/HUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="UILayer/HUD/DevOverlay"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/HUD/DevOverlay"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -260.0
+offset_right = 260.0
+offset_bottom = 260.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/HUD/DevOverlay/Panel"]
+
+[node name="Title" type="Label" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+text = "[DEV] Crear"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="Hint" type="Label" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+text = "Filtra (Item/Criatura) → escribe para buscar → doble click → cantidad."
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
+
+[node name="CategoryRow" type="HBoxContainer" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+
+[node name="DevItemTab" type="Button" parent="UILayer/HUD/DevOverlay/Panel/VBox/CategoryRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+toggle_mode = true
+button_pressed = true
+text = "Items"
+
+[node name="DevCreatureTab" type="Button" parent="UILayer/HUD/DevOverlay/Panel/VBox/CategoryRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+toggle_mode = true
+text = "Criaturas"
+
+[node name="DevQueryInput" type="LineEdit" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+unique_name_in_owner = true
+placeholder_text = "Buscar..."
+
+[node name="DevResultsList" type="ItemList" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+
+[node name="DevCloseButton" type="Button" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+unique_name_in_owner = true
+focus_mode = 0
+text = "Cerrar"
+
+; -------- Dev amount prompt — modal-within-modal for spawn quantity --------
+[node name="DevAmountOverlay" type="Control" parent="UILayer/HUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="UILayer/HUD/DevAmountOverlay"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.5)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/HUD/DevAmountOverlay"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -70.0
+offset_right = 140.0
+offset_bottom = 70.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/HUD/DevAmountOverlay/Panel"]
+
+[node name="Title" type="Label" parent="UILayer/HUD/DevAmountOverlay/Panel/VBox"]
+text = "¿Cuántos?"
+horizontal_alignment = 1
+
+[node name="DevAmountInput" type="LineEdit" parent="UILayer/HUD/DevAmountOverlay/Panel/VBox"]
+unique_name_in_owner = true
+text = "1"
+alignment = 1
+
+[node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/DevAmountOverlay/Panel/VBox"]
+
+[node name="DevAmountConfirmButton" type="Button" parent="UILayer/HUD/DevAmountOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Crear"
+
+[node name="DevAmountCancelButton" type="Button" parent="UILayer/HUD/DevAmountOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Cancelar"
+
 ; -------- Floating messages — center-left over the game viewport --------
 [node name="MessagesLabel" type="Label" parent="UILayer/HUD"]
 unique_name_in_owner = true
