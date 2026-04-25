@@ -121,7 +121,7 @@ func _on_slot_move_one(direction: String, slot_index: int) -> void:
 
 # Right-click on any slot.
 func _on_slot_move_all(direction: String, slot_index: int) -> void:
-	# 9999 — server clamps to actual stack size. Same trick as the deposit/withdraw v1.
+	# 9999 — "whole stack" sentinel. Server clamps to actual amount.
 	_send_move(direction, slot_index, 9999)
 
 # Double-click on a stack > 1 → prompt for amount.
@@ -193,11 +193,15 @@ class _BankPaneSlot extends PanelContainer:
 		label.add_theme_color_override("font_color", Color.WHITE)
 		add_child(label)
 
-	# Override the virtual instead of connecting to the gui_input signal —
-	# more direct dispatch and accept_event() reliably stops propagation.
-	# The earlier signal-connect path didn't fire for right-click on this
-	# panel for some reason; the override fixes it.
-	func _gui_input(event):
+	# Debug from earlier showed the gui_input signal path actually carries
+	# right-click events on this PanelContainer; the _gui_input override
+	# alone wasn't enough. Connecting to the signal explicitly does the
+	# trick. Both right-click (whole stack) and left-double-click (move
+	# one or open amount prompt) flow through here.
+	func _ready():
+		gui_input.connect(_handle_event)
+
+	func _handle_event(event):
 		if not (event is InputEventMouseButton) or not event.pressed:
 			return
 		if event.button_index == MOUSE_BUTTON_RIGHT:
