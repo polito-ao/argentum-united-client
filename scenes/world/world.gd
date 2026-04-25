@@ -953,6 +953,8 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			_handle_player_despawn(payload)
 		PacketIds.NPC_SPAWN, PacketIds.NPC_RESPAWN:
 			_handle_npc_spawn(payload)
+		PacketIds.NPC_MOVED:
+			_handle_npc_moved(payload)
 		PacketIds.NPC_DEATH:
 			_handle_npc_death(payload)
 		PacketIds.NPC_ATTACK:
@@ -1063,6 +1065,21 @@ func _handle_npc_spawn(payload: Dictionary):
 	entities_layer.add_child(node)
 
 	npcs[id] = {"pos": pos, "name": npc_name, "hp": hp, "max_hp": max_hp, "node": node}
+
+func _handle_npc_moved(payload: Dictionary):
+	var id = int(payload.get("npc_id", 0))
+	if not (id in npcs):
+		return
+	var pos = Vector2i(int(payload.get("x", 0)), int(payload.get("y", 0)))
+	npcs[id].pos = pos
+	# Glide the sprite over the server's NPC_MOVE_INTERVAL_MS (~380ms) for the
+	# same AO-style smooth-walk feel as the player. Snap if no node yet.
+	var node = npcs[id].get("node")
+	if node == null:
+		return
+	var target = Vector2(pos.x * _tile_size, pos.y * _tile_size)
+	var tween = create_tween()
+	tween.tween_property(node, "position", target, 0.38)
 
 func _handle_npc_death(payload: Dictionary):
 	var id = payload.get("npc_id", 0)
