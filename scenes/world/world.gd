@@ -18,6 +18,11 @@ var _floors_root: String = ""
 var _texture_cache: Dictionary = {}     # cache_key -> ImageTexture
 var _missing_files: Dictionary = {}     # cache_key -> true (diag)
 var _black_key_max: float = float(BLACK_KEY_THRESHOLD_255) / 255.0
+# Perf counters — reset per _render_ground call, printed on completion.
+var _perf_load_image_ms: int = 0
+var _perf_color_key_ms: int = 0
+var _perf_load_image_calls: int = 0
+var _perf_color_key_calls: int = 0
 # Absolute path to the parsed map JSON — server sends `map_id`, client resolves
 # to docs/maps/parsed/mapa<N>.json on the sibling server repo.
 const MAP_JSON_DIR := "C:/Users/agusp/Documents/GitHub/argentum-united-server/docs/maps/parsed"
@@ -480,13 +485,16 @@ func _render_ground():
 	# Port of the ulla_preview loader: read the per-map JSON, paint layers 1-4
 	# as Sprite2D + AtlasTexture (or individualised floor PNG for L1).
 	# Falls back to the old procedural checker if the JSON isn't found.
+	var _t_total := Time.get_ticks_msec()
 	for child in ground_layer.get_children():
 		child.queue_free()
 	_texture_cache.clear()
 	_missing_files.clear()
 
 	var json_path := "%s/mapa%d.json" % [MAP_JSON_DIR, map_id]
+	var _t_json := Time.get_ticks_msec()
 	var data := _load_map_json(json_path)
+	var dt_json := Time.get_ticks_msec() - _t_json
 	if data.is_empty():
 		push_warning("[world] map JSON not found at %s — falling back to checker" % json_path)
 		_render_checker_fallback()
@@ -501,6 +509,12 @@ func _render_ground():
 	var grh_lookup: Dictionary = data.get("grh_lookup", {})
 	var tiles: Array = data.get("tiles", [])
 	var drawn := 0
+	var _t_tiles := Time.get_ticks_msec()
+	# Track time spent inside helpers so we can identify the culprit.
+	_perf_load_image_ms = 0
+	_perf_color_key_ms = 0
+	_perf_load_image_calls = 0
+	_perf_color_key_calls = 0
 	for tile in tiles:
 		for layer_num in DRAW_LAYERS:
 			var grh_id: int = int(tile["layer%d" % layer_num])
@@ -525,7 +539,13 @@ func _render_ground():
 			sprite.z_index = layer_num
 			ground_layer.add_child(sprite)
 			drawn += 1
+	var dt_tiles := Time.get_ticks_msec() - _t_tiles
+	var dt_total := Time.get_ticks_msec() - _t_total
 	print("[world] map %d: %d sprites, tile_size=%d" % [map_id, drawn, _tile_size])
+	print("  perf: total=%dms json=%dms tile_loop=%dms" % [dt_total, dt_json, dt_tiles])
+	print("  perf: image_load %d calls / %dms, color_key %d calls / %dms" %
+		[_perf_load_image_calls, _perf_load_image_ms,
+		 _perf_color_key_calls, _perf_color_key_ms])
 
 
 func _render_checker_fallback():
@@ -574,14 +594,19 @@ func _get_map_texture(info: Dictionary) -> Texture2D:
 			_missing_files[cache_key] = true
 			return null
 		var img_path := "%s/%s" % [root, file_name]
+		var t_img := Time.get_ticks_msec()
 		var img := Image.load_from_file(img_path)
+		_perf_load_image_ms += Time.get_ticks_msec() - t_img
+		_perf_load_image_calls += 1
 		if img == null:
 			_missing_files[cache_key] = true
 			return null
-		# Floor tiles are opaque-by-construction (isolated upscale). Only the
-		# atlas sprites carry Cucsi's pure-black color-key convention.
-		if not is_floor:
-			_color_key_near_black(img)
+		# Alpha is BAKED into every PNG under upscaled_2x/ via
+		# scripts/bake_alpha_channel.py — runtime color-keying is no longer
+		# necessary. Removing the per-pixel GDScript loop dropped map-load
+		# time from 5.4s to <1s on mapa1 (87% was that loop). The
+		# _color_key_near_black function below stays as a safety net for any
+		# stray asset that wasn't baked, but normal flow skips it entirely.
 		_texture_cache[cache_key] = ImageTexture.create_from_image(img)
 	var atlas := AtlasTexture.new()
 	atlas.atlas = _texture_cache[cache_key]
