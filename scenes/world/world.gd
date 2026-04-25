@@ -30,7 +30,7 @@ const MAP_JSON_DIR := "C:/Users/agusp/Documents/GitHub/argentum-united-server/do
 # the OPPOSITE direction so the player visually moves up-and-left into the
 # game-area center. Math is independent of viewport (1024, 1280, 1600...).
 const HUD_RIGHT_WIDTH := 260
-const HUD_TOP_HEIGHT := 120
+const HUD_TOP_HEIGHT := 184
 const CAMERA_WORLD_OFFSET := Vector2(HUD_RIGHT_WIDTH / 2.0, -HUD_TOP_HEIGHT / 2.0)
 
 var connection: ServerConnection
