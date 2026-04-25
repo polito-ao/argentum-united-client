@@ -23,9 +23,6 @@ var _perf_load_image_ms: int = 0
 var _perf_color_key_ms: int = 0
 var _perf_load_image_calls: int = 0
 var _perf_color_key_calls: int = 0
-# Absolute path to the parsed map JSON — server sends `map_id`, client resolves
-# to docs/maps/parsed/mapa<N>.json on the sibling server repo.
-const MAP_JSON_DIR := "C:/Users/agusp/Documents/GitHub/argentum-united-server/docs/maps/parsed"
 
 # Camera follows the player but offsets so the player sits in the visual
 # CENTER of the game-area rectangle (viewport minus HUD). Right panel is
@@ -492,12 +489,11 @@ func _render_ground():
 	# change between maps, so re-entry to a previously-loaded map skips disk I/O
 	# entirely. Memory cost is small (atlases are PNG-sized in RAM).
 
-	var json_path := "%s/mapa%d.json" % [MAP_JSON_DIR, map_id]
 	var _t_json := Time.get_ticks_msec()
-	var data := _load_map_json(json_path)
+	var data := MapTextureCache.get_map_json(map_id)
 	var dt_json := Time.get_ticks_msec() - _t_json
 	if data.is_empty():
-		push_warning("[world] map JSON not found at %s — falling back to checker" % json_path)
+		push_warning("[world] map JSON not found for map_id=%d — falling back to checker" % map_id)
 		_render_checker_fallback()
 		return
 
@@ -645,16 +641,6 @@ class _MapDrawer extends Node2D:
 	func _draw():
 		for entry in draw_plan:
 			draw_texture_rect_region(entry["texture"], entry["dest"], entry["src"])
-
-
-func _load_map_json(path: String) -> Dictionary:
-	if not FileAccess.file_exists(path):
-		return {}
-	var file := FileAccess.open(path, FileAccess.READ)
-	var text := file.get_as_text()
-	file.close()
-	var parsed = JSON.parse_string(text)
-	return parsed if parsed is Dictionary else {}
 
 
 func _get_map_image_texture(info: Dictionary) -> Texture2D:

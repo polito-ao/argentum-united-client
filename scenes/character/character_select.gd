@@ -64,6 +64,13 @@ func _handle_character_list(payload: Dictionary):
 	_characters = payload.get("characters", [])
 	_dice_throws = payload.get("dice_throws", [])
 
+	# Warm the texture cache for each character's last map BEFORE the user
+	# picks one — by the time they click, the world render hits a hot cache.
+	# Requires server to include "map_id" in to_summary; if absent, the get
+	# returns 0 and queue_preload no-ops on it.
+	for character in _characters:
+		MapTextureCache.queue_preload(int(character.get("map_id", 0)))
+
 	# Clear previous buttons
 	for child in char_list.get_children():
 		child.queue_free()

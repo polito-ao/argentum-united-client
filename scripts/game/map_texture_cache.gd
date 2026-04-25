@@ -11,6 +11,7 @@ extends Node
 # main thread reads during a render.
 var _cache: Dictionary = {}     # cache_key -> ImageTexture
 var _missing: Dictionary = {}   # cache_key -> true
+var _json_cache: Dictionary = {}  # map_id -> parsed Dictionary
 var _mutex := Mutex.new()
 
 # Background preloader state.
@@ -79,6 +80,40 @@ func count() -> int:
 	return n
 
 
+func get_map_json(map_id: int) -> Dictionary:
+	# Returns the parsed mapaN.json. Caches in memory after first read —
+	# the JSON is fully static (terrain, exits, grh_lookup; no runtime
+	# state), so caching is safe forever. ~2MB per map, ~80MB for all 40
+	# usable maps. Mutex-safe; callable from any thread.
+	_mutex.lock()
+	if _json_cache.has(map_id):
+		var cached: Dictionary = _json_cache[map_id]
+		_mutex.unlock()
+		return cached
+	_mutex.unlock()
+
+	# File I/O + parse outside the lock so other threads can hit the cache.
+	var parsed: Dictionary = {}
+	var path := "%s/mapa%d.json" % [MAP_JSON_DIR, map_id]
+	if FileAccess.file_exists(path):
+		var f := FileAccess.open(path, FileAccess.READ)
+		if f != null:
+			var text := f.get_as_text()
+			f.close()
+			var p = JSON.parse_string(text)
+			if p is Dictionary:
+				parsed = p
+	if parsed.is_empty():
+		return {}
+
+	_mutex.lock()
+	if not _json_cache.has(map_id):
+		_json_cache[map_id] = parsed
+	var result: Dictionary = _json_cache[map_id]
+	_mutex.unlock()
+	return result
+
+
 # --- Background preload queue ---
 
 func queue_preload(map_id: int) -> void:
@@ -123,18 +158,9 @@ func _worker_loop() -> void:
 
 func _preload_map(map_id: int) -> void:
 	var t0 := Time.get_ticks_msec()
-	var path := "%s/mapa%d.json" % [MAP_JSON_DIR, map_id]
-	if not FileAccess.file_exists(path):
+	var data := get_map_json(map_id)
+	if data.is_empty():
 		return
-	var f := FileAccess.open(path, FileAccess.READ)
-	if f == null:
-		return
-	var text := f.get_as_text()
-	f.close()
-	var parsed = JSON.parse_string(text)
-	if not (parsed is Dictionary):
-		return
-	var data: Dictionary = parsed
 	var graficos_root := String(data.get("graficos_root", ""))
 	var floors_root := String(data.get("floors_root", ""))
 	var grh_lookup: Dictionary = data.get("grh_lookup", {})
