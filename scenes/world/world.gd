@@ -4,7 +4,6 @@ extends Node2D
 # below, which is driven by the per-map JSON (64 for the 2x-upscaled pipeline,
 # falls back to this constant if the JSON is missing the field).
 const FALLBACK_TILE_SIZE := 32
-const INVENTORY_SLOTS = 35 # 5 wide × 7 tall grid (capacity is 30; last row is visual padding for now)
 
 # Map rendering — mirrors the dev ulla_preview scene. The JSON produced by
 # scripts/parse_map_binary.py + scripts/apply_floor_catalog.py drives everything:
@@ -73,6 +72,7 @@ var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D 
 @onready var quests_button: Button = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/QuestsButton
 
 var hud: HUDController
+var inventory: InventoryController
 
 # HUD — drop-amount dialog
 @onready var drop_amount_overlay: Control = $UILayer/HUD/DropAmountOverlay
@@ -142,14 +142,6 @@ var bindings: Dictionary = DEFAULT_BINDINGS.duplicate()
 var _pending_bindings: Dictionary = {}
 var _capturing_action: String = ""
 var _capturing_button: Button = null
-# Focused inventory slot — target of USE_ITEM / EQUIP_ITEM. -1 means no selection.
-var _focused_slot: int = -1
-# Local mirror of the server's inventory (same shape as INVENTORY_UPDATE.inventory).
-# Needed for UI decisions like "prompt for amount if stack > 1" on drop.
-var _inventory: Array = []
-# Drop-amount dialog state
-var _drop_pending_slot: int = -1
-var _drop_pending_max: int = 0
 
 func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Dictionary):
 	connection = conn
@@ -191,10 +183,8 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	# Equipment
 	hud.update_equipment(state.get("equipment", {}))
 
-	# Inventory — build the grid once, then populate from state
-	_build_inventory_slots()
-	_inventory = state.get("inventory", [])
-	_render_inventory(_inventory)
+	# Inventory — populate from state (slots already built in _ready)
+	inventory.set_inventory(state.get("inventory", []))
 
 	# Restore persisted key bindings (server-side JSONB state)
 	_apply_saved_bindings(state.get("key_bindings", {}))
@@ -236,6 +226,15 @@ func _ready():
 		messages_label = $UILayer/HUD/MessagesLabel,
 	})
 
+	inventory = InventoryController.new({
+		inventory_grid = inventory_grid,
+		drop_overlay   = drop_amount_overlay,
+		drop_input     = drop_amount_input,
+		connection     = connection,
+		hud            = hud,
+	})
+	inventory.build_slots()
+
 	chat_input.text_submitted.connect(_on_chat_submitted)
 	help_button.pressed.connect(func(): hud.add_message("Help — coming soon"))
 	settings_button.pressed.connect(_show_settings)
@@ -244,9 +243,9 @@ func _ready():
 	defaults_button.pressed.connect(func(): hud.add_message("Defaults — coming soon"))
 	cancel_settings_button.pressed.connect(_hide_settings)
 	save_settings_button.pressed.connect(_on_save_settings)
-	drop_confirm_button.pressed.connect(_on_drop_confirm)
-	drop_cancel_button.pressed.connect(_hide_drop_dialog)
-	drop_amount_input.text_submitted.connect(func(_t): _on_drop_confirm())
+	drop_confirm_button.pressed.connect(inventory.confirm_drop)
+	drop_cancel_button.pressed.connect(inventory.hide_drop_dialog)
+	drop_amount_input.text_submitted.connect(func(_t): inventory.confirm_drop())
 	_populate_spell_list()
 	# Arrow keys drive movement; they must never be consumed by UI focus navigation.
 	# TabContainer's internal TabBar has its own focus_mode that ignores ours — strip it here.
@@ -374,43 +373,6 @@ func _return_to_login():
 	if is_instance_valid(connection):
 		connection.queue_free()
 	queue_free()
-
-# --- Drop-amount dialog ---
-
-func _start_drop_from_focused_slot():
-	if _focused_slot < 0:
-		hud.add_message("Select an inventory slot first")
-		return
-
-	var item = _inventory[_focused_slot] if _focused_slot < _inventory.size() else null
-	if item == null:
-		return
-
-	var amount = int(item.get("amount", 1))
-	if amount <= 1:
-		connection.send_packet(PacketIds.DROP_ITEM, {"slot": _focused_slot})
-		return
-
-	# Stacked — prompt for amount
-	_drop_pending_slot = _focused_slot
-	_drop_pending_max = amount
-	drop_amount_input.text = str(amount)
-	drop_amount_overlay.visible = true
-	drop_amount_input.grab_focus()
-	drop_amount_input.select_all()
-
-func _on_drop_confirm():
-	var raw = drop_amount_input.text.strip_edges()
-	var amount = int(raw) if raw.is_valid_int() else 0
-	amount = clamp(amount, 1, _drop_pending_max)
-	connection.send_packet(PacketIds.DROP_ITEM, {"slot": _drop_pending_slot, "amount": amount})
-	_hide_drop_dialog()
-
-func _hide_drop_dialog():
-	drop_amount_overlay.visible = false
-	_drop_pending_slot = -1
-	_drop_pending_max = 0
-	drop_amount_input.release_focus()
 
 func _populate_spell_list():
 	spell_list.clear()
@@ -744,86 +706,6 @@ class _MinimapDrawer extends Control:
 		var py = (float(world_pos.y) / host.map_size.y) * sz.y
 		draw_circle(Vector2(px, py), radius, color)
 
-# --- Inventory grid ---
-
-func _build_inventory_slots():
-	for child in inventory_grid.get_children():
-		child.queue_free()
-	for i in INVENTORY_SLOTS:
-		var slot = _InventorySlot.new()
-		slot.slot_index = i
-		slot.clicked.connect(_on_inventory_slot_clicked)
-		inventory_grid.add_child(slot)
-
-func _render_inventory(items: Array):
-	var slots = inventory_grid.get_children()
-	for i in slots.size():
-		var item = null
-		if i < items.size():
-			item = items[i]
-		slots[i].set_item(item)
-		if i == _focused_slot and item == null:
-			_focused_slot = -1
-	_refresh_focus_highlights()
-
-func _on_inventory_slot_clicked(slot_index: int):
-	var slot_node = inventory_grid.get_child(slot_index)
-	# Toggle focus off if clicking the same slot, clear on empty slot, else set.
-	if not slot_node.has_item:
-		_focused_slot = -1
-	elif _focused_slot == slot_index:
-		_focused_slot = -1
-	else:
-		_focused_slot = slot_index
-	_refresh_focus_highlights()
-
-func _refresh_focus_highlights():
-	for i in inventory_grid.get_child_count():
-		inventory_grid.get_child(i).set_focused(i == _focused_slot)
-
-class _InventorySlot extends PanelContainer:
-	signal clicked(slot_index: int)
-	var slot_index: int = -1
-	var has_item: bool = false
-	var label: Label
-	const SLOT_SIZE = 42
-
-	func _init():
-		custom_minimum_size = Vector2(SLOT_SIZE, SLOT_SIZE)
-		label = Label.new()
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.add_theme_font_size_override("font_size", 10)
-		add_child(label)
-
-	func _ready():
-		gui_input.connect(_on_gui_input)
-
-	func _on_gui_input(event):
-		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			clicked.emit(slot_index)
-
-	func set_focused(focused: bool):
-		# Yellow tint when this slot is the USE/EQUIP target; full-color otherwise.
-		modulate = Color(1.2, 1.2, 0.5, 1) if focused else Color(1, 1, 1, 1)
-
-	func set_item(item):
-		has_item = item != null
-		if not has_item:
-			label.text = ""
-			return
-		var data = item.get("item_data", {})
-		var nm: String = data.get("name", "?")
-		var amount = int(item.get("amount", 0))
-		var short = nm.substr(0, min(3, nm.length())) if nm else "?"
-		if amount > 1:
-			label.text = "%s\nx%d" % [short, amount]
-		else:
-			label.text = short
-		var color = Color(0.5, 1, 0.5) if item.get("equipped", false) else Color(1, 1, 1)
-		label.add_theme_color_override("font_color", color)
-
 # --- XP bar (thin wrapper — resolves the level threshold then delegates) ---
 
 func _update_xp_bar(xp_in_level: int):
@@ -861,12 +743,12 @@ func _process(delta):
 
 	# Safety net: when no modal is open, only chat_input may hold focus.
 	# Inside a modal (settings, drop dialog) the modal's own controls legitimately need it.
-	if not settings_overlay.visible and not drop_amount_overlay.visible:
+	if not settings_overlay.visible and not inventory.is_drop_dialog_open():
 		var focused = get_viewport().gui_get_focus_owner()
 		if focused != null and focused != chat_input:
 			get_viewport().gui_release_focus()
 
-	if chat_input.has_focus() or settings_overlay.visible or drop_amount_overlay.visible:
+	if chat_input.has_focus() or settings_overlay.visible or inventory.is_drop_dialog_open():
 		return
 
 	if _move_cooldown <= 0:
@@ -903,9 +785,9 @@ func _input(event):
 		return
 
 	# Drop-amount dialog open — only handle Escape here; LineEdit captures other keys.
-	if drop_amount_overlay.visible:
+	if inventory.is_drop_dialog_open():
 		if event.keycode == KEY_ESCAPE and not event.echo:
-			_hide_drop_dialog()
+			inventory.hide_drop_dialog()
 			get_viewport().set_input_as_handled()
 		return
 
@@ -958,17 +840,11 @@ func _input(event):
 			connection.send_packet(PacketIds.MEDITATE_TOGGLE)
 			hud.add_message("Meditar (toggle)")
 		"use_item":
-			if _focused_slot < 0:
-				hud.add_message("Select an inventory slot first")
-			else:
-				connection.send_packet(PacketIds.USE_ITEM, {"slot": _focused_slot})
+			inventory.use_focused()
 		"equip_item":
-			if _focused_slot < 0:
-				hud.add_message("Select an inventory slot first")
-			else:
-				connection.send_packet(PacketIds.EQUIP_ITEM, {"slot": _focused_slot})
+			inventory.equip_focused()
 		"drop_item":
-			_start_drop_from_focused_slot()
+			inventory.start_drop()
 		"pickup_item":
 			connection.send_packet(PacketIds.PICKUP_ITEM)
 		"exit_to_select":
@@ -1104,10 +980,9 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			# Server tells us to drop the bubble over the given player (empty message).
 			_clear_chat_bubble(payload.get("id", 0))
 		PacketIds.INVENTORY_RESPONSE:
-			_render_inventory(payload.get("items", []))
+			inventory.render_only(payload.get("items", []))
 		PacketIds.INVENTORY_UPDATE:
-			_inventory = payload.get("inventory", [])
-			_render_inventory(_inventory)
+			inventory.set_inventory(payload.get("inventory", []))
 			hud.update_equipment(payload.get("equipment", {}))
 		PacketIds.GROUND_ITEM_SPAWN:
 			_handle_ground_item_spawn(payload)
