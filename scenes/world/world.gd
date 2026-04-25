@@ -603,6 +603,15 @@ func _render_ground():
 	print("  perf: total=%dms json=%dms collect=%dms tile_loop=%dms" % [dt_total, dt_json, dt_collect, dt_tiles])
 	print("  perf: image_load %d files / %dms (parallel, %d failed)" % [_perf_load_image_calls, _perf_load_image_ms, failures])
 
+	# Background-preload the maps the player can transition INTO from here.
+	# By the time they walk to an exit tile, those atlases are already decoded.
+	MapTextureCache.mark_already_loaded(map_id)
+	var unique_dests: Dictionary = {}
+	for exit in data.get("tile_exits", []):
+		unique_dests[int(exit.get("dest_map_id", 0))] = true
+	for dest_id in unique_dests:
+		MapTextureCache.queue_preload(dest_id)
+
 
 func _render_checker_fallback():
 	_tile_size = FALLBACK_TILE_SIZE
