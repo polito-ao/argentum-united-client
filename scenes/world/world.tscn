@@ -486,7 +486,8 @@ size_flags_horizontal = 3
 focus_mode = 0
 text = "Cancelar"
 
-; -------- Bank overlay — opened with B key (no banker NPC required for now) --------
+; -------- Bank overlay — V key opens. Two-pane: bank (left) + inventory (right).
+; Double-click = move (amount prompt for stacks). Right-click = full stack.
 [node name="BankOverlay" type="Control" parent="UILayer/HUD"]
 unique_name_in_owner = true
 visible = false
@@ -507,10 +508,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -220.0
-offset_right = 260.0
-offset_bottom = 220.0
+offset_left = -350.0
+offset_top = -280.0
+offset_right = 350.0
+offset_bottom = 280.0
 
 [node name="VBox" type="VBoxContainer" parent="UILayer/HUD/BankOverlay/Panel"]
 
@@ -520,30 +521,99 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 16
 
 [node name="Hint" type="Label" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
-text = "Click bóveda → retirar.   Selecciona en inventario, luego Depositar."
+text = "Doble click: mover.  Click derecho: stack entera."
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 10
 theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
 
-[node name="BankGrid" type="GridContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
+[node name="Columns" type="HBoxContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
+size_flags_vertical = 3
+
+[node name="LeftCol" type="VBoxContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns"]
+size_flags_horizontal = 3
+
+[node name="BankLabel" type="Label" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns/LeftCol"]
+text = "Bóveda"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+
+[node name="BankGrid" type="GridContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns/LeftCol"]
 unique_name_in_owner = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
-columns = 10
+columns = 5
 
-[node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
+[node name="RightCol" type="VBoxContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns"]
+size_flags_horizontal = 3
 
-[node name="DepositButton" type="Button" parent="UILayer/HUD/BankOverlay/Panel/VBox/ButtonBar"]
+[node name="InvLabel" type="Label" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns/RightCol"]
+text = "Inventario"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+
+[node name="BankInvMirror" type="GridContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns/RightCol"]
 unique_name_in_owner = true
 size_flags_horizontal = 3
-focus_mode = 0
-text = "Depositar seleccionado"
+size_flags_vertical = 3
+columns = 5
+
+[node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
 
 [node name="BankCloseButton" type="Button" parent="UILayer/HUD/BankOverlay/Panel/VBox/ButtonBar"]
 unique_name_in_owner = true
 size_flags_horizontal = 3
 focus_mode = 0
 text = "Cerrar"
+
+; -------- Bank-amount prompt — modal-within-modal for stack moves --------
+[node name="BankAmountOverlay" type="Control" parent="UILayer/HUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="UILayer/HUD/BankAmountOverlay"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.5)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/HUD/BankAmountOverlay"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -70.0
+offset_right = 140.0
+offset_bottom = 70.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/HUD/BankAmountOverlay/Panel"]
+
+[node name="Title" type="Label" parent="UILayer/HUD/BankAmountOverlay/Panel/VBox"]
+text = "¿Cuántos?"
+horizontal_alignment = 1
+
+[node name="BankAmountInput" type="LineEdit" parent="UILayer/HUD/BankAmountOverlay/Panel/VBox"]
+unique_name_in_owner = true
+alignment = 1
+
+[node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/BankAmountOverlay/Panel/VBox"]
+
+[node name="BankAmountConfirmButton" type="Button" parent="UILayer/HUD/BankAmountOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Confirmar"
+
+[node name="BankAmountCancelButton" type="Button" parent="UILayer/HUD/BankAmountOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Cancelar"
 
 ; -------- Floating messages — center-left over the game viewport --------
 [node name="MessagesLabel" type="Label" parent="UILayer/HUD"]

@@ -181,14 +181,19 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	})
 
 	bank = BankController.new({
-		bank_grid    = %BankGrid,
-		bank_overlay = %BankOverlay,
-		connection   = connection,
-		hud          = hud,
-		inventory    = inventory,
+		bank_grid       = %BankGrid,
+		inv_grid        = %BankInvMirror,
+		bank_overlay    = %BankOverlay,
+		amount_overlay  = %BankAmountOverlay,
+		amount_input    = %BankAmountInput,
+		connection      = connection,
+		hud             = hud,
+		inventory       = inventory,
 	})
-	%DepositButton.pressed.connect(bank.deposit_focused)
 	%BankCloseButton.pressed.connect(bank.close)
+	%BankAmountConfirmButton.pressed.connect(bank.confirm_amount)
+	%BankAmountCancelButton.pressed.connect(bank.cancel_amount)
+	%BankAmountInput.text_submitted.connect(func(_t): bank.confirm_amount())
 	# Two ways out of the world scene:
 	#   - Willful /salir → EXITED_TO_SELECT packet (handled in _on_packet_received)
 	#   - Unexpected drop → connection.disconnected signal
@@ -848,6 +853,13 @@ func _input(event):
 			get_viewport().set_input_as_handled()
 		return
 
+	# Bank amount prompt open — Esc cancels; LineEdit captures other keys.
+	if bank.is_amount_prompt_open():
+		if event.keycode == KEY_ESCAPE and not event.echo:
+			bank.cancel_amount()
+			get_viewport().set_input_as_handled()
+		return
+
 	# Bank overlay open — ignore world input (Escape closes).
 	if bank.is_open():
 		if event.keycode == KEY_ESCAPE and not event.echo:
@@ -1032,6 +1044,7 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.INVENTORY_UPDATE:
 			inventory.set_inventory(payload.get("inventory", []))
 			hud.update_equipment(payload.get("equipment", {}))
+			bank.refresh_inventory_mirror() # mirror tracks live inventory while bank is open
 		PacketIds.BANK_CONTENTS:
 			bank.handle_contents(payload)
 		PacketIds.GROUND_ITEM_SPAWN:

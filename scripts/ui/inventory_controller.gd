@@ -94,6 +94,11 @@ func _refresh_focus_highlights() -> void:
 func focused_slot() -> int:
 	return _focused_slot
 
+# Read-only accessor to the current inventory mirror. BankController uses
+# this to render the inventory side of its overlay without owning the data.
+func items() -> Array:
+	return _items
+
 # --- Action keys (use / equip / drop / pickup) ---
 
 # Returns true if the action was sent. False if no slot focused — caller has
