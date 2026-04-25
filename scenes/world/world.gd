@@ -73,6 +73,7 @@ var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D 
 
 var hud: HUDController
 var inventory: InventoryController
+var chat: ChatController
 
 # HUD — drop-amount dialog
 @onready var drop_amount_overlay: Control = $UILayer/HUD/DropAmountOverlay
@@ -147,9 +148,9 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	connection = conn
 	connection.packet_received.connect(_on_packet_received)
 
-	# InventoryController needs `connection` to send packets (USE/EQUIP/DROP).
-	# Constructed here, not in _ready(), because connection only gets assigned
-	# above — building it earlier would capture the null and silently no-op.
+	# Controllers that need `connection` (send_packet) are built here, not in
+	# _ready(), because connection only gets assigned above. Building earlier
+	# would capture the null and silently no-op all sends.
 	inventory = InventoryController.new({
 		inventory_grid = inventory_grid,
 		drop_overlay   = drop_amount_overlay,
@@ -161,6 +162,12 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	drop_confirm_button.pressed.connect(inventory.confirm_drop)
 	drop_cancel_button.pressed.connect(inventory.hide_drop_dialog)
 	drop_amount_input.text_submitted.connect(func(_t): inventory.confirm_drop())
+
+	chat = ChatController.new({
+		chat_display = chat_display,
+		chat_input   = chat_input,
+		connection   = connection,
+	})
 	# Two ways out of the world scene:
 	#   - Willful /salir → EXITED_TO_SELECT packet (handled in _on_packet_received)
 	#   - Unexpected drop → connection.disconnected signal
@@ -241,7 +248,6 @@ func _ready():
 		messages_label = $UILayer/HUD/MessagesLabel,
 	})
 
-	chat_input.text_submitted.connect(_on_chat_submitted)
 	help_button.pressed.connect(func(): hud.add_message("Help — coming soon"))
 	settings_button.pressed.connect(_show_settings)
 	quests_button.pressed.connect(func(): hud.add_message("Quests — coming soon"))
@@ -751,7 +757,7 @@ func _process(delta):
 		if focused != null and focused != chat_input:
 			get_viewport().gui_release_focus()
 
-	if chat_input.has_focus() or settings_overlay.visible or inventory.is_drop_dialog_open():
+	if chat.has_focus() or settings_overlay.visible or inventory.is_drop_dialog_open():
 		return
 
 	if _move_cooldown <= 0:
@@ -808,7 +814,7 @@ func _input(event):
 		return
 
 	# Typing in chat: let LineEdit have everything.
-	if chat_input.has_focus():
+	if chat.has_focus():
 		return
 
 	var action = _action_for_keycode(event.keycode)
@@ -831,8 +837,7 @@ func _input(event):
 			connection.send_packet(PacketIds.USE_POTION, {"mana": 300})
 			hud.add_message("Mana potion!")
 		"chat_toggle":
-			chat_input.grab_focus()
-			chat_input.text = ""
+			chat.focus()
 		"inventory":
 			connection.send_packet(PacketIds.INVENTORY_REQUEST)
 		"respawn":
@@ -910,14 +915,6 @@ func _update_player_sprite():
 	var arrow = {"north": "^", "south": "v", "east": ">", "west": "<"}
 	$PlayerSprite/FacingLabel.text = arrow.get(my_heading, "v")
 
-func _on_chat_submitted(text: String):
-	if text.strip_edges().is_empty():
-		connection.send_packet(PacketIds.CHAT_SEND, {"message": ""})
-	else:
-		connection.send_packet(PacketIds.CHAT_SEND, {"message": text})
-	chat_input.text = ""
-	chat_input.release_focus()
-
 func _on_packet_received(packet_id: int, payload: Dictionary):
 	match packet_id:
 		PacketIds.PLAYER_SPAWN:
@@ -972,13 +969,9 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.EXITED_TO_SELECT:
 			_handle_exit_confirmed()
 		PacketIds.CHAT_BROADCAST:
-			var from_name = payload.get("from_name", null)
-			var from_id = payload.get("from_id", null)
 			var msg = payload.get("message", "")
-			if from_name == null:
-				from_name = "?"
-			chat_display.append_text("[%s]: %s\n" % [from_name, msg])
-			_show_chat_bubble(from_id, msg)
+			chat.append_broadcast(payload.get("from_name", null), msg)
+			_show_chat_bubble(payload.get("from_id", null), msg)
 		PacketIds.CHAT_CLEAR:
 			# Server tells us to drop the bubble over the given player (empty message).
 			_clear_chat_bubble(payload.get("id", 0))
