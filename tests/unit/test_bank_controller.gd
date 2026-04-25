@@ -99,10 +99,11 @@ func test_move_one_from_inventory_sends_bank_deposit_amount_1():
 	assert_eq(conn.sent[0].payload.slot, 3)
 	assert_eq(conn.sent[0].payload.amount, 1)
 
-func test_move_all_from_inventory_sends_bank_deposit_amount_9999():
+func test_move_all_from_inventory_sends_bank_deposit_amount_0_sentinel():
 	bank._on_slot_move_all("deposit", 3)
 	assert_eq(conn.sent[0].id, PacketIds.BANK_DEPOSIT)
-	assert_eq(conn.sent[0].payload.amount, 9999)
+	# 0 = "whole stack" sentinel; server resolves to actual stack size.
+	assert_eq(conn.sent[0].payload.amount, 0)
 
 # --- moves: withdraw (from bank pane) ---
 
@@ -112,10 +113,10 @@ func test_move_one_from_bank_sends_bank_withdraw_amount_1():
 	assert_eq(conn.sent[0].payload.slot, 7)
 	assert_eq(conn.sent[0].payload.amount, 1)
 
-func test_move_all_from_bank_sends_bank_withdraw_amount_9999():
+func test_move_all_from_bank_sends_bank_withdraw_amount_0_sentinel():
 	bank._on_slot_move_all("withdraw", 7)
 	assert_eq(conn.sent[0].id, PacketIds.BANK_WITHDRAW)
-	assert_eq(conn.sent[0].payload.amount, 9999)
+	assert_eq(conn.sent[0].payload.amount, 0)
 
 # --- amount prompt ---
 

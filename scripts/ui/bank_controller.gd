@@ -121,8 +121,11 @@ func _on_slot_move_one(direction: String, slot_index: int) -> void:
 
 # Right-click on any slot.
 func _on_slot_move_all(direction: String, slot_index: int) -> void:
-	# 9999 — "whole stack" sentinel. Server clamps to actual amount.
-	_send_move(direction, slot_index, 9999)
+	# 0 = "whole stack" sentinel. Server resolves to slot.amount. Avoids
+	# the magic number trap of "send something bigger than max stack" — if
+	# stacks ever land at exactly Inventory::MAX_STACK (10_000), a 9999
+	# sentinel would leave 1 behind.
+	_send_move(direction, slot_index, 0)
 
 # Double-click on a stack > 1 → prompt for amount.
 func _on_slot_prompt_amount(direction: String, slot_index: int, max_amount: int) -> void:
