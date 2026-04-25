@@ -48,45 +48,53 @@ var players: Dictionary = {}       # id -> { pos: Vector2i, name: String, node: 
 var npcs: Dictionary = {}          # id -> { pos: Vector2i, name: String, hp: int, max_hp: int, node: Node2D }
 var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D }
 
-@onready var camera: Camera2D = $Camera
-@onready var ground_layer: Node2D = $Ground
-@onready var player_sprite: Node2D = $PlayerSprite
-@onready var entities_layer: Node2D = $Entities
-@onready var ground_items_layer: Node2D = $GroundItems
+# === World scene nodes ===
+@onready var camera: Camera2D                = $Camera
+@onready var entities_layer: Node2D          = $Entities
+@onready var ground_items_layer: Node2D      = $GroundItems
+@onready var ground_layer: Node2D            = $Ground
+@onready var player_sprite: Node2D           = $PlayerSprite
 
-# HUD — interactive widgets that stay in world.gd for now.
-# Read-update widgets (HP/MP/XP/stats/equipment/level/name/city/messages/fps/position)
-# moved to HUDController; constructed in _ready(). Inventory grid, spells tabs,
-# settings overlay, and drop dialog are next-pass extractions.
-@onready var chat_display: RichTextLabel = $UILayer/HUD/ChatPanel/ChatVBox/ChatDisplay
-@onready var chat_input: LineEdit = $UILayer/HUD/ChatPanel/ChatVBox/ChatInput
-@onready var minimap: Control = $UILayer/HUD/MinimapPanel/Minimap
+# === HUD widgets ===
+# Widgets passed BY PATH to HUDController in _ready (HP/MP/XP bars, stat
+# labels, equipment row, etc.) are not declared here — they're resolved
+# inline at construction. Only widgets world.gd reads/writes directly
+# live below. See feedback_godot_controller_lifecycle memory.
 
-@onready var help_button: Button = $UILayer/HUD/RightPanel/VBox/ButtonBar/HelpButton
-@onready var settings_button: Button = $UILayer/HUD/RightPanel/VBox/ButtonBar/SettingsButton
+# -- Chat + minimap
+@onready var chat_display: RichTextLabel     = %ChatDisplay
+@onready var chat_input: LineEdit            = %ChatInput
+@onready var minimap: Control                = %Minimap
 
-@onready var inventory_grid: GridContainer = $UILayer/HUD/RightPanel/VBox/InvTabs/Inventario
-@onready var spell_list: ItemList = $UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos/SpellList
-@onready var lanzar_button: Button = $UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos/LanzarButton
+# -- Top-bar buttons
+@onready var help_button: Button             = %HelpButton
+@onready var settings_button: Button         = %SettingsButton
 
-@onready var quests_button: Button = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/QuestsButton
+# -- Inventory + spells tab
+@onready var inventory_grid: GridContainer   = %Inventario
+@onready var lanzar_button: Button           = %LanzarButton
+@onready var spell_list: ItemList            = %SpellList
 
+# -- Stats tab
+@onready var quests_button: Button           = %QuestsButton
+
+# -- Drop-amount dialog (state owned by InventoryController)
+@onready var drop_amount_input: LineEdit     = %AmountInput
+@onready var drop_amount_overlay: Control    = %DropAmountOverlay
+@onready var drop_cancel_button: Button      = %DropCancelButton
+@onready var drop_confirm_button: Button     = %ConfirmButton
+
+# -- Settings overlay (hidden by default)
+@onready var bindings_grid: GridContainer    = %BindingsGrid
+@onready var cancel_settings_button: Button  = %SettingsCancelButton
+@onready var defaults_button: Button         = %DefaultsButton
+@onready var save_settings_button: Button    = %SaveButton
+@onready var settings_overlay: Control       = %SettingsOverlay
+
+# === Controllers (extracted state machines — see scripts/ui/) ===
+var chat: ChatController
 var hud: HUDController
 var inventory: InventoryController
-var chat: ChatController
-
-# HUD — drop-amount dialog
-@onready var drop_amount_overlay: Control = $UILayer/HUD/DropAmountOverlay
-@onready var drop_amount_input: LineEdit = $UILayer/HUD/DropAmountOverlay/Panel/VBox/AmountInput
-@onready var drop_confirm_button: Button = $UILayer/HUD/DropAmountOverlay/Panel/VBox/ButtonBar/ConfirmButton
-@onready var drop_cancel_button: Button = $UILayer/HUD/DropAmountOverlay/Panel/VBox/ButtonBar/CancelButton
-
-# HUD — settings overlay (hidden by default)
-@onready var settings_overlay: Control = $UILayer/HUD/SettingsOverlay
-@onready var bindings_grid: GridContainer = $UILayer/HUD/SettingsOverlay/Panel/VBox/BindingsGrid
-@onready var defaults_button: Button = $UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar/DefaultsButton
-@onready var cancel_settings_button: Button = $UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar/CancelButton
-@onready var save_settings_button: Button = $UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar/SaveButton
 
 var _minimap_drawer: _MinimapDrawer
 var _is_dead: bool = false
@@ -226,26 +234,26 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 
 func _ready():
 	hud = HUDController.new({
-		hp_bar         = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar,
-		hp_text        = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar/HPText,
-		mp_bar         = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar,
-		mp_text        = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar/MPText,
-		xp_bar         = $UILayer/HUD/RightPanel/VBox/XPBar,
-		xp_label       = $UILayer/HUD/RightPanel/VBox/XPLabel,
-		level_label    = $UILayer/HUD/RightPanel/VBox/HeaderRow/LevelLabel,
-		name_label     = $UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo/NameLabel,
-		city_label     = $UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo/CityLabel,
-		str_label      = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/StrLabel,
-		cele_label     = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/CeleLabel,
-		gold_label     = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/RightCol/GoldLabel,
-		eq_helm        = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Helm/Value,
-		eq_armor       = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Armor/Value,
-		eq_weapon      = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Weapon/Value,
-		eq_shield      = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Shield/Value,
-		eq_magres      = $UILayer/HUD/RightPanel/VBox/EquipmentRow/MagRes/Value,
-		position_label = $UILayer/HUD/RightPanel/VBox/ButtonBar/PositionLabel,
-		fps_label      = $UILayer/HUD/RightPanel/VBox/ButtonBar/FPSLabel,
-		messages_label = $UILayer/HUD/MessagesLabel,
+		hp_bar         = %HPBar,
+		hp_text        = %HPText,
+		mp_bar         = %MPBar,
+		mp_text        = %MPText,
+		xp_bar         = %XPBar,
+		xp_label       = %XPLabel,
+		level_label    = %LevelLabel,
+		name_label     = %PlayerNameLabel,
+		city_label     = %CityLabel,
+		str_label      = %StrLabel,
+		cele_label     = %CeleLabel,
+		gold_label     = %GoldLabel,
+		eq_helm        = %HelmValue,
+		eq_armor       = %ArmorValue,
+		eq_weapon      = %WeaponValue,
+		eq_shield      = %ShieldValue,
+		eq_magres      = %MagResValue,
+		position_label = %PositionLabel,
+		fps_label      = %FPSLabel,
+		messages_label = %MessagesLabel,
 	})
 
 	help_button.pressed.connect(func(): hud.add_message("Help — coming soon"))
@@ -258,8 +266,8 @@ func _ready():
 	_populate_spell_list()
 	# Arrow keys drive movement; they must never be consumed by UI focus navigation.
 	# TabContainer's internal TabBar has its own focus_mode that ignores ours — strip it here.
-	$UILayer/HUD/RightPanel/VBox/InvTabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
-	$UILayer/HUD/RightPanel/VBox/StatsTabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
+	%InvTabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
+	%StatsTabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
 	get_viewport().gui_release_focus()
 
 # --- Key bindings + settings overlay ---
