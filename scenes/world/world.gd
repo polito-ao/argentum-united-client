@@ -482,9 +482,9 @@ const MAP_PALETTE = {
 }
 
 func _render_ground():
-	# Port of the ulla_preview loader: read the per-map JSON, paint layers 1-4
-	# as Sprite2D + AtlasTexture (or individualised floor PNG for L1).
-	# Falls back to the old procedural checker if the JSON isn't found.
+	# Read the per-map JSON, build a flat draw plan for layers 1-4 and hand it
+	# to a single _MapDrawer (one Node2D, one _draw). Falls back to the
+	# procedural checker if the JSON isn't found.
 	var _t_total := Time.get_ticks_msec()
 	for child in ground_layer.get_children():
 		child.queue_free()
@@ -510,38 +510,41 @@ func _render_ground():
 	var tiles: Array = data.get("tiles", [])
 	var drawn := 0
 	var _t_tiles := Time.get_ticks_msec()
-	# Track time spent inside helpers so we can identify the culprit.
 	_perf_load_image_ms = 0
 	_perf_color_key_ms = 0
 	_perf_load_image_calls = 0
 	_perf_color_key_calls = 0
-	for tile in tiles:
-		for layer_num in DRAW_LAYERS:
+	# Build the draw plan in z-order (outer loop = layer) so _MapDrawer._draw
+	# can iterate it linearly without an extra sort pass.
+	var draw_plan: Array = []
+	for layer_num in DRAW_LAYERS:
+		for tile in tiles:
 			var grh_id: int = int(tile["layer%d" % layer_num])
 			if grh_id == 0:
 				continue
 			var info = grh_lookup.get(str(grh_id))
-			var texture := _get_map_texture(info) if info != null else null
+			if info == null:
+				continue
+			var texture := _get_map_image_texture(info)
 			if texture == null:
-				continue  # missing atlases in a live game: skip rather than paint magenta
-			var sprite := Sprite2D.new()
-			sprite.centered = false
-			sprite.texture = texture
-			sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-			# Cucsi anchor: bottom-center of the sprite sits on the tile's
-			# bottom-center. For 32px (64px at 2x) the offsets are zero.
+				continue
 			var sprite_w: int = int(info["w"])
 			var sprite_h: int = int(info["h"])
-			sprite.position = Vector2(
+			var dest := Rect2(
 				(tile["x"] - 1) * _tile_size - (sprite_w - _tile_size) / 2.0,
-				(tile["y"] - 1) * _tile_size - (sprite_h - _tile_size)
+				(tile["y"] - 1) * _tile_size - (sprite_h - _tile_size),
+				sprite_w, sprite_h
 			)
-			sprite.z_index = layer_num
-			ground_layer.add_child(sprite)
+			var src := Rect2(int(info["sx"]), int(info["sy"]), sprite_w, sprite_h)
+			draw_plan.append({"texture": texture, "dest": dest, "src": src})
 			drawn += 1
+	var drawer := _MapDrawer.new()
+	drawer.draw_plan = draw_plan
+	ground_layer.add_child(drawer)
+	drawer.queue_redraw()
 	var dt_tiles := Time.get_ticks_msec() - _t_tiles
 	var dt_total := Time.get_ticks_msec() - _t_total
-	print("[world] map %d: %d sprites, tile_size=%d" % [map_id, drawn, _tile_size])
+	print("[world] map %d: %d tiles drawn, tile_size=%d" % [map_id, drawn, _tile_size])
 	print("  perf: total=%dms json=%dms tile_loop=%dms" % [dt_total, dt_json, dt_tiles])
 	print("  perf: image_load %d calls / %dms, color_key %d calls / %dms" %
 		[_perf_load_image_calls, _perf_load_image_ms,
@@ -568,6 +571,20 @@ class _CheckerDrawer extends Node2D:
 				draw_rect(Rect2(x * TILE, y * TILE, TILE, TILE), color)
 
 
+class _MapDrawer extends Node2D:
+	# Single Node2D that draws the entire ground in one _draw call. Replaces
+	# the per-tile Sprite2D fan-out (10k+ nodes on mapa1) — node creation
+	# was dominating map-load time.
+	var draw_plan: Array = []
+
+	func _ready():
+		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+
+	func _draw():
+		for entry in draw_plan:
+			draw_texture_rect_region(entry["texture"], entry["dest"], entry["src"])
+
+
 func _load_map_json(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		return {}
@@ -578,38 +595,46 @@ func _load_map_json(path: String) -> Dictionary:
 	return parsed if parsed is Dictionary else {}
 
 
-func _get_map_texture(info: Dictionary) -> Texture2D:
+func _get_map_image_texture(info: Dictionary) -> Texture2D:
+	# Returns the raw whole-file ImageTexture (no AtlasTexture wrap). The
+	# _MapDrawer takes a src Rect2 directly, so wrapping is wasted work.
+	# Alpha is BAKED into every PNG under upscaled_2x/ via
+	# scripts/bake_alpha_channel.py — runtime color-keying is gone.
 	var file_name := String(info["file"])
 	var is_floor: bool = bool(info.get("floor", false))
 	var cache_key := ("floor:" + file_name) if is_floor else file_name
 	if _missing_files.has(cache_key):
 		return null
-	if not _texture_cache.has(cache_key):
-		var root: String
-		if is_floor and _floors_root != "":
-			root = _floors_root
-		else:
-			root = _graficos_root
-		if root == "":
-			_missing_files[cache_key] = true
-			return null
-		var img_path := "%s/%s" % [root, file_name]
-		var t_img := Time.get_ticks_msec()
-		var img := Image.load_from_file(img_path)
-		_perf_load_image_ms += Time.get_ticks_msec() - t_img
-		_perf_load_image_calls += 1
-		if img == null:
-			_missing_files[cache_key] = true
-			return null
-		# Alpha is BAKED into every PNG under upscaled_2x/ via
-		# scripts/bake_alpha_channel.py — runtime color-keying is no longer
-		# necessary. Removing the per-pixel GDScript loop dropped map-load
-		# time from 5.4s to <1s on mapa1 (87% was that loop). The
-		# _color_key_near_black function below stays as a safety net for any
-		# stray asset that wasn't baked, but normal flow skips it entirely.
-		_texture_cache[cache_key] = ImageTexture.create_from_image(img)
+	if _texture_cache.has(cache_key):
+		return _texture_cache[cache_key]
+	var root: String
+	if is_floor and _floors_root != "":
+		root = _floors_root
+	else:
+		root = _graficos_root
+	if root == "":
+		_missing_files[cache_key] = true
+		return null
+	var img_path := "%s/%s" % [root, file_name]
+	var t_img := Time.get_ticks_msec()
+	var img := Image.load_from_file(img_path)
+	_perf_load_image_ms += Time.get_ticks_msec() - t_img
+	_perf_load_image_calls += 1
+	if img == null:
+		_missing_files[cache_key] = true
+		return null
+	_texture_cache[cache_key] = ImageTexture.create_from_image(img)
+	return _texture_cache[cache_key]
+
+
+func _get_map_texture(info: Dictionary) -> Texture2D:
+	# AtlasTexture wrapper — used by entity Sprite2Ds (NPCs, players, own
+	# body). _MapDrawer skips this and uses _get_map_image_texture directly.
+	var raw := _get_map_image_texture(info)
+	if raw == null:
+		return null
 	var atlas := AtlasTexture.new()
-	atlas.atlas = _texture_cache[cache_key]
+	atlas.atlas = raw
 	atlas.region = Rect2(
 		int(info["sx"]), int(info["sy"]),
 		int(info["w"]),  int(info["h"])
