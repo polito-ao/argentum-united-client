@@ -176,6 +176,55 @@ func test_confirm_drop_treats_invalid_text_as_one():
 	# Invalid → 0 → clamped to lower bound of 1
 	assert_eq(conn.sent[0].payload.amount, 1)
 
+# --- Wiring contract: null connection ---
+#
+# Reproduces a real bug: world.gd constructed the controller in _ready(),
+# but `connection` was only assigned later in setup(). The controller
+# captured the null value, so equip_focused crashed with
+# "Nil.send_packet". We want a clear failure mode instead.
+
+func test_equip_focused_no_op_when_connection_is_null():
+	var inv2 = InventoryController.new({
+		inventory_grid = grid,
+		drop_overlay   = overlay,
+		drop_input     = input_box,
+		connection     = null,
+		hud            = hud,
+	})
+	inv2.build_slots()
+	inv2.set_inventory([_item("X", 1)])
+	inv2._on_slot_clicked(0)
+	# Must not crash with Nil.send_packet
+	assert_false(inv2.equip_focused())
+
+func test_use_focused_no_op_when_connection_is_null():
+	var inv2 = InventoryController.new({
+		inventory_grid = grid,
+		drop_overlay   = overlay,
+		drop_input     = input_box,
+		connection     = null,
+		hud            = hud,
+	})
+	inv2.build_slots()
+	inv2.set_inventory([_item("X", 1)])
+	inv2._on_slot_clicked(0)
+	assert_false(inv2.use_focused())
+
+func test_start_drop_single_no_op_when_connection_is_null():
+	var inv2 = InventoryController.new({
+		inventory_grid = grid,
+		drop_overlay   = overlay,
+		drop_input     = input_box,
+		connection     = null,
+		hud            = hud,
+	})
+	inv2.build_slots()
+	inv2.set_inventory([_item("X", 1)])
+	inv2._on_slot_clicked(0)
+	# Must not crash. Stack-of-one would normally send DROP_ITEM directly.
+	inv2.start_drop()
+	assert_false(inv2.is_drop_dialog_open())
+
 func test_hide_drop_dialog_resets_state():
 	inv.build_slots()
 	inv.set_inventory([_item("Poción", 7)])

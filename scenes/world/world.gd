@@ -146,6 +146,21 @@ var _capturing_button: Button = null
 func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Dictionary):
 	connection = conn
 	connection.packet_received.connect(_on_packet_received)
+
+	# InventoryController needs `connection` to send packets (USE/EQUIP/DROP).
+	# Constructed here, not in _ready(), because connection only gets assigned
+	# above — building it earlier would capture the null and silently no-op.
+	inventory = InventoryController.new({
+		inventory_grid = inventory_grid,
+		drop_overlay   = drop_amount_overlay,
+		drop_input     = drop_amount_input,
+		connection     = connection,
+		hud            = hud,
+	})
+	inventory.build_slots()
+	drop_confirm_button.pressed.connect(inventory.confirm_drop)
+	drop_cancel_button.pressed.connect(inventory.hide_drop_dialog)
+	drop_amount_input.text_submitted.connect(func(_t): inventory.confirm_drop())
 	# Two ways out of the world scene:
 	#   - Willful /salir → EXITED_TO_SELECT packet (handled in _on_packet_received)
 	#   - Unexpected drop → connection.disconnected signal
@@ -226,15 +241,6 @@ func _ready():
 		messages_label = $UILayer/HUD/MessagesLabel,
 	})
 
-	inventory = InventoryController.new({
-		inventory_grid = inventory_grid,
-		drop_overlay   = drop_amount_overlay,
-		drop_input     = drop_amount_input,
-		connection     = connection,
-		hud            = hud,
-	})
-	inventory.build_slots()
-
 	chat_input.text_submitted.connect(_on_chat_submitted)
 	help_button.pressed.connect(func(): hud.add_message("Help — coming soon"))
 	settings_button.pressed.connect(_show_settings)
@@ -243,9 +249,6 @@ func _ready():
 	defaults_button.pressed.connect(func(): hud.add_message("Defaults — coming soon"))
 	cancel_settings_button.pressed.connect(_hide_settings)
 	save_settings_button.pressed.connect(_on_save_settings)
-	drop_confirm_button.pressed.connect(inventory.confirm_drop)
-	drop_cancel_button.pressed.connect(inventory.hide_drop_dialog)
-	drop_amount_input.text_submitted.connect(func(_t): inventory.confirm_drop())
 	_populate_spell_list()
 	# Arrow keys drive movement; they must never be consumed by UI focus navigation.
 	# TabContainer's internal TabBar has its own focus_mode that ignores ours — strip it here.

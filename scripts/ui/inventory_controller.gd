@@ -33,6 +33,12 @@ func _init(refs: Dictionary) -> void:
 	_drop_input    = refs.drop_input
 	_connection    = refs.connection
 	_hud           = refs.hud
+	# Fail loud: if the caller passed a null connection (real-world cause:
+	# constructing the controller before world.gd's setup() assigns
+	# `connection = conn`), every send path would later crash with a
+	# confusing "Nil.send_packet". Surface the wiring bug here instead.
+	if _connection == null:
+		push_error("InventoryController: null connection at construction — wiring bug")
 
 # --- Setup ---
 
@@ -96,12 +102,16 @@ func use_focused() -> bool:
 	if _focused_slot < 0:
 		_hud.add_message("Select an inventory slot first")
 		return false
+	if _connection == null:
+		return false
 	_connection.send_packet(PacketIds.USE_ITEM, {"slot": _focused_slot})
 	return true
 
 func equip_focused() -> bool:
 	if _focused_slot < 0:
 		_hud.add_message("Select an inventory slot first")
+		return false
+	if _connection == null:
 		return false
 	_connection.send_packet(PacketIds.EQUIP_ITEM, {"slot": _focused_slot})
 	return true
@@ -111,6 +121,8 @@ func equip_focused() -> bool:
 func start_drop() -> void:
 	if _focused_slot < 0:
 		_hud.add_message("Select an inventory slot first")
+		return
+	if _connection == null:
 		return
 	var item = _items[_focused_slot] if _focused_slot < _items.size() else null
 	if item == null:
@@ -129,6 +141,9 @@ func start_drop() -> void:
 # --- Drop dialog ---
 
 func confirm_drop() -> void:
+	if _connection == null:
+		hide_drop_dialog()
+		return
 	var raw = _drop_input.text.strip_edges()
 	var amount = int(raw) if raw.is_valid_int() else 0
 	amount = clamp(amount, 1, _drop_pending_max)
