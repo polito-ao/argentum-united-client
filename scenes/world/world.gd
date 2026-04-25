@@ -737,10 +737,30 @@ func _update_player_position():
 	if _minimap_drawer:
 		_minimap_drawer.queue_redraw()
 
+# Glides the player sprite + camera from their current world-position to the
+# my_pos tile over MOVE_INTERVAL. AO-style: camera stays rigidly locked to
+# the sprite, the smoothness comes from interpolating the sprite itself.
+# Used by _send_move on a successful step. Other callers of
+# _update_player_position (initial spawn, map change, server corrections)
+# still snap, which is correct — those are jumps, not walks.
+var _move_tween: Tween
+
+func _tween_player_step() -> void:
+	var target_sprite = Vector2(my_pos.x * _tile_size, my_pos.y * _tile_size)
+	var target_camera = target_sprite + CAMERA_WORLD_OFFSET
+	if _move_tween and _move_tween.is_valid():
+		_move_tween.kill()
+	_move_tween = create_tween().set_parallel(true)
+	_move_tween.tween_property(player_sprite, "position", target_sprite, MOVE_INTERVAL)
+	_move_tween.tween_property(camera, "position", target_camera, MOVE_INTERVAL)
+	hud.set_position_label(map_id, my_pos.x, my_pos.y)
+	if _minimap_drawer:
+		_minimap_drawer.queue_redraw()
+
 var _move_cooldown: float = 0.0
 var _fps_cooldown: float = 0.0
 var _minimap_cooldown: float = 0.0
-const MOVE_INTERVAL: float = 0.15
+const MOVE_INTERVAL: float = 0.1
 const FPS_REFRESH: float = 0.5
 const MINIMAP_REFRESH: float = 0.2 # 5Hz — cheap, catches NPC/player/ground item changes
 
@@ -888,7 +908,7 @@ func _send_move(dx: int, dy: int):
 
 	connection.send_packet(PacketIds.PLAYER_MOVE, {"x": new_x, "y": new_y})
 	my_pos = Vector2i(new_x, new_y)
-	_update_player_position()
+	_tween_player_step()
 	_update_player_sprite()
 
 func _attack_facing():
