@@ -22,6 +22,10 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 
 MapTextureCache="*res://scripts/game/map_texture_cache.gd"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+
 [display]
 
 window/size/viewport_width=1280
