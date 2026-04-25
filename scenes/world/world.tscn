@@ -486,6 +486,65 @@ size_flags_horizontal = 3
 focus_mode = 0
 text = "Cancelar"
 
+; -------- Bank overlay — opened with B key (no banker NPC required for now) --------
+[node name="BankOverlay" type="Control" parent="UILayer/HUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="UILayer/HUD/BankOverlay"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/HUD/BankOverlay"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -220.0
+offset_right = 260.0
+offset_bottom = 220.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/HUD/BankOverlay/Panel"]
+
+[node name="Title" type="Label" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
+text = "BÓVEDA"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="Hint" type="Label" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
+text = "Click bóveda → retirar.   Selecciona en inventario, luego Depositar."
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
+
+[node name="BankGrid" type="GridContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 10
+
+[node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
+
+[node name="DepositButton" type="Button" parent="UILayer/HUD/BankOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Depositar seleccionado"
+
+[node name="BankCloseButton" type="Button" parent="UILayer/HUD/BankOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Cerrar"
+
 ; -------- Floating messages — center-left over the game viewport --------
 [node name="MessagesLabel" type="Label" parent="UILayer/HUD"]
 unique_name_in_owner = true

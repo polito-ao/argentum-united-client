@@ -92,6 +92,7 @@ var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D 
 @onready var settings_overlay: Control       = %SettingsOverlay
 
 # === Controllers (extracted state machines — see scripts/ui/) ===
+var bank: BankController
 var chat: ChatController
 var hud: HUDController
 var inventory: InventoryController
@@ -125,6 +126,7 @@ const DEFAULT_BINDINGS = {
 	"pickup_item": KEY_A,
 	"exit_to_select": KEY_F1,
 	"hide": KEY_O,
+	"bank": KEY_V,
 }
 
 const ACTION_LABELS = {
@@ -145,6 +147,7 @@ const ACTION_LABELS = {
 	"pickup_item": "Agarrar",
 	"exit_to_select": "Salir",
 	"hide": "Ocultar",
+	"bank": "Bóveda",
 }
 
 var bindings: Dictionary = DEFAULT_BINDINGS.duplicate()
@@ -176,6 +179,16 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 		chat_input   = chat_input,
 		connection   = connection,
 	})
+
+	bank = BankController.new({
+		bank_grid    = %BankGrid,
+		bank_overlay = %BankOverlay,
+		connection   = connection,
+		hud          = hud,
+		inventory    = inventory,
+	})
+	%DepositButton.pressed.connect(bank.deposit_focused)
+	%BankCloseButton.pressed.connect(bank.close)
 	# Two ways out of the world scene:
 	#   - Willful /salir → EXITED_TO_SELECT packet (handled in _on_packet_received)
 	#   - Unexpected drop → connection.disconnected signal
@@ -780,12 +793,12 @@ func _process(delta):
 
 	# Safety net: when no modal is open, only chat_input may hold focus.
 	# Inside a modal (settings, drop dialog) the modal's own controls legitimately need it.
-	if not settings_overlay.visible and not inventory.is_drop_dialog_open():
+	if not settings_overlay.visible and not inventory.is_drop_dialog_open() and not bank.is_open():
 		var focused = get_viewport().gui_get_focus_owner()
 		if focused != null and focused != chat_input:
 			get_viewport().gui_release_focus()
 
-	if chat.has_focus() or settings_overlay.visible or inventory.is_drop_dialog_open():
+	if chat.has_focus() or settings_overlay.visible or inventory.is_drop_dialog_open() or bank.is_open():
 		return
 
 	if _move_cooldown <= 0:
@@ -832,6 +845,13 @@ func _input(event):
 	if settings_overlay.visible:
 		if event.keycode == KEY_ESCAPE and not event.echo:
 			_hide_settings()
+			get_viewport().set_input_as_handled()
+		return
+
+	# Bank overlay open — ignore world input (Escape closes).
+	if bank.is_open():
+		if event.keycode == KEY_ESCAPE and not event.echo:
+			bank.close()
 			get_viewport().set_input_as_handled()
 		return
 
@@ -887,6 +907,8 @@ func _input(event):
 			connection.send_packet(PacketIds.EXIT_TO_SELECT)
 		"hide":
 			connection.send_packet(PacketIds.HIDE_TOGGLE)
+		"bank":
+			bank.toggle()
 
 func _send_move(dx: int, dy: int):
 	var new_x = my_pos.x + dx
@@ -1010,6 +1032,8 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.INVENTORY_UPDATE:
 			inventory.set_inventory(payload.get("inventory", []))
 			hud.update_equipment(payload.get("equipment", {}))
+		PacketIds.BANK_CONTENTS:
+			bank.handle_contents(payload)
 		PacketIds.GROUND_ITEM_SPAWN:
 			_handle_ground_item_spawn(payload)
 		PacketIds.GROUND_ITEM_DESPAWN:
