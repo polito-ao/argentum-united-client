@@ -55,48 +55,24 @@ var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D 
 @onready var entities_layer: Node2D = $Entities
 @onready var ground_items_layer: Node2D = $GroundItems
 
-# HUD — top-left: chat + minimap
+# HUD — interactive widgets that stay in world.gd for now.
+# Read-update widgets (HP/MP/XP/stats/equipment/level/name/city/messages/fps/position)
+# moved to HUDController; constructed in _ready(). Inventory grid, spells tabs,
+# settings overlay, and drop dialog are next-pass extractions.
 @onready var chat_display: RichTextLabel = $UILayer/HUD/ChatPanel/ChatVBox/ChatDisplay
 @onready var chat_input: LineEdit = $UILayer/HUD/ChatPanel/ChatVBox/ChatInput
 @onready var minimap: Control = $UILayer/HUD/MinimapPanel/Minimap
 
-# HUD — right panel button bar
-@onready var position_label: Label = $UILayer/HUD/RightPanel/VBox/ButtonBar/PositionLabel
-@onready var fps_label: Label = $UILayer/HUD/RightPanel/VBox/ButtonBar/FPSLabel
 @onready var help_button: Button = $UILayer/HUD/RightPanel/VBox/ButtonBar/HelpButton
 @onready var settings_button: Button = $UILayer/HUD/RightPanel/VBox/ButtonBar/SettingsButton
 
-# HUD — right panel header / progression
-@onready var level_label: Label = $UILayer/HUD/RightPanel/VBox/HeaderRow/LevelLabel
-@onready var name_label: Label = $UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo/NameLabel
-@onready var city_label: Label = $UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo/CityLabel
-@onready var xp_bar: ProgressBar = $UILayer/HUD/RightPanel/VBox/XPBar
-@onready var xp_label: Label = $UILayer/HUD/RightPanel/VBox/XPLabel
-
-# HUD — inventory/spells tabs
 @onready var inventory_grid: GridContainer = $UILayer/HUD/RightPanel/VBox/InvTabs/Inventario
 @onready var spell_list: ItemList = $UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos/SpellList
 @onready var lanzar_button: Button = $UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos/LanzarButton
 
-# HUD — STATS tab (HP/MP, stats split, gold)
-@onready var hp_bar: ProgressBar = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar
-@onready var hp_text: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar/HPText
-@onready var mp_bar: ProgressBar = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar
-@onready var mp_text: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar/MPText
-@onready var str_label: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/StrLabel
-@onready var cele_label: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/CeleLabel
 @onready var quests_button: Button = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/QuestsButton
-@onready var gold_label: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/RightCol/GoldLabel
 
-# HUD — equipment quick-stats row
-@onready var eq_helm: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Helm/Value
-@onready var eq_armor: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Armor/Value
-@onready var eq_weapon: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Weapon/Value
-@onready var eq_shield: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Shield/Value
-@onready var eq_magres: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/MagRes/Value
-
-# HUD — floating messages
-@onready var messages_label: Label = $UILayer/HUD/MessagesLabel
+var hud: HUDController
 
 # HUD — drop-amount dialog
 @onready var drop_amount_overlay: Control = $UILayer/HUD/DropAmountOverlay
@@ -112,9 +88,7 @@ var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D 
 @onready var save_settings_button: Button = $UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar/SaveButton
 
 var _minimap_drawer: _MinimapDrawer
-var _messages: Array = []
 var _is_dead: bool = false
-const MAX_MESSAGES = 6
 
 # Spellbook for this character — populated from server config in setup() based on
 # class + level. Empty for non-caster classes or levels below the lowest learn_level.
@@ -197,10 +171,7 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	_self_id = int(state.get("self_id", -1))
 
 	# Header
-	level_label.text = str(my_level)
-	name_label.text = character.get("name", "?")
-	var city = character.get("city", null)
-	city_label.text = "<%s>" % city if city else "<SIN CIUDAD>"
+	hud.update_character_header(character.get("name", "?"), my_level, character.get("city", null))
 
 	$PlayerSprite/NameLabel.text = character.get("name", "You")
 
@@ -209,18 +180,16 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	_populate_spell_list()
 
 	# Bars
-	_update_hp(int(state.get("hp", 100)), int(state.get("max_hp", 100)))
-	_update_mp(int(state.get("mana", 0)), int(state.get("max_mana", 100)))
+	hud.update_hp(int(state.get("hp", 100)), int(state.get("max_hp", 100)))
+	hud.update_mp(int(state.get("mana", 0)), int(state.get("max_mana", 100)))
 	_update_xp_bar(int(state.get("xp_in_level", 0)))
 
 	# Stats + gold
 	var attrs = state.get("attrs", {})
-	str_label.text = "STR %d" % int(attrs.get("str", 0))
-	cele_label.text = "CELE %d" % int(attrs.get("agi", 0))
-	gold_label.text = "$ %s" % _format_gold(int(state.get("gold", 0)))
+	hud.update_stats(int(attrs.get("str", 0)), int(attrs.get("agi", 0)), int(state.get("gold", 0)))
 
 	# Equipment
-	_update_equipment(state.get("equipment", {}))
+	hud.update_equipment(state.get("equipment", {}))
 
 	# Inventory — build the grid once, then populate from state
 	_build_inventory_slots()
@@ -232,7 +201,7 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 
 	if not state.get("alive", true):
 		_is_dead = true
-		_add_message("You are a ghost. Press SPACE to respawn.")
+		hud.add_message("You are a ghost. Press SPACE to respawn.")
 
 	# _render_ground must run FIRST — it reads tile_size + graficos_root from
 	# the JSON. Otherwise _update_player_position uses the fallback tile size
@@ -244,12 +213,35 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	_setup_minimap()
 
 func _ready():
+	hud = HUDController.new({
+		hp_bar         = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar,
+		hp_text        = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar/HPText,
+		mp_bar         = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar,
+		mp_text        = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar/MPText,
+		xp_bar         = $UILayer/HUD/RightPanel/VBox/XPBar,
+		xp_label       = $UILayer/HUD/RightPanel/VBox/XPLabel,
+		level_label    = $UILayer/HUD/RightPanel/VBox/HeaderRow/LevelLabel,
+		name_label     = $UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo/NameLabel,
+		city_label     = $UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo/CityLabel,
+		str_label      = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/StrLabel,
+		cele_label     = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/CeleLabel,
+		gold_label     = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/RightCol/GoldLabel,
+		eq_helm        = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Helm/Value,
+		eq_armor       = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Armor/Value,
+		eq_weapon      = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Weapon/Value,
+		eq_shield      = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Shield/Value,
+		eq_magres      = $UILayer/HUD/RightPanel/VBox/EquipmentRow/MagRes/Value,
+		position_label = $UILayer/HUD/RightPanel/VBox/ButtonBar/PositionLabel,
+		fps_label      = $UILayer/HUD/RightPanel/VBox/ButtonBar/FPSLabel,
+		messages_label = $UILayer/HUD/MessagesLabel,
+	})
+
 	chat_input.text_submitted.connect(_on_chat_submitted)
-	help_button.pressed.connect(func(): _add_message("Help — coming soon"))
+	help_button.pressed.connect(func(): hud.add_message("Help — coming soon"))
 	settings_button.pressed.connect(_show_settings)
-	quests_button.pressed.connect(func(): _add_message("Quests — coming soon"))
+	quests_button.pressed.connect(func(): hud.add_message("Quests — coming soon"))
 	lanzar_button.pressed.connect(_on_lanzar_pressed)
-	defaults_button.pressed.connect(func(): _add_message("Defaults — coming soon"))
+	defaults_button.pressed.connect(func(): hud.add_message("Defaults — coming soon"))
 	cancel_settings_button.pressed.connect(_hide_settings)
 	save_settings_button.pressed.connect(_on_save_settings)
 	drop_confirm_button.pressed.connect(_on_drop_confirm)
@@ -287,7 +279,7 @@ func _on_save_settings():
 	bindings = _pending_bindings.duplicate()
 	# Server persists as-is; keys are Godot keycodes, opaque to the server.
 	connection.send_packet(PacketIds.SETTINGS_SAVE, {"key_bindings": bindings})
-	_add_message("Settings saved")
+	hud.add_message("Settings saved")
 	_hide_settings()
 
 func _build_bindings_ui():
@@ -387,7 +379,7 @@ func _return_to_login():
 
 func _start_drop_from_focused_slot():
 	if _focused_slot < 0:
-		_add_message("Select an inventory slot first")
+		hud.add_message("Select an inventory slot first")
 		return
 
 	var item = _inventory[_focused_slot] if _focused_slot < _inventory.size() else null
@@ -430,16 +422,16 @@ func _populate_spell_list():
 
 func _on_lanzar_pressed():
 	if _my_spells.is_empty():
-		_add_message("No spells available")
+		hud.add_message("No spells available")
 		return
 	var selected = spell_list.get_selected_items()
 	if selected.is_empty():
-		_add_message("Select a spell first")
+		hud.add_message("Select a spell first")
 		return
 	_casting_armed = true
 	Input.set_default_cursor_shape(Input.CURSOR_CROSS)
 	var spell_name = _my_spells[selected[0]].get("name", "?")
-	_add_message("Click target for %s (Esc to cancel)" % spell_name)
+	hud.add_message("Click target for %s (Esc to cancel)" % spell_name)
 
 func _unhandled_input(event):
 	# Click-to-cast: only fires for clicks NOT absorbed by HUD Controls (buttons, tabs, chat).
@@ -460,7 +452,7 @@ func _unhandled_input(event):
 		"x": tile.x,
 		"y": tile.y,
 	})
-	_add_message("Casting %s at (%d, %d)" % [spell.get("name", "?"), tile.x, tile.y])
+	hud.add_message("Casting %s at (%d, %d)" % [spell.get("name", "?"), tile.x, tile.y])
 	_casting_armed = false
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 	get_viewport().set_input_as_handled()
@@ -470,7 +462,7 @@ func _cancel_armed_cast():
 		return
 	_casting_armed = false
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
-	_add_message("Cast cancelled")
+	hud.add_message("Cast cancelled")
 
 # Per-map palette for procedural ground (placeholder until real tiles)
 const MAP_PALETTE = {
@@ -832,54 +824,17 @@ class _InventorySlot extends PanelContainer:
 		var color = Color(0.5, 1, 0.5) if item.get("equipped", false) else Color(1, 1, 1)
 		label.add_theme_color_override("font_color", color)
 
-# --- Stats / XP / equipment ---
-
-func _update_hp(hp: int, max_hp: int):
-	hp_bar.max_value = max(max_hp, 1)
-	hp_bar.value = clamp(hp, 0, max_hp)
-	hp_text.text = "%d / %d" % [hp, max_hp]
-
-func _update_mp(mana: int, max_mana: int):
-	mp_bar.max_value = max(max_mana, 1)
-	mp_bar.value = clamp(mana, 0, max_mana)
-	mp_text.text = "%d / %d" % [mana, max_mana]
+# --- XP bar (thin wrapper — resolves the level threshold then delegates) ---
 
 func _update_xp_bar(xp_in_level: int):
-	var needed = PacketIds.xp_for_level(my_level)
-	if needed <= 0:
-		xp_bar.max_value = 1
-		xp_bar.value = 0
-		xp_label.text = "EXP %d" % xp_in_level
-		return
-	xp_bar.max_value = needed
-	xp_bar.value = clamp(xp_in_level, 0, needed)
-	xp_label.text = "EXP %d / %d" % [xp_in_level, needed]
-
-func _update_equipment(eq: Dictionary):
-	eq_helm.text = "%02d" % int(eq.get("helmet", 0))
-	eq_armor.text = "%02d" % int(eq.get("armor", 0))
-	eq_weapon.text = "%02d" % int(eq.get("weapon", 0))
-	eq_shield.text = "%02d" % int(eq.get("shield", 0))
-	eq_magres.text = "%02d" % int(eq.get("mag_res", 0))
-
-func _format_gold(n: int) -> String:
-	# Thousands separator with dots (Argentum/Spanish style): 1.091.884
-	var s = str(n)
-	var out := ""
-	var count = 0
-	for i in range(s.length() - 1, -1, -1):
-		if count > 0 and count % 3 == 0:
-			out = "." + out
-		out = s[i] + out
-		count += 1
-	return out
+	hud.update_xp(xp_in_level, PacketIds.xp_for_level(my_level))
 
 # --- Movement / player sprite ---
 
 func _update_player_position():
 	player_sprite.position = Vector2(my_pos.x * _tile_size, my_pos.y * _tile_size)
 	camera.position = player_sprite.position + CAMERA_WORLD_OFFSET
-	position_label.text = "Map %d @ (%d, %d)" % [map_id, my_pos.x, my_pos.y]
+	hud.set_position_label(map_id, my_pos.x, my_pos.y)
 	if _minimap_drawer:
 		_minimap_drawer.queue_redraw()
 
@@ -895,8 +850,8 @@ func _process(delta):
 		_move_cooldown -= delta
 
 	_fps_cooldown -= delta
-	if _fps_cooldown <= 0 and fps_label:
-		fps_label.text = "FPS %d" % Engine.get_frames_per_second()
+	if _fps_cooldown <= 0 and hud:
+		hud.set_fps(Engine.get_frames_per_second())
 		_fps_cooldown = FPS_REFRESH
 
 	_minimap_cooldown -= delta
@@ -986,10 +941,10 @@ func _input(event):
 			_attack_facing()
 		"hp_potion":
 			connection.send_packet(PacketIds.USE_POTION, {"hp": 150})
-			_add_message("HP potion!")
+			hud.add_message("HP potion!")
 		"mana_potion":
 			connection.send_packet(PacketIds.USE_POTION, {"mana": 300})
-			_add_message("Mana potion!")
+			hud.add_message("Mana potion!")
 		"chat_toggle":
 			chat_input.grab_focus()
 			chat_input.text = ""
@@ -998,18 +953,18 @@ func _input(event):
 		"respawn":
 			if _is_dead:
 				connection.send_packet(PacketIds.RESPAWN)
-				_add_message("Respawning...")
+				hud.add_message("Respawning...")
 		"meditate":
 			connection.send_packet(PacketIds.MEDITATE_TOGGLE)
-			_add_message("Meditar (toggle)")
+			hud.add_message("Meditar (toggle)")
 		"use_item":
 			if _focused_slot < 0:
-				_add_message("Select an inventory slot first")
+				hud.add_message("Select an inventory slot first")
 			else:
 				connection.send_packet(PacketIds.USE_ITEM, {"slot": _focused_slot})
 		"equip_item":
 			if _focused_slot < 0:
-				_add_message("Select an inventory slot first")
+				hud.add_message("Select an inventory slot first")
 			else:
 				connection.send_packet(PacketIds.EQUIP_ITEM, {"slot": _focused_slot})
 		"drop_item":
@@ -1052,17 +1007,17 @@ func _attack_facing():
 		var npc = npcs[npc_id]
 		if npc.pos == target_pos:
 			connection.send_packet(PacketIds.ATTACK_NPC, {"npc_id": npc_id})
-			_add_message("Attacking %s!" % npc.name)
+			hud.add_message("Attacking %s!" % npc.name)
 			return
 
 	for player_id in players:
 		var player = players[player_id]
 		if player.pos == target_pos:
 			connection.send_packet(PacketIds.ATTACK, {"target_id": player_id})
-			_add_message("Attacking %s!" % player.name)
+			hud.add_message("Attacking %s!" % player.name)
 			return
 
-	_add_message("Nothing to attack")
+	hud.add_message("Nothing to attack")
 
 func _facing_offset() -> Vector2i:
 	match my_heading:
@@ -1084,12 +1039,6 @@ func _on_chat_submitted(text: String):
 	chat_input.text = ""
 	chat_input.release_focus()
 
-func _add_message(msg: String):
-	_messages.append(msg)
-	while _messages.size() > MAX_MESSAGES:
-		_messages.pop_front()
-	messages_label.text = "\n".join(_messages)
-
 func _on_packet_received(packet_id: int, payload: Dictionary):
 	match packet_id:
 		PacketIds.PLAYER_SPAWN:
@@ -1105,7 +1054,7 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.NPC_ATTACK:
 			var npc_name = npcs.get(payload.get("npc_id", 0), {}).get("name", "NPC")
 			var npc_damage = int(payload.get("damage", 0))
-			_add_message("%s hits you for %d!" % [npc_name, npc_damage])
+			hud.add_message("%s hits you for %d!" % [npc_name, npc_damage])
 			if npc_damage > 0:
 				_spawn_floating(player_sprite, "-%d" % npc_damage, Color(1, 0.35, 0.35))
 		PacketIds.MAP_TRANSITION:
@@ -1116,33 +1065,31 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.DAMAGE_NUMBER:
 			_handle_damage(payload)
 		PacketIds.MISS:
-			_add_message("MISS!")
+			hud.add_message("MISS!")
 		PacketIds.UPDATE_HP:
 			var hp = int(payload.get("hp", 0))
-			_update_hp(hp, int(payload.get("max_hp", 1)))
+			hud.update_hp(hp, int(payload.get("max_hp", 1)))
 			if hp > 0 and _is_dead:
 				_is_dead = false
-				_add_message("You have respawned!")
+				hud.add_message("You have respawned!")
 		PacketIds.UPDATE_MANA:
-			_update_mp(int(payload.get("mana", 0)), int(payload.get("max_mana", 1)))
+			hud.update_mp(int(payload.get("mana", 0)), int(payload.get("max_mana", 1)))
 		PacketIds.UPDATE_GOLD:
-			gold_label.text = "$ %s" % _format_gold(int(payload.get("gold", 0)))
+			hud.set_gold(int(payload.get("gold", 0)))
 		PacketIds.UPDATE_XP:
 			var new_level = int(payload.get("level", my_level))
 			if new_level != my_level:
 				my_level = new_level
-				level_label.text = str(my_level)
+				hud.set_level(my_level)
 			# Use the server's authoritative xp-for-level if provided, falling back to the local exp_table.
 			var xp_in = int(payload.get("xp_in_level", 0))
 			var xp_for = int(payload.get("xp_for_level", PacketIds.xp_for_level(my_level)))
-			xp_bar.max_value = max(xp_for, 1)
-			xp_bar.value = clamp(xp_in, 0, xp_for)
-			xp_label.text = "EXP %d / %d" % [xp_in, xp_for]
+			hud.update_xp(xp_in, xp_for)
 		PacketIds.CHAR_DEATH:
-			_add_message("YOU DIED! Press SPACE to respawn")
+			hud.add_message("YOU DIED! Press SPACE to respawn")
 			_is_dead = true
 		PacketIds.SYSTEM_MESSAGE:
-			_add_message(payload.get("text", ""))
+			hud.add_message(payload.get("text", ""))
 		PacketIds.EXITED_TO_SELECT:
 			_handle_exit_confirmed()
 		PacketIds.CHAT_BROADCAST:
@@ -1161,7 +1108,7 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.INVENTORY_UPDATE:
 			_inventory = payload.get("inventory", [])
 			_render_inventory(_inventory)
-			_update_equipment(payload.get("equipment", {}))
+			hud.update_equipment(payload.get("equipment", {}))
 		PacketIds.GROUND_ITEM_SPAWN:
 			_handle_ground_item_spawn(payload)
 		PacketIds.GROUND_ITEM_DESPAWN:
@@ -1185,7 +1132,7 @@ func _handle_player_spawn(payload: Dictionary):
 	entities_layer.add_child(node)
 
 	players[id] = {"pos": pos, "name": char_name, "node": node}
-	_add_message("%s appeared" % char_name)
+	hud.add_message("%s appeared" % char_name)
 
 func _handle_player_moved(payload: Dictionary):
 	var id = payload.get("id", 0)
@@ -1197,7 +1144,7 @@ func _handle_player_moved(payload: Dictionary):
 func _handle_player_despawn(payload: Dictionary):
 	var id = payload.get("id", 0)
 	if id in players:
-		_add_message("%s left" % players[id].name)
+		hud.add_message("%s left" % players[id].name)
 		players[id].node.queue_free()
 		players.erase(id)
 
@@ -1221,7 +1168,7 @@ func _handle_npc_spawn(payload: Dictionary):
 func _handle_npc_death(payload: Dictionary):
 	var id = payload.get("npc_id", 0)
 	if id in npcs:
-		_add_message("%s died!" % npcs[id].name)
+		hud.add_message("%s died!" % npcs[id].name)
 		npcs[id].node.queue_free()
 		npcs.erase(id)
 
@@ -1243,7 +1190,7 @@ func _handle_map_transition(payload: Dictionary):
 	# Same ordering constraint as on initial world-entry.
 	_render_ground()
 	_update_player_position()
-	_add_message("Map %d (%dx%d)" % [map_id, map_size.x, map_size.y])
+	hud.add_message("Map %d (%dx%d)" % [map_id, map_size.x, map_size.y])
 
 func _handle_damage(payload: Dictionary):
 	var dmg = int(payload.get("damage", 0))
@@ -1253,14 +1200,14 @@ func _handle_damage(payload: Dictionary):
 	var target_id = int(payload.get("target_id", 0))
 
 	if type == "gold":
-		_add_message("+%d gold" % gold)
+		hud.add_message("+%d gold" % gold)
 	elif dmg < 0:
-		_add_message("Healed %d HP" % (-dmg))
+		hud.add_message("Healed %d HP" % (-dmg))
 	else:
 		var msg = "%d %s damage" % [dmg, type]
 		if xp > 0:
 			msg += " [+%d XP]" % xp
-		_add_message(msg)
+		hud.add_message(msg)
 
 	# Floating number above the target.
 	var target_node = _resolve_damage_target(target_id)
