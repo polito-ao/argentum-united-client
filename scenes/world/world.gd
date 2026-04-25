@@ -488,8 +488,9 @@ func _render_ground():
 	var _t_total := Time.get_ticks_msec()
 	for child in ground_layer.get_children():
 		child.queue_free()
-	_texture_cache.clear()
-	_missing_files.clear()
+	# Persistent texture/missing caches across renders: the ImageTextures don't
+	# change between maps, so re-entry to a previously-loaded map skips disk I/O
+	# entirely. Memory cost is small (atlases are PNG-sized in RAM).
 
 	var json_path := "%s/mapa%d.json" % [MAP_JSON_DIR, map_id]
 	var _t_json := Time.get_ticks_msec()
@@ -508,15 +509,61 @@ func _render_ground():
 
 	var grh_lookup: Dictionary = data.get("grh_lookup", {})
 	var tiles: Array = data.get("tiles", [])
-	var drawn := 0
-	var _t_tiles := Time.get_ticks_msec()
-	_perf_load_image_ms = 0
+
+	# --- Phase 1: collect unique image files this map needs that aren't cached.
+	var _t_collect := Time.get_ticks_msec()
+	var to_load: Dictionary = {}  # cache_key -> absolute path
+	for layer_num in DRAW_LAYERS:
+		for tile in tiles:
+			var grh_id: int = int(tile["layer%d" % layer_num])
+			if grh_id == 0:
+				continue
+			var info = grh_lookup.get(str(grh_id))
+			if info == null:
+				continue
+			var file_name := String(info["file"])
+			var is_floor: bool = bool(info.get("floor", false))
+			var cache_key := ("floor:" + file_name) if is_floor else file_name
+			if _texture_cache.has(cache_key) or _missing_files.has(cache_key) or to_load.has(cache_key):
+				continue
+			var root: String = _floors_root if is_floor and _floors_root != "" else _graficos_root
+			if root == "":
+				_missing_files[cache_key] = true
+				continue
+			to_load[cache_key] = "%s/%s" % [root, file_name]
+	var dt_collect := Time.get_ticks_msec() - _t_collect
+
+	# --- Phase 2: load all needed PNGs in parallel via WorkerThreadPool.
+	# Image.load_from_file is the dominant cost (~4ms per file × 100+ files).
+	# Decoding is CPU-bound and fully thread-safe; ImageTexture creation must
+	# happen on the main thread, so we split the work in two.
+	var _t_load := Time.get_ticks_msec()
+	_perf_load_image_calls = to_load.size()
+	if not to_load.is_empty():
+		var keys := to_load.keys()
+		var paths := to_load.values()
+		var results: Array = []
+		results.resize(keys.size())
+		var group_id := WorkerThreadPool.add_group_task(
+			Callable(self, "_thread_load_image_at").bind(paths, results),
+			keys.size(), -1, false, "world_image_load"
+		)
+		WorkerThreadPool.wait_for_group_task_completion(group_id)
+		for i in keys.size():
+			var img: Image = results[i]
+			if img == null:
+				_missing_files[keys[i]] = true
+			else:
+				_texture_cache[keys[i]] = ImageTexture.create_from_image(img)
+	_perf_load_image_ms = Time.get_ticks_msec() - _t_load
 	_perf_color_key_ms = 0
-	_perf_load_image_calls = 0
 	_perf_color_key_calls = 0
-	# Build the draw plan in z-order (outer loop = layer) so _MapDrawer._draw
-	# can iterate it linearly without an extra sort pass.
+
+	# --- Phase 3: build the draw plan (every texture is now cached).
+	# Outer loop = layer, so the plan is naturally in z-order.
+	var _t_tiles := Time.get_ticks_msec()
 	var draw_plan: Array = []
+	var drawn := 0
 	for layer_num in DRAW_LAYERS:
 		for tile in tiles:
 			var grh_id: int = int(tile["layer%d" % layer_num])
@@ -544,11 +591,9 @@ func _render_ground():
 	drawer.queue_redraw()
 	var dt_tiles := Time.get_ticks_msec() - _t_tiles
 	var dt_total := Time.get_ticks_msec() - _t_total
-	print("[world] map %d: %d tiles drawn, tile_size=%d" % [map_id, drawn, _tile_size])
-	print("  perf: total=%dms json=%dms tile_loop=%dms" % [dt_total, dt_json, dt_tiles])
-	print("  perf: image_load %d calls / %dms, color_key %d calls / %dms" %
-		[_perf_load_image_calls, _perf_load_image_ms,
-		 _perf_color_key_calls, _perf_color_key_ms])
+	print("[world] map %d: %d tiles drawn, tile_size=%d, cache=%d" % [map_id, drawn, _tile_size, _texture_cache.size()])
+	print("  perf: total=%dms json=%dms collect=%dms tile_loop=%dms" % [dt_total, dt_json, dt_collect, dt_tiles])
+	print("  perf: image_load %d files / %dms (parallel)" % [_perf_load_image_calls, _perf_load_image_ms])
 
 
 func _render_checker_fallback():
@@ -625,6 +670,13 @@ func _get_map_image_texture(info: Dictionary) -> Texture2D:
 		return null
 	_texture_cache[cache_key] = ImageTexture.create_from_image(img)
 	return _texture_cache[cache_key]
+
+
+func _thread_load_image_at(paths: Array, results: Array, idx: int) -> void:
+	# Worker-thread callable for WorkerThreadPool.add_group_task. Each task
+	# writes to a distinct slot of `results`, so the parallel writes are safe
+	# without a mutex (no resizing, no aliased indices).
+	results[idx] = Image.load_from_file(paths[idx])
 
 
 func _get_map_texture(info: Dictionary) -> Texture2D:
