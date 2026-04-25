@@ -168,10 +168,10 @@ class _BankPaneSlot extends PanelContainer:
 
 	const SLOT_SIZE = 42
 
+	var label: Label
 	var _direction: String # "deposit" (clicked from inventory pane) or "withdraw" (bank pane)
 	var _slot_index: int
 	var _amount: int
-	var label: Label
 
 	func _init(direction: String, slot_index: int, item: Dictionary):
 		_direction = direction
@@ -193,17 +193,20 @@ class _BankPaneSlot extends PanelContainer:
 		label.add_theme_color_override("font_color", Color.WHITE)
 		add_child(label)
 
-	func _ready():
-		gui_input.connect(_on_gui_input)
-
-	func _on_gui_input(event):
+	# Override the virtual instead of connecting to the gui_input signal —
+	# more direct dispatch and accept_event() reliably stops propagation.
+	# The earlier signal-connect path didn't fire for right-click on this
+	# panel for some reason; the override fixes it.
+	func _gui_input(event):
 		if not (event is InputEventMouseButton) or not event.pressed:
 			return
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			move_all.emit(_direction, _slot_index)
+			accept_event()
 			return
 		if event.button_index == MOUSE_BUTTON_LEFT and event.double_click:
 			if _amount <= 1:
 				move_one.emit(_direction, _slot_index)
 			else:
 				prompt_amount.emit(_direction, _slot_index, _amount)
+			accept_event()
