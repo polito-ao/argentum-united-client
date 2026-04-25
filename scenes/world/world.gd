@@ -22,13 +22,16 @@ var _black_key_max: float = float(BLACK_KEY_THRESHOLD_255) / 255.0
 # to docs/maps/parsed/mapa<N>.json on the sibling server repo.
 const MAP_JSON_DIR := "C:/Users/agusp/Documents/GitHub/argentum-united-server/docs/maps/parsed"
 
-# Camera follows the player without HUD-aware offset. An earlier experiment
-# shifted the player into the geometric center of the HUD-excluded rectangle,
-# but in practice the natural "player at screen center" read better — the
-# chat panel is small (top-left only) and the right panel visually balances
-# it enough that the raw center feels right. Restore offset behaviour by
-# flipping this to a computed Vector2 if HUD layout changes noticeably.
-const CAMERA_WORLD_OFFSET := Vector2.ZERO
+# Camera follows the player but offsets so the player sits in the visual
+# CENTER of the game-area rectangle (viewport minus HUD). Right panel is
+# 260px wide and top chat is ~120px tall, both fixed pixels regardless of
+# viewport size. Game-area center vs screen-center differs by exactly half
+# the HUD widths in each axis: (260/2 right, 120/2 down). Camera shifts
+# the OPPOSITE direction so the player visually moves up-and-left into the
+# game-area center. Math is independent of viewport (1024, 1280, 1600...).
+const HUD_RIGHT_WIDTH := 260
+const HUD_TOP_HEIGHT := 120
+const CAMERA_WORLD_OFFSET := Vector2(HUD_RIGHT_WIDTH / 2.0, -HUD_TOP_HEIGHT / 2.0)
 
 var connection: ServerConnection
 var my_pos: Vector2i = Vector2i(50, 50)
