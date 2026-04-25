@@ -18,6 +18,10 @@ config/name="Argentum United"
 run/main_scene="res://scenes/login/login.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 
+[autoload]
+
+MapTextureCache="*res://scripts/game/map_texture_cache.gd"
+
 [display]
 
 window/size/viewport_width=1280

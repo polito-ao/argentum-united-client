@@ -15,8 +15,8 @@ const BLACK_KEY_THRESHOLD_255 := 16
 var _tile_size: int = FALLBACK_TILE_SIZE
 var _graficos_root: String = ""
 var _floors_root: String = ""
-var _texture_cache: Dictionary = {}     # cache_key -> ImageTexture
-var _missing_files: Dictionary = {}     # cache_key -> true (diag)
+# Texture cache lives on the MapTextureCache autoload — survives across
+# world scene lifetimes (salir → entrar no longer wipes loaded atlases).
 var _black_key_max: float = float(BLACK_KEY_THRESHOLD_255) / 255.0
 # Perf counters — reset per _render_ground call, printed on completion.
 var _perf_load_image_ms: int = 0
@@ -524,11 +524,11 @@ func _render_ground():
 			var file_name := String(info["file"])
 			var is_floor: bool = bool(info.get("floor", false))
 			var cache_key := ("floor:" + file_name) if is_floor else file_name
-			if _texture_cache.has(cache_key) or _missing_files.has(cache_key) or to_load.has(cache_key):
+			if MapTextureCache.has_either(cache_key) or to_load.has(cache_key):
 				continue
 			var root: String = _floors_root if is_floor and _floors_root != "" else _graficos_root
 			if root == "":
-				_missing_files[cache_key] = true
+				MapTextureCache.mark_missing(cache_key)
 				continue
 			to_load[cache_key] = "%s/%s" % [root, file_name]
 	var dt_collect := Time.get_ticks_msec() - _t_collect
@@ -539,22 +539,30 @@ func _render_ground():
 	# happen on the main thread, so we split the work in two.
 	var _t_load := Time.get_ticks_msec()
 	_perf_load_image_calls = to_load.size()
+	var failures := 0
 	if not to_load.is_empty():
 		var keys := to_load.keys()
 		var paths := to_load.values()
 		var results: Array = []
 		results.resize(keys.size())
+		# Lambda captures `paths` and `results` directly. Avoids Callable.bind,
+		# which interacted poorly with add_group_task (every task returned null
+		# instantly with the bind variant).
+		var loader := func(idx: int) -> void:
+			results[idx] = Image.load_from_file(paths[idx])
 		var group_id := WorkerThreadPool.add_group_task(
-			Callable(self, "_thread_load_image_at").bind(paths, results),
-			keys.size(), -1, false, "world_image_load"
+			loader, keys.size(), -1, false, "world_image_load"
 		)
 		WorkerThreadPool.wait_for_group_task_completion(group_id)
 		for i in keys.size():
 			var img: Image = results[i]
 			if img == null:
-				_missing_files[keys[i]] = true
+				MapTextureCache.mark_missing(keys[i])
+				failures += 1
+				if failures <= 3:
+					push_warning("[world] image load failed: %s" % paths[i])
 			else:
-				_texture_cache[keys[i]] = ImageTexture.create_from_image(img)
+				MapTextureCache.set_cached(keys[i], ImageTexture.create_from_image(img))
 	_perf_load_image_ms = Time.get_ticks_msec() - _t_load
 	_perf_color_key_ms = 0
 	_perf_color_key_calls = 0
@@ -591,9 +599,9 @@ func _render_ground():
 	drawer.queue_redraw()
 	var dt_tiles := Time.get_ticks_msec() - _t_tiles
 	var dt_total := Time.get_ticks_msec() - _t_total
-	print("[world] map %d: %d tiles drawn, tile_size=%d, cache=%d" % [map_id, drawn, _tile_size, _texture_cache.size()])
+	print("[world] map %d: %d tiles drawn, tile_size=%d, cache=%d" % [map_id, drawn, _tile_size, MapTextureCache.count()])
 	print("  perf: total=%dms json=%dms collect=%dms tile_loop=%dms" % [dt_total, dt_json, dt_collect, dt_tiles])
-	print("  perf: image_load %d files / %dms (parallel)" % [_perf_load_image_calls, _perf_load_image_ms])
+	print("  perf: image_load %d files / %dms (parallel, %d failed)" % [_perf_load_image_calls, _perf_load_image_ms, failures])
 
 
 func _render_checker_fallback():
@@ -645,20 +653,25 @@ func _get_map_image_texture(info: Dictionary) -> Texture2D:
 	# _MapDrawer takes a src Rect2 directly, so wrapping is wasted work.
 	# Alpha is BAKED into every PNG under upscaled_2x/ via
 	# scripts/bake_alpha_channel.py — runtime color-keying is gone.
+	# Cache lives on MapTextureCache (autoload) so it survives world re-creates.
 	var file_name := String(info["file"])
 	var is_floor: bool = bool(info.get("floor", false))
 	var cache_key := ("floor:" + file_name) if is_floor else file_name
-	if _missing_files.has(cache_key):
+	if MapTextureCache.is_missing(cache_key):
 		return null
-	if _texture_cache.has(cache_key):
-		return _texture_cache[cache_key]
+	var cached := MapTextureCache.get_cached(cache_key)
+	if cached != null:
+		return cached
+	# Lazy-load fallback. _render_ground prefetches all map atlases in
+	# parallel up front, so this path is mostly hit by entity sprites
+	# (NPCs, players, own body) that aren't part of the prefetch set.
 	var root: String
 	if is_floor and _floors_root != "":
 		root = _floors_root
 	else:
 		root = _graficos_root
 	if root == "":
-		_missing_files[cache_key] = true
+		MapTextureCache.mark_missing(cache_key)
 		return null
 	var img_path := "%s/%s" % [root, file_name]
 	var t_img := Time.get_ticks_msec()
@@ -666,17 +679,11 @@ func _get_map_image_texture(info: Dictionary) -> Texture2D:
 	_perf_load_image_ms += Time.get_ticks_msec() - t_img
 	_perf_load_image_calls += 1
 	if img == null:
-		_missing_files[cache_key] = true
+		MapTextureCache.mark_missing(cache_key)
 		return null
-	_texture_cache[cache_key] = ImageTexture.create_from_image(img)
-	return _texture_cache[cache_key]
-
-
-func _thread_load_image_at(paths: Array, results: Array, idx: int) -> void:
-	# Worker-thread callable for WorkerThreadPool.add_group_task. Each task
-	# writes to a distinct slot of `results`, so the parallel writes are safe
-	# without a mutex (no resizing, no aliased indices).
-	results[idx] = Image.load_from_file(paths[idx])
+	var tex := ImageTexture.create_from_image(img)
+	MapTextureCache.set_cached(cache_key, tex)
+	return tex
 
 
 func _get_map_texture(info: Dictionary) -> Texture2D:
