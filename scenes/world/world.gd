@@ -1210,21 +1210,35 @@ func _handle_npc_spawn(payload: Dictionary):
 	var npc_name = payload.get("name", "NPC")
 	var hp = payload.get("hp", 0)
 	var max_hp = payload.get("max_hp", 0)
+	# Prefer the new sprite_layers contract (body_id + nullable head_id); fall
+	# back to the legacy single-Sprite2D sprite_ref while the server PR is
+	# unmerged. Once both PRs land the legacy path can be removed.
+	var sprite_layers = payload.get("sprite_layers", null)
 	var sprite_ref = payload.get("sprite_ref", null)
 
 	if id in npcs and npcs[id].has("node"):
 		npcs[id].node.queue_free()
 
-	var node = _create_entity_node(npc_name, Color.RED, sprite_ref)
+	var node: Node2D
+	var layered: LayeredCharacter = null
+	if sprite_layers is Dictionary:
+		node = _create_layered_npc_node(npc_name, sprite_layers)
+		for child in node.get_children():
+			if child is LayeredCharacter:
+				layered = child
+				break
+	else:
+		node = _create_entity_node(npc_name, Color.RED, sprite_ref)
 	node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
 	entities_layer.add_child(node)
 
-	npcs[id] = {"pos": pos, "name": npc_name, "hp": hp, "max_hp": max_hp, "node": node}
+	npcs[id] = {"pos": pos, "name": npc_name, "hp": hp, "max_hp": max_hp, "node": node, "layered": layered}
 
 func _handle_npc_moved(payload: Dictionary):
 	var id = int(payload.get("npc_id", 0))
 	if not (id in npcs):
 		return
+	var prev_pos: Vector2i = npcs[id].pos
 	var pos = Vector2i(int(payload.get("x", 0)), int(payload.get("y", 0)))
 	npcs[id].pos = pos
 	# Glide the sprite over the server's NPC_MOVE_INTERVAL_MS (~380ms) for the
@@ -1233,8 +1247,22 @@ func _handle_npc_moved(payload: Dictionary):
 	if node == null:
 		return
 	var target = Vector2(pos.x * _tile_size, pos.y * _tile_size)
+	# Drive walk animation on the LayeredCharacter (when present) in lockstep
+	# with the position tween — direction from delta, walking=true while the
+	# tween runs, stop on the last facing direction's frame 0 at end.
+	var layered: LayeredCharacter = npcs[id].get("layered", null)
+	var dx: int = pos.x - prev_pos.x
+	var dy: int = pos.y - prev_pos.y
+	if layered != null:
+		layered.set_direction(CharacterDirection.from_delta(dx, dy))
+		layered.set_walking(true)
 	var tween = create_tween()
 	tween.tween_property(node, "position", target, 0.38)
+	if layered != null:
+		var stop_walking := func():
+			if is_instance_valid(layered):
+				layered.set_walking(false)
+		tween.finished.connect(stop_walking, CONNECT_ONE_SHOT)
 
 func _handle_npc_death(payload: Dictionary):
 	var id = payload.get("npc_id", 0)
@@ -1545,6 +1573,29 @@ func _create_layered_player_node(entity_name: String, sprite_layers: Dictionary)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.add_theme_font_size_override("font_size", 10)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	node.add_child(label)
+
+	return node
+
+
+func _create_layered_npc_node(entity_name: String, sprite_layers: Dictionary) -> Node2D:
+	# NPC rendering: same layered pipeline as players, but head_id may be null
+	# (non-humanoid NPCs — animals, golems, etc.) and helmet/weapon/shield are
+	# never sent for NPCs. LayeredCharacter handles all of that internally.
+	var node := Node2D.new()
+	var layered := LayeredCharacter.new()
+	layered.set_tile_size(_tile_size)
+	layered.apply_layers(sprite_layers)
+	node.add_child(layered)
+
+	var label = Label.new()
+	label.text = entity_name
+	label.position = Vector2(-30, _tile_size + 2)
+	label.size = Vector2(92, 16)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 10)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_color_override("font_color", Color(1, 0.6, 0.6))
 	node.add_child(label)
 
 	return node
