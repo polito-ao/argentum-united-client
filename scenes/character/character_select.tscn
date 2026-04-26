@@ -17,9 +17,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -250.0
-offset_top = -250.0
+offset_top = -300.0
 offset_right = 250.0
-offset_bottom = 250.0
+offset_bottom = 300.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
@@ -60,6 +60,62 @@ autowrap_mode = 2
 
 [node name="ThrowSelector" type="OptionButton" parent="Panel/VBoxContainer/CreatePanel"]
 layout_mode = 2
+
+[node name="HeadPickerLabel" type="Label" parent="Panel/VBoxContainer/CreatePanel"]
+layout_mode = 2
+text = "Cabeza"
+horizontal_alignment = 1
+
+[node name="HeadPicker" type="HBoxContainer" parent="Panel/VBoxContainer/CreatePanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="HeadPrev" type="Button" parent="Panel/VBoxContainer/CreatePanel/HeadPicker"]
+custom_minimum_size = Vector2(40, 96)
+layout_mode = 2
+text = "<"
+
+[node name="HeadPreview" type="Control" parent="Panel/VBoxContainer/CreatePanel/HeadPicker"]
+custom_minimum_size = Vector2(120, 180)
+layout_mode = 2
+
+[node name="BodySprite" type="Sprite2D" parent="Panel/VBoxContainer/CreatePanel/HeadPicker/HeadPreview"]
+position = Vector2(60, 168)
+centered = false
+texture_filter = 1
+
+[node name="HeadSprite" type="Sprite2D" parent="Panel/VBoxContainer/CreatePanel/HeadPicker/HeadPreview"]
+position = Vector2(60, 168)
+centered = false
+texture_filter = 1
+
+[node name="HeadLoading" type="Label" parent="Panel/VBoxContainer/CreatePanel/HeadPicker/HeadPreview"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -10.0
+offset_right = 40.0
+offset_bottom = 10.0
+text = "Loading..."
+horizontal_alignment = 1
+
+[node name="HeadNext" type="Button" parent="Panel/VBoxContainer/CreatePanel/HeadPicker"]
+custom_minimum_size = Vector2(40, 96)
+layout_mode = 2
+text = ">"
+
+[node name="HeadIndexLabel" type="Label" parent="Panel/VBoxContainer/CreatePanel"]
+layout_mode = 2
+text = ""
+horizontal_alignment = 1
+
+[node name="HeadRandomButton" type="Button" parent="Panel/VBoxContainer/CreatePanel"]
+layout_mode = 2
+text = "Cabeza al azar"
 
 [node name="CreateButton" type="Button" parent="Panel/VBoxContainer/CreatePanel"]
 layout_mode = 2
