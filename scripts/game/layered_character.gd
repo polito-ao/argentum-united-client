@@ -63,11 +63,19 @@ func set_tile_size(t: int) -> void:
 # --- Loadout application ----------------------------------------------------
 
 func apply_layers(sprite_layers: Dictionary) -> void:
-	# Server sends body_id + head_id always, plus optional helmet/weapon/shield.
+	# Server sends body_id always; head_id may be null for non-humanoid NPCs
+	# (animals, golems, etc.). Helmet/weapon/shield are optional and don't
+	# apply to NPCs at all in the current contract.
 	var body_id := int(sprite_layers.get("body_id", 1))
-	var head_id := int(sprite_layers.get("head_id", 1))
 	_set_body(body_id)
-	_set_head(head_id)
+	var head_value = sprite_layers.get("head_id", 1)
+	if head_value == null:
+		# Non-humanoid: keep HeadSprite hidden.
+		head_sprite.visible = false
+		head_sprite.sprite_frames = null
+		_head_id = -1
+	else:
+		_set_head(int(head_value))
 	_set_optional(helmet_sprite, sprite_layers.get("helmet_id", null), "helmet")
 	_set_optional(weapon_sprite, sprite_layers.get("weapon_id", null), "weapon")
 	_set_optional(shield_sprite, sprite_layers.get("shield_id", null), "shield")
