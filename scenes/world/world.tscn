@@ -402,9 +402,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -320.0
-offset_top = -180.0
+offset_top = -220.0
 offset_right = 320.0
-offset_bottom = 180.0
+offset_bottom = 220.0
 
 [node name="VBox" type="VBoxContainer" parent="UILayer/HUD/SettingsOverlay/Panel"]
 
@@ -418,6 +418,29 @@ unique_name_in_owner = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 4
+
+[node name="VisualsSeparator" type="HSeparator" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
+
+[node name="VisualsTitle" type="Label" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
+text = "PERSONALIZACIÓN VISUAL"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="MeditationAuraSection" type="VBoxContainer" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
+unique_name_in_owner = true
+
+[node name="HeaderRow" type="HBoxContainer" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/MeditationAuraSection"]
+
+[node name="Label" type="Label" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/MeditationAuraSection/HeaderRow"]
+size_flags_horizontal = 3
+text = "Aura de meditación"
+
+[node name="MeditationAuraCurrentLabel" type="Label" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/MeditationAuraSection/HeaderRow"]
+unique_name_in_owner = true
+text = "Actual: -"
+
+[node name="MeditationAuraOptions" type="HBoxContainer" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/MeditationAuraSection"]
+unique_name_in_owner = true
 
 [node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
 
