@@ -4,7 +4,6 @@ extends Node2D
 # below, which is driven by the per-map JSON (64 for the 2x-upscaled pipeline,
 # falls back to this constant if the JSON is missing the field).
 const FALLBACK_TILE_SIZE := 32
-const INVENTORY_SLOTS = 35 # 5 wide × 7 tall grid (capacity is 30; last row is visual padding for now)
 
 # Map rendering — mirrors the dev ulla_preview scene. The JSON produced by
 # scripts/parse_map_binary.py + scripts/apply_floor_catalog.py drives everything:
@@ -48,73 +47,61 @@ var _self_id: int = -1
 var players: Dictionary = {}       # id -> { pos: Vector2i, name: String, node: Node2D }
 var npcs: Dictionary = {}          # id -> { pos: Vector2i, name: String, hp: int, max_hp: int, node: Node2D }
 var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D }
+var chests: Dictionary = {}        # chest_id -> { pos: Vector2i, state: String, node: Node2D }
 
-@onready var camera: Camera2D = $Camera
-@onready var ground_layer: Node2D = $Ground
-@onready var player_sprite: Node2D = $PlayerSprite
-@onready var entities_layer: Node2D = $Entities
-@onready var ground_items_layer: Node2D = $GroundItems
+# === World scene nodes ===
+@onready var camera: Camera2D                = $Camera
+@onready var entities_layer: Node2D          = $Entities
+@onready var ground_items_layer: Node2D      = $GroundItems
+@onready var chests_layer: Node2D             = $Chests
+@onready var ground_layer: Node2D            = $Ground
+@onready var player_sprite: Node2D           = $PlayerSprite
 
-# HUD — top-left: chat + minimap
-@onready var chat_display: RichTextLabel = $UILayer/HUD/ChatPanel/ChatVBox/ChatDisplay
-@onready var chat_input: LineEdit = $UILayer/HUD/ChatPanel/ChatVBox/ChatInput
-@onready var minimap: Control = $UILayer/HUD/MinimapPanel/Minimap
+# === HUD widgets ===
+# Widgets passed BY PATH to HUDController in _ready (HP/MP/XP bars, stat
+# labels, equipment row, etc.) are not declared here — they're resolved
+# inline at construction. Only widgets world.gd reads/writes directly
+# live below. See feedback_godot_controller_lifecycle memory.
 
-# HUD — right panel button bar
-@onready var position_label: Label = $UILayer/HUD/RightPanel/VBox/ButtonBar/PositionLabel
-@onready var fps_label: Label = $UILayer/HUD/RightPanel/VBox/ButtonBar/FPSLabel
-@onready var help_button: Button = $UILayer/HUD/RightPanel/VBox/ButtonBar/HelpButton
-@onready var settings_button: Button = $UILayer/HUD/RightPanel/VBox/ButtonBar/SettingsButton
+# -- Chat + minimap
+@onready var chat_display: RichTextLabel     = %ChatDisplay
+@onready var chat_input: LineEdit            = %ChatInput
+@onready var minimap: Control                = %Minimap
 
-# HUD — right panel header / progression
-@onready var level_label: Label = $UILayer/HUD/RightPanel/VBox/HeaderRow/LevelLabel
-@onready var name_label: Label = $UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo/NameLabel
-@onready var city_label: Label = $UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo/CityLabel
-@onready var xp_bar: ProgressBar = $UILayer/HUD/RightPanel/VBox/XPBar
-@onready var xp_label: Label = $UILayer/HUD/RightPanel/VBox/XPLabel
+# -- Top-bar buttons
+@onready var help_button: Button             = %HelpButton
+@onready var settings_button: Button         = %SettingsButton
 
-# HUD — inventory/spells tabs
-@onready var inventory_grid: GridContainer = $UILayer/HUD/RightPanel/VBox/InvTabs/Inventario
-@onready var spell_list: ItemList = $UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos/SpellList
-@onready var lanzar_button: Button = $UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos/LanzarButton
+# -- Inventory + spells tab
+@onready var inventory_grid: GridContainer   = %Inventario
+@onready var lanzar_button: Button           = %LanzarButton
+@onready var spell_list: ItemList            = %SpellList
 
-# HUD — STATS tab (HP/MP, stats split, gold)
-@onready var hp_bar: ProgressBar = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar
-@onready var hp_text: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar/HPText
-@onready var mp_bar: ProgressBar = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar
-@onready var mp_text: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar/MPText
-@onready var str_label: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/StrLabel
-@onready var cele_label: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/CeleLabel
-@onready var quests_button: Button = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol/QuestsButton
-@onready var gold_label: Label = $UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/RightCol/GoldLabel
+# -- Stats tab
+@onready var quests_button: Button           = %QuestsButton
 
-# HUD — equipment quick-stats row
-@onready var eq_helm: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Helm/Value
-@onready var eq_armor: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Armor/Value
-@onready var eq_weapon: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Weapon/Value
-@onready var eq_shield: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/Shield/Value
-@onready var eq_magres: Label = $UILayer/HUD/RightPanel/VBox/EquipmentRow/MagRes/Value
+# -- Drop-amount dialog (state owned by InventoryController)
+@onready var drop_amount_input: LineEdit     = %AmountInput
+@onready var drop_amount_overlay: Control    = %DropAmountOverlay
+@onready var drop_cancel_button: Button      = %DropCancelButton
+@onready var drop_confirm_button: Button     = %ConfirmButton
 
-# HUD — floating messages
-@onready var messages_label: Label = $UILayer/HUD/MessagesLabel
+# -- Settings overlay (hidden by default)
+@onready var bindings_grid: GridContainer    = %BindingsGrid
+@onready var cancel_settings_button: Button  = %SettingsCancelButton
+@onready var defaults_button: Button         = %DefaultsButton
+@onready var save_settings_button: Button    = %SaveButton
+@onready var settings_overlay: Control       = %SettingsOverlay
 
-# HUD — drop-amount dialog
-@onready var drop_amount_overlay: Control = $UILayer/HUD/DropAmountOverlay
-@onready var drop_amount_input: LineEdit = $UILayer/HUD/DropAmountOverlay/Panel/VBox/AmountInput
-@onready var drop_confirm_button: Button = $UILayer/HUD/DropAmountOverlay/Panel/VBox/ButtonBar/ConfirmButton
-@onready var drop_cancel_button: Button = $UILayer/HUD/DropAmountOverlay/Panel/VBox/ButtonBar/CancelButton
-
-# HUD — settings overlay (hidden by default)
-@onready var settings_overlay: Control = $UILayer/HUD/SettingsOverlay
-@onready var bindings_grid: GridContainer = $UILayer/HUD/SettingsOverlay/Panel/VBox/BindingsGrid
-@onready var defaults_button: Button = $UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar/DefaultsButton
-@onready var cancel_settings_button: Button = $UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar/CancelButton
-@onready var save_settings_button: Button = $UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar/SaveButton
+# === Controllers (extracted state machines — see scripts/ui/) ===
+var bank: BankController
+var chat: ChatController
+var dev: DevController
+var hud: HUDController
+var inventory: InventoryController
 
 var _minimap_drawer: _MinimapDrawer
-var _messages: Array = []
 var _is_dead: bool = false
-const MAX_MESSAGES = 6
 
 # Spellbook for this character — populated from server config in setup() based on
 # class + level. Empty for non-caster classes or levels below the lowest learn_level.
@@ -142,6 +129,8 @@ const DEFAULT_BINDINGS = {
 	"pickup_item": KEY_A,
 	"exit_to_select": KEY_F1,
 	"hide": KEY_O,
+	"bank": KEY_V,
+	"open_chest": KEY_F,
 }
 
 const ACTION_LABELS = {
@@ -162,24 +151,72 @@ const ACTION_LABELS = {
 	"pickup_item": "Agarrar",
 	"exit_to_select": "Salir",
 	"hide": "Ocultar",
+	"bank": "Bóveda",
+	"open_chest": "Abrir cofre",
 }
 
 var bindings: Dictionary = DEFAULT_BINDINGS.duplicate()
 var _pending_bindings: Dictionary = {}
 var _capturing_action: String = ""
 var _capturing_button: Button = null
-# Focused inventory slot — target of USE_ITEM / EQUIP_ITEM. -1 means no selection.
-var _focused_slot: int = -1
-# Local mirror of the server's inventory (same shape as INVENTORY_UPDATE.inventory).
-# Needed for UI decisions like "prompt for amount if stack > 1" on drop.
-var _inventory: Array = []
-# Drop-amount dialog state
-var _drop_pending_slot: int = -1
-var _drop_pending_max: int = 0
 
 func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Dictionary):
 	connection = conn
 	connection.packet_received.connect(_on_packet_received)
+
+	# Controllers that need `connection` (send_packet) are built here, not in
+	# _ready(), because connection only gets assigned above. Building earlier
+	# would capture the null and silently no-op all sends.
+	inventory = InventoryController.new({
+		inventory_grid = inventory_grid,
+		drop_overlay   = drop_amount_overlay,
+		drop_input     = drop_amount_input,
+		connection     = connection,
+		hud            = hud,
+	})
+	inventory.build_slots()
+	drop_confirm_button.pressed.connect(inventory.confirm_drop)
+	drop_cancel_button.pressed.connect(inventory.hide_drop_dialog)
+	drop_amount_input.text_submitted.connect(func(_t): inventory.confirm_drop())
+
+	chat = ChatController.new({
+		chat_display = chat_display,
+		chat_input   = chat_input,
+		connection   = connection,
+	})
+
+	bank = BankController.new({
+		bank_grid       = %BankGrid,
+		inv_grid        = %BankInvMirror,
+		bank_overlay    = %BankOverlay,
+		amount_overlay  = %BankAmountOverlay,
+		amount_input    = %BankAmountInput,
+		connection      = connection,
+		hud             = hud,
+		inventory       = inventory,
+	})
+	%BankCloseButton.pressed.connect(bank.close)
+	%BankAmountConfirmButton.pressed.connect(bank.confirm_amount)
+	%BankAmountCancelButton.pressed.connect(bank.cancel_amount)
+	%BankAmountInput.text_submitted.connect(func(_t): bank.confirm_amount())
+
+	dev = DevController.new({
+		overlay        = %DevOverlay,
+		amount_overlay = %DevAmountOverlay,
+		query_input    = %DevQueryInput,
+		amount_input   = %DevAmountInput,
+		results        = %DevResultsList,
+		item_tab       = %DevItemTab,
+		creature_tab   = %DevCreatureTab,
+		chest_tab      = %DevChestTab,
+		connection     = connection,
+		hud            = hud,
+	})
+	%DevCloseButton.pressed.connect(dev.close)
+	%DevAmountConfirmButton.pressed.connect(dev.confirm_amount)
+	%DevAmountCancelButton.pressed.connect(dev.cancel_amount)
+	%DevAmountInput.text_submitted.connect(func(_t): dev.confirm_amount())
+	%DevQueryInput.text_submitted.connect(func(_t): dev._request_list())
 	# Two ways out of the world scene:
 	#   - Willful /salir → EXITED_TO_SELECT packet (handled in _on_packet_received)
 	#   - Unexpected drop → connection.disconnected signal
@@ -197,10 +234,7 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	_self_id = int(state.get("self_id", -1))
 
 	# Header
-	level_label.text = str(my_level)
-	name_label.text = character.get("name", "?")
-	var city = character.get("city", null)
-	city_label.text = "<%s>" % city if city else "<SIN CIUDAD>"
+	hud.update_character_header(character.get("name", "?"), my_level, character.get("city", null))
 
 	$PlayerSprite/NameLabel.text = character.get("name", "You")
 
@@ -209,30 +243,26 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	_populate_spell_list()
 
 	# Bars
-	_update_hp(int(state.get("hp", 100)), int(state.get("max_hp", 100)))
-	_update_mp(int(state.get("mana", 0)), int(state.get("max_mana", 100)))
+	hud.update_hp(int(state.get("hp", 100)), int(state.get("max_hp", 100)))
+	hud.update_mp(int(state.get("mana", 0)), int(state.get("max_mana", 100)))
 	_update_xp_bar(int(state.get("xp_in_level", 0)))
 
 	# Stats + gold
 	var attrs = state.get("attrs", {})
-	str_label.text = "STR %d" % int(attrs.get("str", 0))
-	cele_label.text = "CELE %d" % int(attrs.get("agi", 0))
-	gold_label.text = "$ %s" % _format_gold(int(state.get("gold", 0)))
+	hud.update_stats(int(attrs.get("str", 0)), int(attrs.get("agi", 0)), int(state.get("gold", 0)))
 
 	# Equipment
-	_update_equipment(state.get("equipment", {}))
+	hud.update_equipment(state.get("equipment", {}))
 
-	# Inventory — build the grid once, then populate from state
-	_build_inventory_slots()
-	_inventory = state.get("inventory", [])
-	_render_inventory(_inventory)
+	# Inventory — populate from state (slots already built in _ready)
+	inventory.set_inventory(state.get("inventory", []))
 
 	# Restore persisted key bindings (server-side JSONB state)
 	_apply_saved_bindings(state.get("key_bindings", {}))
 
 	if not state.get("alive", true):
 		_is_dead = true
-		_add_message("You are a ghost. Press SPACE to respawn.")
+		hud.add_message("You are a ghost. Press SPACE to respawn.")
 
 	# _render_ground must run FIRST — it reads tile_size + graficos_root from
 	# the JSON. Otherwise _update_player_position uses the fallback tile size
@@ -244,22 +274,41 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	_setup_minimap()
 
 func _ready():
-	chat_input.text_submitted.connect(_on_chat_submitted)
-	help_button.pressed.connect(func(): _add_message("Help — coming soon"))
+	hud = HUDController.new({
+		hp_bar         = %HPBar,
+		hp_text        = %HPText,
+		mp_bar         = %MPBar,
+		mp_text        = %MPText,
+		xp_bar         = %XPBar,
+		xp_label       = %XPLabel,
+		level_label    = %LevelLabel,
+		name_label     = %PlayerNameLabel,
+		city_label     = %CityLabel,
+		str_label      = %StrLabel,
+		cele_label     = %CeleLabel,
+		gold_label     = %GoldLabel,
+		eq_helm        = %HelmValue,
+		eq_armor       = %ArmorValue,
+		eq_weapon      = %WeaponValue,
+		eq_shield      = %ShieldValue,
+		eq_magres      = %MagResValue,
+		position_label = %PositionLabel,
+		fps_label      = %FPSLabel,
+		messages_label = %MessagesLabel,
+	})
+
+	help_button.pressed.connect(func(): hud.add_message("Help — coming soon"))
 	settings_button.pressed.connect(_show_settings)
-	quests_button.pressed.connect(func(): _add_message("Quests — coming soon"))
+	quests_button.pressed.connect(func(): hud.add_message("Quests — coming soon"))
 	lanzar_button.pressed.connect(_on_lanzar_pressed)
-	defaults_button.pressed.connect(func(): _add_message("Defaults — coming soon"))
+	defaults_button.pressed.connect(func(): hud.add_message("Defaults — coming soon"))
 	cancel_settings_button.pressed.connect(_hide_settings)
 	save_settings_button.pressed.connect(_on_save_settings)
-	drop_confirm_button.pressed.connect(_on_drop_confirm)
-	drop_cancel_button.pressed.connect(_hide_drop_dialog)
-	drop_amount_input.text_submitted.connect(func(_t): _on_drop_confirm())
 	_populate_spell_list()
 	# Arrow keys drive movement; they must never be consumed by UI focus navigation.
 	# TabContainer's internal TabBar has its own focus_mode that ignores ours — strip it here.
-	$UILayer/HUD/RightPanel/VBox/InvTabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
-	$UILayer/HUD/RightPanel/VBox/StatsTabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
+	%InvTabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
+	%StatsTabs.get_tab_bar().focus_mode = Control.FOCUS_NONE
 	get_viewport().gui_release_focus()
 
 # --- Key bindings + settings overlay ---
@@ -287,7 +336,7 @@ func _on_save_settings():
 	bindings = _pending_bindings.duplicate()
 	# Server persists as-is; keys are Godot keycodes, opaque to the server.
 	connection.send_packet(PacketIds.SETTINGS_SAVE, {"key_bindings": bindings})
-	_add_message("Settings saved")
+	hud.add_message("Settings saved")
 	_hide_settings()
 
 func _build_bindings_ui():
@@ -383,43 +432,6 @@ func _return_to_login():
 		connection.queue_free()
 	queue_free()
 
-# --- Drop-amount dialog ---
-
-func _start_drop_from_focused_slot():
-	if _focused_slot < 0:
-		_add_message("Select an inventory slot first")
-		return
-
-	var item = _inventory[_focused_slot] if _focused_slot < _inventory.size() else null
-	if item == null:
-		return
-
-	var amount = int(item.get("amount", 1))
-	if amount <= 1:
-		connection.send_packet(PacketIds.DROP_ITEM, {"slot": _focused_slot})
-		return
-
-	# Stacked — prompt for amount
-	_drop_pending_slot = _focused_slot
-	_drop_pending_max = amount
-	drop_amount_input.text = str(amount)
-	drop_amount_overlay.visible = true
-	drop_amount_input.grab_focus()
-	drop_amount_input.select_all()
-
-func _on_drop_confirm():
-	var raw = drop_amount_input.text.strip_edges()
-	var amount = int(raw) if raw.is_valid_int() else 0
-	amount = clamp(amount, 1, _drop_pending_max)
-	connection.send_packet(PacketIds.DROP_ITEM, {"slot": _drop_pending_slot, "amount": amount})
-	_hide_drop_dialog()
-
-func _hide_drop_dialog():
-	drop_amount_overlay.visible = false
-	_drop_pending_slot = -1
-	_drop_pending_max = 0
-	drop_amount_input.release_focus()
-
 func _populate_spell_list():
 	spell_list.clear()
 	if _my_spells.is_empty():
@@ -430,16 +442,16 @@ func _populate_spell_list():
 
 func _on_lanzar_pressed():
 	if _my_spells.is_empty():
-		_add_message("No spells available")
+		hud.add_message("No spells available")
 		return
 	var selected = spell_list.get_selected_items()
 	if selected.is_empty():
-		_add_message("Select a spell first")
+		hud.add_message("Select a spell first")
 		return
 	_casting_armed = true
 	Input.set_default_cursor_shape(Input.CURSOR_CROSS)
 	var spell_name = _my_spells[selected[0]].get("name", "?")
-	_add_message("Click target for %s (Esc to cancel)" % spell_name)
+	hud.add_message("Click target for %s (Esc to cancel)" % spell_name)
 
 func _unhandled_input(event):
 	# Click-to-cast: only fires for clicks NOT absorbed by HUD Controls (buttons, tabs, chat).
@@ -460,7 +472,7 @@ func _unhandled_input(event):
 		"x": tile.x,
 		"y": tile.y,
 	})
-	_add_message("Casting %s at (%d, %d)" % [spell.get("name", "?"), tile.x, tile.y])
+	hud.add_message("Casting %s at (%d, %d)" % [spell.get("name", "?"), tile.x, tile.y])
 	_casting_armed = false
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 	get_viewport().set_input_as_handled()
@@ -470,7 +482,7 @@ func _cancel_armed_cast():
 		return
 	_casting_armed = false
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
-	_add_message("Cast cancelled")
+	hud.add_message("Cast cancelled")
 
 # Per-map palette for procedural ground (placeholder until real tiles)
 const MAP_PALETTE = {
@@ -752,141 +764,44 @@ class _MinimapDrawer extends Control:
 		var py = (float(world_pos.y) / host.map_size.y) * sz.y
 		draw_circle(Vector2(px, py), radius, color)
 
-# --- Inventory grid ---
-
-func _build_inventory_slots():
-	for child in inventory_grid.get_children():
-		child.queue_free()
-	for i in INVENTORY_SLOTS:
-		var slot = _InventorySlot.new()
-		slot.slot_index = i
-		slot.clicked.connect(_on_inventory_slot_clicked)
-		inventory_grid.add_child(slot)
-
-func _render_inventory(items: Array):
-	var slots = inventory_grid.get_children()
-	for i in slots.size():
-		var item = null
-		if i < items.size():
-			item = items[i]
-		slots[i].set_item(item)
-		if i == _focused_slot and item == null:
-			_focused_slot = -1
-	_refresh_focus_highlights()
-
-func _on_inventory_slot_clicked(slot_index: int):
-	var slot_node = inventory_grid.get_child(slot_index)
-	# Toggle focus off if clicking the same slot, clear on empty slot, else set.
-	if not slot_node.has_item:
-		_focused_slot = -1
-	elif _focused_slot == slot_index:
-		_focused_slot = -1
-	else:
-		_focused_slot = slot_index
-	_refresh_focus_highlights()
-
-func _refresh_focus_highlights():
-	for i in inventory_grid.get_child_count():
-		inventory_grid.get_child(i).set_focused(i == _focused_slot)
-
-class _InventorySlot extends PanelContainer:
-	signal clicked(slot_index: int)
-	var slot_index: int = -1
-	var has_item: bool = false
-	var label: Label
-	const SLOT_SIZE = 42
-
-	func _init():
-		custom_minimum_size = Vector2(SLOT_SIZE, SLOT_SIZE)
-		label = Label.new()
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.add_theme_font_size_override("font_size", 10)
-		add_child(label)
-
-	func _ready():
-		gui_input.connect(_on_gui_input)
-
-	func _on_gui_input(event):
-		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			clicked.emit(slot_index)
-
-	func set_focused(focused: bool):
-		# Yellow tint when this slot is the USE/EQUIP target; full-color otherwise.
-		modulate = Color(1.2, 1.2, 0.5, 1) if focused else Color(1, 1, 1, 1)
-
-	func set_item(item):
-		has_item = item != null
-		if not has_item:
-			label.text = ""
-			return
-		var data = item.get("item_data", {})
-		var nm: String = data.get("name", "?")
-		var amount = int(item.get("amount", 0))
-		var short = nm.substr(0, min(3, nm.length())) if nm else "?"
-		if amount > 1:
-			label.text = "%s\nx%d" % [short, amount]
-		else:
-			label.text = short
-		var color = Color(0.5, 1, 0.5) if item.get("equipped", false) else Color(1, 1, 1)
-		label.add_theme_color_override("font_color", color)
-
-# --- Stats / XP / equipment ---
-
-func _update_hp(hp: int, max_hp: int):
-	hp_bar.max_value = max(max_hp, 1)
-	hp_bar.value = clamp(hp, 0, max_hp)
-	hp_text.text = "%d / %d" % [hp, max_hp]
-
-func _update_mp(mana: int, max_mana: int):
-	mp_bar.max_value = max(max_mana, 1)
-	mp_bar.value = clamp(mana, 0, max_mana)
-	mp_text.text = "%d / %d" % [mana, max_mana]
+# --- XP bar (thin wrapper — resolves the level threshold then delegates) ---
 
 func _update_xp_bar(xp_in_level: int):
-	var needed = PacketIds.xp_for_level(my_level)
-	if needed <= 0:
-		xp_bar.max_value = 1
-		xp_bar.value = 0
-		xp_label.text = "EXP %d" % xp_in_level
-		return
-	xp_bar.max_value = needed
-	xp_bar.value = clamp(xp_in_level, 0, needed)
-	xp_label.text = "EXP %d / %d" % [xp_in_level, needed]
-
-func _update_equipment(eq: Dictionary):
-	eq_helm.text = "%02d" % int(eq.get("helmet", 0))
-	eq_armor.text = "%02d" % int(eq.get("armor", 0))
-	eq_weapon.text = "%02d" % int(eq.get("weapon", 0))
-	eq_shield.text = "%02d" % int(eq.get("shield", 0))
-	eq_magres.text = "%02d" % int(eq.get("mag_res", 0))
-
-func _format_gold(n: int) -> String:
-	# Thousands separator with dots (Argentum/Spanish style): 1.091.884
-	var s = str(n)
-	var out := ""
-	var count = 0
-	for i in range(s.length() - 1, -1, -1):
-		if count > 0 and count % 3 == 0:
-			out = "." + out
-		out = s[i] + out
-		count += 1
-	return out
+	hud.update_xp(xp_in_level, PacketIds.xp_for_level(my_level))
 
 # --- Movement / player sprite ---
 
 func _update_player_position():
 	player_sprite.position = Vector2(my_pos.x * _tile_size, my_pos.y * _tile_size)
 	camera.position = player_sprite.position + CAMERA_WORLD_OFFSET
-	position_label.text = "Map %d @ (%d, %d)" % [map_id, my_pos.x, my_pos.y]
+	hud.set_position_label(map_id, my_pos.x, my_pos.y)
+	if _minimap_drawer:
+		_minimap_drawer.queue_redraw()
+
+# Glides the player sprite + camera from their current world-position to the
+# my_pos tile over MOVE_INTERVAL. AO-style: camera stays rigidly locked to
+# the sprite, the smoothness comes from interpolating the sprite itself.
+# Used by _send_move on a successful step. Other callers of
+# _update_player_position (initial spawn, map change, server corrections)
+# still snap, which is correct — those are jumps, not walks.
+var _move_tween: Tween
+
+func _tween_player_step() -> void:
+	var target_sprite = Vector2(my_pos.x * _tile_size, my_pos.y * _tile_size)
+	var target_camera = target_sprite + CAMERA_WORLD_OFFSET
+	if _move_tween and _move_tween.is_valid():
+		_move_tween.kill()
+	_move_tween = create_tween().set_parallel(true)
+	_move_tween.tween_property(player_sprite, "position", target_sprite, MOVE_INTERVAL)
+	_move_tween.tween_property(camera, "position", target_camera, MOVE_INTERVAL)
+	hud.set_position_label(map_id, my_pos.x, my_pos.y)
 	if _minimap_drawer:
 		_minimap_drawer.queue_redraw()
 
 var _move_cooldown: float = 0.0
 var _fps_cooldown: float = 0.0
 var _minimap_cooldown: float = 0.0
-const MOVE_INTERVAL: float = 0.15
+const MOVE_INTERVAL: float = 0.1
 const FPS_REFRESH: float = 0.5
 const MINIMAP_REFRESH: float = 0.2 # 5Hz — cheap, catches NPC/player/ground item changes
 
@@ -895,8 +810,8 @@ func _process(delta):
 		_move_cooldown -= delta
 
 	_fps_cooldown -= delta
-	if _fps_cooldown <= 0 and fps_label:
-		fps_label.text = "FPS %d" % Engine.get_frames_per_second()
+	if _fps_cooldown <= 0 and hud:
+		hud.set_fps(Engine.get_frames_per_second())
 		_fps_cooldown = FPS_REFRESH
 
 	_minimap_cooldown -= delta
@@ -906,12 +821,21 @@ func _process(delta):
 
 	# Safety net: when no modal is open, only chat_input may hold focus.
 	# Inside a modal (settings, drop dialog) the modal's own controls legitimately need it.
-	if not settings_overlay.visible and not drop_amount_overlay.visible:
+	var any_modal_open = (
+		settings_overlay.visible
+		or inventory.is_drop_dialog_open()
+		or bank.is_open()
+		or dev.is_open()
+	)
+	if not any_modal_open:
 		var focused = get_viewport().gui_get_focus_owner()
 		if focused != null and focused != chat_input:
 			get_viewport().gui_release_focus()
 
-	if chat_input.has_focus() or settings_overlay.visible or drop_amount_overlay.visible:
+	if chat.has_focus() or any_modal_open:
+		# Tick the dev controller's query debounce while its overlay is open.
+		if dev.is_open():
+			dev.process(int(delta * 1000))
 		return
 
 	if _move_cooldown <= 0:
@@ -948,9 +872,9 @@ func _input(event):
 		return
 
 	# Drop-amount dialog open — only handle Escape here; LineEdit captures other keys.
-	if drop_amount_overlay.visible:
+	if inventory.is_drop_dialog_open():
 		if event.keycode == KEY_ESCAPE and not event.echo:
-			_hide_drop_dialog()
+			inventory.hide_drop_dialog()
 			get_viewport().set_input_as_handled()
 		return
 
@@ -961,6 +885,41 @@ func _input(event):
 			get_viewport().set_input_as_handled()
 		return
 
+	# Bank amount prompt open — Esc cancels; LineEdit captures other keys.
+	if bank.is_amount_prompt_open():
+		if event.keycode == KEY_ESCAPE and not event.echo:
+			bank.cancel_amount()
+			get_viewport().set_input_as_handled()
+		return
+
+	# Bank overlay open — ignore world input (Escape closes).
+	if bank.is_open():
+		if event.keycode == KEY_ESCAPE and not event.echo:
+			bank.close()
+			get_viewport().set_input_as_handled()
+		return
+
+	# Dev amount prompt open — Esc cancels; LineEdit captures other keys.
+	if dev.is_amount_prompt_open():
+		if event.keycode == KEY_ESCAPE and not event.echo:
+			dev.cancel_amount()
+			get_viewport().set_input_as_handled()
+		return
+
+	# Dev overlay open — ignore world input (Escape closes).
+	if dev.is_open():
+		if event.keycode == KEY_ESCAPE and not event.echo:
+			dev.close()
+			get_viewport().set_input_as_handled()
+		return
+
+	# F2 toggles the dev overlay (dev-only — server gates response on
+	# ENV["DEV_AUTH"]; in production the overlay opens but stays empty).
+	if event.keycode == KEY_F2 and not event.echo:
+		dev.toggle()
+		get_viewport().set_input_as_handled()
+		return
+
 	# Escape cancels an armed cast.
 	if _casting_armed and event.keycode == KEY_ESCAPE and not event.echo:
 		_cancel_armed_cast()
@@ -968,7 +927,7 @@ func _input(event):
 		return
 
 	# Typing in chat: let LineEdit have everything.
-	if chat_input.has_focus():
+	if chat.has_focus():
 		return
 
 	var action = _action_for_keycode(event.keycode)
@@ -986,40 +945,37 @@ func _input(event):
 			_attack_facing()
 		"hp_potion":
 			connection.send_packet(PacketIds.USE_POTION, {"hp": 150})
-			_add_message("HP potion!")
+			hud.add_message("HP potion!")
 		"mana_potion":
 			connection.send_packet(PacketIds.USE_POTION, {"mana": 300})
-			_add_message("Mana potion!")
+			hud.add_message("Mana potion!")
 		"chat_toggle":
-			chat_input.grab_focus()
-			chat_input.text = ""
+			chat.focus()
 		"inventory":
 			connection.send_packet(PacketIds.INVENTORY_REQUEST)
 		"respawn":
 			if _is_dead:
 				connection.send_packet(PacketIds.RESPAWN)
-				_add_message("Respawning...")
+				hud.add_message("Respawning...")
 		"meditate":
 			connection.send_packet(PacketIds.MEDITATE_TOGGLE)
-			_add_message("Meditar (toggle)")
+			hud.add_message("Meditar (toggle)")
 		"use_item":
-			if _focused_slot < 0:
-				_add_message("Select an inventory slot first")
-			else:
-				connection.send_packet(PacketIds.USE_ITEM, {"slot": _focused_slot})
+			inventory.use_focused()
 		"equip_item":
-			if _focused_slot < 0:
-				_add_message("Select an inventory slot first")
-			else:
-				connection.send_packet(PacketIds.EQUIP_ITEM, {"slot": _focused_slot})
+			inventory.equip_focused()
 		"drop_item":
-			_start_drop_from_focused_slot()
+			inventory.start_drop()
 		"pickup_item":
 			connection.send_packet(PacketIds.PICKUP_ITEM)
 		"exit_to_select":
 			connection.send_packet(PacketIds.EXIT_TO_SELECT)
 		"hide":
 			connection.send_packet(PacketIds.HIDE_TOGGLE)
+		"bank":
+			bank.toggle()
+		"open_chest":
+			_try_open_adjacent_chest()
 
 func _send_move(dx: int, dy: int):
 	var new_x = my_pos.x + dx
@@ -1041,7 +997,7 @@ func _send_move(dx: int, dy: int):
 
 	connection.send_packet(PacketIds.PLAYER_MOVE, {"x": new_x, "y": new_y})
 	my_pos = Vector2i(new_x, new_y)
-	_update_player_position()
+	_tween_player_step()
 	_update_player_sprite()
 
 func _attack_facing():
@@ -1052,17 +1008,17 @@ func _attack_facing():
 		var npc = npcs[npc_id]
 		if npc.pos == target_pos:
 			connection.send_packet(PacketIds.ATTACK_NPC, {"npc_id": npc_id})
-			_add_message("Attacking %s!" % npc.name)
+			hud.add_message("Attacking %s!" % npc.name)
 			return
 
 	for player_id in players:
 		var player = players[player_id]
 		if player.pos == target_pos:
 			connection.send_packet(PacketIds.ATTACK, {"target_id": player_id})
-			_add_message("Attacking %s!" % player.name)
+			hud.add_message("Attacking %s!" % player.name)
 			return
 
-	_add_message("Nothing to attack")
+	hud.add_message("Nothing to attack")
 
 func _facing_offset() -> Vector2i:
 	match my_heading:
@@ -1076,20 +1032,6 @@ func _update_player_sprite():
 	var arrow = {"north": "^", "south": "v", "east": ">", "west": "<"}
 	$PlayerSprite/FacingLabel.text = arrow.get(my_heading, "v")
 
-func _on_chat_submitted(text: String):
-	if text.strip_edges().is_empty():
-		connection.send_packet(PacketIds.CHAT_SEND, {"message": ""})
-	else:
-		connection.send_packet(PacketIds.CHAT_SEND, {"message": text})
-	chat_input.text = ""
-	chat_input.release_focus()
-
-func _add_message(msg: String):
-	_messages.append(msg)
-	while _messages.size() > MAX_MESSAGES:
-		_messages.pop_front()
-	messages_label.text = "\n".join(_messages)
-
 func _on_packet_received(packet_id: int, payload: Dictionary):
 	match packet_id:
 		PacketIds.PLAYER_SPAWN:
@@ -1100,12 +1042,14 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			_handle_player_despawn(payload)
 		PacketIds.NPC_SPAWN, PacketIds.NPC_RESPAWN:
 			_handle_npc_spawn(payload)
+		PacketIds.NPC_MOVED:
+			_handle_npc_moved(payload)
 		PacketIds.NPC_DEATH:
 			_handle_npc_death(payload)
 		PacketIds.NPC_ATTACK:
 			var npc_name = npcs.get(payload.get("npc_id", 0), {}).get("name", "NPC")
 			var npc_damage = int(payload.get("damage", 0))
-			_add_message("%s hits you for %d!" % [npc_name, npc_damage])
+			hud.add_message("%s hits you for %d!" % [npc_name, npc_damage])
 			if npc_damage > 0:
 				_spawn_floating(player_sprite, "-%d" % npc_damage, Color(1, 0.35, 0.35))
 		PacketIds.MAP_TRANSITION:
@@ -1116,56 +1060,60 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.DAMAGE_NUMBER:
 			_handle_damage(payload)
 		PacketIds.MISS:
-			_add_message("MISS!")
+			hud.add_message("MISS!")
 		PacketIds.UPDATE_HP:
 			var hp = int(payload.get("hp", 0))
-			_update_hp(hp, int(payload.get("max_hp", 1)))
+			hud.update_hp(hp, int(payload.get("max_hp", 1)))
 			if hp > 0 and _is_dead:
 				_is_dead = false
-				_add_message("You have respawned!")
+				hud.add_message("You have respawned!")
 		PacketIds.UPDATE_MANA:
-			_update_mp(int(payload.get("mana", 0)), int(payload.get("max_mana", 1)))
+			hud.update_mp(int(payload.get("mana", 0)), int(payload.get("max_mana", 1)))
 		PacketIds.UPDATE_GOLD:
-			gold_label.text = "$ %s" % _format_gold(int(payload.get("gold", 0)))
+			hud.set_gold(int(payload.get("gold", 0)))
 		PacketIds.UPDATE_XP:
 			var new_level = int(payload.get("level", my_level))
 			if new_level != my_level:
 				my_level = new_level
-				level_label.text = str(my_level)
+				hud.set_level(my_level)
 			# Use the server's authoritative xp-for-level if provided, falling back to the local exp_table.
 			var xp_in = int(payload.get("xp_in_level", 0))
 			var xp_for = int(payload.get("xp_for_level", PacketIds.xp_for_level(my_level)))
-			xp_bar.max_value = max(xp_for, 1)
-			xp_bar.value = clamp(xp_in, 0, xp_for)
-			xp_label.text = "EXP %d / %d" % [xp_in, xp_for]
+			hud.update_xp(xp_in, xp_for)
 		PacketIds.CHAR_DEATH:
-			_add_message("YOU DIED! Press SPACE to respawn")
+			hud.add_message("YOU DIED! Press SPACE to respawn")
 			_is_dead = true
 		PacketIds.SYSTEM_MESSAGE:
-			_add_message(payload.get("text", ""))
+			hud.add_message(payload.get("text", ""))
 		PacketIds.EXITED_TO_SELECT:
 			_handle_exit_confirmed()
 		PacketIds.CHAT_BROADCAST:
-			var from_name = payload.get("from_name", null)
-			var from_id = payload.get("from_id", null)
 			var msg = payload.get("message", "")
-			if from_name == null:
-				from_name = "?"
-			chat_display.append_text("[%s]: %s\n" % [from_name, msg])
-			_show_chat_bubble(from_id, msg)
+			chat.append_broadcast(payload.get("from_name", null), msg)
+			_show_chat_bubble(payload.get("from_id", null), msg)
 		PacketIds.CHAT_CLEAR:
 			# Server tells us to drop the bubble over the given player (empty message).
 			_clear_chat_bubble(payload.get("id", 0))
 		PacketIds.INVENTORY_RESPONSE:
-			_render_inventory(payload.get("items", []))
+			inventory.render_only(payload.get("items", []))
 		PacketIds.INVENTORY_UPDATE:
-			_inventory = payload.get("inventory", [])
-			_render_inventory(_inventory)
-			_update_equipment(payload.get("equipment", {}))
+			inventory.set_inventory(payload.get("inventory", []))
+			hud.update_equipment(payload.get("equipment", {}))
+			bank.refresh_inventory_mirror() # mirror tracks live inventory while bank is open
+		PacketIds.BANK_CONTENTS:
+			bank.handle_contents(payload)
+		PacketIds.DEV_LIST_RESPONSE:
+			dev.handle_list_response(payload)
 		PacketIds.GROUND_ITEM_SPAWN:
 			_handle_ground_item_spawn(payload)
 		PacketIds.GROUND_ITEM_DESPAWN:
 			_handle_ground_item_despawn(payload)
+		PacketIds.CHEST_SPAWN:
+			_handle_chest_spawn(payload)
+		PacketIds.CHEST_OPENED:
+			_handle_chest_opened(payload)
+		PacketIds.CHEST_DESPAWN:
+			_handle_chest_despawn(payload)
 		PacketIds.HIDE_STATE_CHANGED:
 			_handle_hide_state_changed(payload)
 		_:
@@ -1185,7 +1133,7 @@ func _handle_player_spawn(payload: Dictionary):
 	entities_layer.add_child(node)
 
 	players[id] = {"pos": pos, "name": char_name, "node": node}
-	_add_message("%s appeared" % char_name)
+	hud.add_message("%s appeared" % char_name)
 
 func _handle_player_moved(payload: Dictionary):
 	var id = payload.get("id", 0)
@@ -1197,7 +1145,7 @@ func _handle_player_moved(payload: Dictionary):
 func _handle_player_despawn(payload: Dictionary):
 	var id = payload.get("id", 0)
 	if id in players:
-		_add_message("%s left" % players[id].name)
+		hud.add_message("%s left" % players[id].name)
 		players[id].node.queue_free()
 		players.erase(id)
 
@@ -1218,10 +1166,25 @@ func _handle_npc_spawn(payload: Dictionary):
 
 	npcs[id] = {"pos": pos, "name": npc_name, "hp": hp, "max_hp": max_hp, "node": node}
 
+func _handle_npc_moved(payload: Dictionary):
+	var id = int(payload.get("npc_id", 0))
+	if not (id in npcs):
+		return
+	var pos = Vector2i(int(payload.get("x", 0)), int(payload.get("y", 0)))
+	npcs[id].pos = pos
+	# Glide the sprite over the server's NPC_MOVE_INTERVAL_MS (~380ms) for the
+	# same AO-style smooth-walk feel as the player. Snap if no node yet.
+	var node = npcs[id].get("node")
+	if node == null:
+		return
+	var target = Vector2(pos.x * _tile_size, pos.y * _tile_size)
+	var tween = create_tween()
+	tween.tween_property(node, "position", target, 0.38)
+
 func _handle_npc_death(payload: Dictionary):
 	var id = payload.get("npc_id", 0)
 	if id in npcs:
-		_add_message("%s died!" % npcs[id].name)
+		hud.add_message("%s died!" % npcs[id].name)
 		npcs[id].node.queue_free()
 		npcs.erase(id)
 
@@ -1239,11 +1202,14 @@ func _handle_map_transition(payload: Dictionary):
 	for id in ground_items:
 		ground_items[id].node.queue_free()
 	ground_items.clear()
+	for id in chests:
+		chests[id].node.queue_free()
+	chests.clear()
 
 	# Same ordering constraint as on initial world-entry.
 	_render_ground()
 	_update_player_position()
-	_add_message("Map %d (%dx%d)" % [map_id, map_size.x, map_size.y])
+	hud.add_message("Map %d (%dx%d)" % [map_id, map_size.x, map_size.y])
 
 func _handle_damage(payload: Dictionary):
 	var dmg = int(payload.get("damage", 0))
@@ -1253,14 +1219,14 @@ func _handle_damage(payload: Dictionary):
 	var target_id = int(payload.get("target_id", 0))
 
 	if type == "gold":
-		_add_message("+%d gold" % gold)
+		hud.add_message("+%d gold" % gold)
 	elif dmg < 0:
-		_add_message("Healed %d HP" % (-dmg))
+		hud.add_message("Healed %d HP" % (-dmg))
 	else:
 		var msg = "%d %s damage" % [dmg, type]
 		if xp > 0:
 			msg += " [+%d XP]" % xp
-		_add_message(msg)
+		hud.add_message(msg)
 
 	# Floating number above the target.
 	var target_node = _resolve_damage_target(target_id)
@@ -1390,6 +1356,100 @@ func _handle_ground_item_despawn(payload: Dictionary):
 	if id in ground_items:
 		ground_items[id].node.queue_free()
 		ground_items.erase(id)
+
+# --- Chests ---
+
+# Cardinal-adjacency check (Manhattan distance == 1). Mirrors the server's
+# Npc#in_attack_range? rule for chest interaction. Static so unit tests can
+# exercise the helper without a live world instance.
+static func find_adjacent_chest(player_pos: Vector2i, chest_dict: Dictionary) -> int:
+	for chest_id in chest_dict:
+		var entry = chest_dict[chest_id]
+		var pos: Vector2i = entry.get("pos", Vector2i.ZERO)
+		# Closed chests only — opened ones are visually present but already looted.
+		if entry.get("state", "closed") != "closed":
+			continue
+		var dx: int = abs(pos.x - player_pos.x)
+		var dy: int = abs(pos.y - player_pos.y)
+		if dx + dy == 1:
+			return int(chest_id)
+	return -1
+
+func _try_open_adjacent_chest():
+	var chest_id := find_adjacent_chest(my_pos, chests)
+	if chest_id == -1:
+		hud.add_message("No hay cofre adyacente")
+		return
+	connection.send_packet(PacketIds.CHEST_OPEN, {"chest_id": chest_id})
+
+func _handle_chest_spawn(payload: Dictionary):
+	var id = int(payload.get("chest_id", 0))
+	var pos = Vector2i(int(payload.get("x", 0)), int(payload.get("y", 0)))
+	var state = String(payload.get("state", "closed"))
+	var sprite_ref = payload.get("sprite_ref", null)
+
+	if id in chests and chests[id].has("node"):
+		chests[id].node.queue_free()
+
+	var node = _create_chest_node(state, sprite_ref)
+	node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
+	chests_layer.add_child(node)
+
+	chests[id] = {"pos": pos, "state": state, "node": node}
+
+func _handle_chest_opened(payload: Dictionary):
+	var id = int(payload.get("chest_id", 0))
+	if not (id in chests):
+		return
+	chests[id].state = "opened"
+	# Visual swap: tint the placeholder, or recolor the open marker. The
+	# closed/opened distinction is mostly state — loot ground-spawns via
+	# GROUND_ITEM_SPAWN, which is already wired.
+	var node = chests[id].node
+	if node != null and is_instance_valid(node):
+		var rect = node.get_node_or_null("Rect")
+		if rect != null and rect is ColorRect:
+			(rect as ColorRect).color = Color(0.45, 0.30, 0.10) # darker, "opened lid"
+		var label = node.get_node_or_null("Label")
+		if label != null and label is Label:
+			(label as Label).text = "cofre*"
+
+func _handle_chest_despawn(payload: Dictionary):
+	var id = int(payload.get("chest_id", 0))
+	if id in chests:
+		chests[id].node.queue_free()
+		chests.erase(id)
+
+func _create_chest_node(state: String, sprite_ref) -> Node2D:
+	# Server may ship a sprite_ref atlas region; fall back to a brown
+	# ColorRect placeholder. Wiring is the goal; art polish lands later.
+	var node = Node2D.new()
+
+	var sprite := _make_entity_sprite(sprite_ref)
+	if sprite != null:
+		node.add_child(sprite)
+	else:
+		var rect = ColorRect.new()
+		rect.name = "Rect"
+		rect.size = Vector2(_tile_size - 8, _tile_size - 8)
+		rect.position = Vector2(4, 4)
+		# closed = warm brown; opened gets darkened by _handle_chest_opened
+		rect.color = Color(0.65, 0.42, 0.18) if state == "closed" else Color(0.45, 0.30, 0.10)
+		rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		node.add_child(rect)
+
+		var label = Label.new()
+		label.name = "Label"
+		label.text = "cofre" if state == "closed" else "cofre*"
+		label.position = Vector2(-8, -16)
+		label.size = Vector2(_tile_size + 16, 14)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.add_theme_font_size_override("font_size", 9)
+		label.add_theme_color_override("font_color", Color(1, 0.92, 0.7, 1))
+		node.add_child(label)
+
+	return node
 
 func _create_ground_item_node(text: String) -> Node2D:
 	var node = Node2D.new()

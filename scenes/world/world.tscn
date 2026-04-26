@@ -49,6 +49,9 @@ theme_override_font_sizes/font_size = 10
 [node name="GroundItems" type="Node2D" parent="."]
 z_index = -5
 
+[node name="Chests" type="Node2D" parent="."]
+z_index = -3
+
 [node name="Entities" type="Node2D" parent="."]
 
 [node name="UILayer" type="CanvasLayer" parent="."]
@@ -74,11 +77,13 @@ offset_bottom = 174.0
 [node name="ChatVBox" type="VBoxContainer" parent="UILayer/HUD/ChatPanel"]
 
 [node name="ChatDisplay" type="RichTextLabel" parent="UILayer/HUD/ChatPanel/ChatVBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 55)
 scroll_following = true
 bbcode_enabled = true
 
 [node name="ChatInput" type="LineEdit" parent="UILayer/HUD/ChatPanel/ChatVBox"]
+unique_name_in_owner = true
 placeholder_text = "Press T to chat..."
 
 ; -------- Minimap — right of chat, square (same side as chat height) --------
@@ -94,6 +99,7 @@ offset_right = -270.0
 offset_bottom = 110.0
 
 [node name="Minimap" type="Control" parent="UILayer/HUD/MinimapPanel"]
+unique_name_in_owner = true
 
 ; -------- Right panel — full height right side --------
 [node name="RightPanel" type="PanelContainer" parent="UILayer/HUD"]
@@ -113,6 +119,7 @@ offset_bottom = -10.0
 [node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/RightPanel/VBox"]
 
 [node name="PositionLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/ButtonBar"]
+unique_name_in_owner = true
 size_flags_horizontal = 3
 text = "Map 1 @ (50, 50)"
 theme_override_font_sizes/font_size = 10
@@ -120,18 +127,21 @@ theme_override_colors/font_color = Color(1, 1, 0.5, 1)
 vertical_alignment = 1
 
 [node name="FPSLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/ButtonBar"]
+unique_name_in_owner = true
 text = "FPS 0"
 theme_override_font_sizes/font_size = 10
 theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
 vertical_alignment = 1
 
 [node name="HelpButton" type="Button" parent="UILayer/HUD/RightPanel/VBox/ButtonBar"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(28, 28)
 focus_mode = 0
 text = "?"
 tooltip_text = "Help"
 
 [node name="SettingsButton" type="Button" parent="UILayer/HUD/RightPanel/VBox/ButtonBar"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(28, 28)
 focus_mode = 0
 text = "S"
@@ -141,6 +151,7 @@ tooltip_text = "Settings"
 [node name="HeaderRow" type="HBoxContainer" parent="UILayer/HUD/RightPanel/VBox"]
 
 [node name="LevelLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/HeaderRow"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 55)
 text = "1"
 horizontal_alignment = 1
@@ -152,49 +163,58 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 size_flags_horizontal = 3
 size_flags_vertical = 5
 
-[node name="NameLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo"]
+[node name="PlayerNameLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo"]
+unique_name_in_owner = true
 text = "Name"
 theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(0.95, 0.4, 0.4, 1)
 
 [node name="CityLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/HeaderRow/HeaderInfo"]
+unique_name_in_owner = true
 text = "<SIN CIUDAD>"
 theme_override_font_sizes/font_size = 11
 theme_override_colors/font_color = Color(0.75, 0.75, 0.9, 1)
 
 ; ---- XP bar + label ----
 [node name="XPBar" type="ProgressBar" parent="UILayer/HUD/RightPanel/VBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 14)
 max_value = 100.0
 value = 0.0
 show_percentage = false
 
 [node name="XPLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox"]
+unique_name_in_owner = true
 text = "EXP 0 / 0"
 theme_override_font_sizes/font_size = 10
 horizontal_alignment = 1
 
 ; ---- Inventory / Spells tabs ----
 [node name="InvTabs" type="TabContainer" parent="UILayer/HUD/RightPanel/VBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 340)
 focus_mode = 0
 
 [node name="Inventario" type="GridContainer" parent="UILayer/HUD/RightPanel/VBox/InvTabs"]
+unique_name_in_owner = true
 columns = 5
 
 [node name="Hechizos" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/InvTabs"]
 
 [node name="SpellList" type="ItemList" parent="UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos"]
+unique_name_in_owner = true
 size_flags_vertical = 3
 focus_mode = 0
 
 [node name="LanzarButton" type="Button" parent="UILayer/HUD/RightPanel/VBox/InvTabs/Hechizos"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 focus_mode = 0
 text = "LANZAR"
 
 ; ---- STATS / MENU tabs ----
 [node name="StatsTabs" type="TabContainer" parent="UILayer/HUD/RightPanel/VBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 180)
 focus_mode = 0
 tabs_position = 1
@@ -203,6 +223,7 @@ tabs_position = 1
 [node name="STATS" type="VBoxContainer" parent="UILayer/HUD/RightPanel/VBox/StatsTabs"]
 
 [node name="HPBar" type="ProgressBar" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 max_value = 100.0
 value = 100.0
@@ -210,6 +231,7 @@ show_percentage = false
 theme_override_styles/fill = SubResource("HPFill")
 
 [node name="HPText" type="Label" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/HPBar"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -221,6 +243,7 @@ theme_override_font_sizes/font_size = 10
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 
 [node name="MPBar" type="ProgressBar" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
 max_value = 100.0
 value = 100.0
@@ -228,6 +251,7 @@ show_percentage = false
 theme_override_styles/fill = SubResource("MPFill")
 
 [node name="MPText" type="Label" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/MPBar"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -245,14 +269,17 @@ size_flags_vertical = 3
 size_flags_horizontal = 3
 
 [node name="StrLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol"]
+unique_name_in_owner = true
 text = "STR 00"
 horizontal_alignment = 1
 
 [node name="CeleLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol"]
+unique_name_in_owner = true
 text = "CELE 00"
 horizontal_alignment = 1
 
 [node name="QuestsButton" type="Button" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/LeftCol"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 40)
 focus_mode = 0
 text = "Q"
@@ -263,6 +290,7 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="GoldLabel" type="Label" parent="UILayer/HUD/RightPanel/VBox/StatsTabs/STATS/SplitRow/RightCol"]
+unique_name_in_owner = true
 text = "$ 0"
 horizontal_alignment = 1
 theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
@@ -291,7 +319,8 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 10
 theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
 
-[node name="Value" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Helm"]
+[node name="HelmValue" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Helm"]
+unique_name_in_owner = true
 text = "00"
 horizontal_alignment = 1
 
@@ -304,7 +333,8 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 10
 theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
 
-[node name="Value" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Armor"]
+[node name="ArmorValue" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Armor"]
+unique_name_in_owner = true
 text = "00"
 horizontal_alignment = 1
 
@@ -317,7 +347,8 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 10
 theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
 
-[node name="Value" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Weapon"]
+[node name="WeaponValue" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Weapon"]
+unique_name_in_owner = true
 text = "00"
 horizontal_alignment = 1
 
@@ -330,7 +361,8 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 10
 theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
 
-[node name="Value" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Shield"]
+[node name="ShieldValue" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/Shield"]
+unique_name_in_owner = true
 text = "00"
 horizontal_alignment = 1
 
@@ -343,12 +375,14 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 10
 theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
 
-[node name="Value" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/MagRes"]
+[node name="MagResValue" type="Label" parent="UILayer/HUD/RightPanel/VBox/EquipmentRow/MagRes"]
+unique_name_in_owner = true
 text = "00"
 horizontal_alignment = 1
 
 ; -------- Settings overlay — hidden by default; shown via `S` button --------
 [node name="SettingsOverlay" type="Control" parent="UILayer/HUD"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchor_right = 1.0
@@ -380,6 +414,7 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 16
 
 [node name="BindingsGrid" type="GridContainer" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
+unique_name_in_owner = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 4
@@ -387,22 +422,26 @@ columns = 4
 [node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
 
 [node name="DefaultsButton" type="Button" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
 size_flags_horizontal = 3
 focus_mode = 0
 text = "Cargar por defecto"
 
-[node name="CancelButton" type="Button" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar"]
+[node name="SettingsCancelButton" type="Button" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
 size_flags_horizontal = 3
 focus_mode = 0
 text = "Cancelar"
 
 [node name="SaveButton" type="Button" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
 size_flags_horizontal = 3
 focus_mode = 0
 text = "Guardar y salir"
 
 ; -------- Drop-amount dialog — prompts when dropping from a stacked slot --------
 [node name="DropAmountOverlay" type="Control" parent="UILayer/HUD"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchor_right = 1.0
@@ -433,22 +472,284 @@ text = "¿Cuántos?"
 horizontal_alignment = 1
 
 [node name="AmountInput" type="LineEdit" parent="UILayer/HUD/DropAmountOverlay/Panel/VBox"]
+unique_name_in_owner = true
 alignment = 1
 
 [node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/DropAmountOverlay/Panel/VBox"]
 
 [node name="ConfirmButton" type="Button" parent="UILayer/HUD/DropAmountOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
 size_flags_horizontal = 3
 focus_mode = 0
 text = "Tirar"
 
-[node name="CancelButton" type="Button" parent="UILayer/HUD/DropAmountOverlay/Panel/VBox/ButtonBar"]
+[node name="DropCancelButton" type="Button" parent="UILayer/HUD/DropAmountOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Cancelar"
+
+; -------- Bank overlay — V key opens. Two-pane: bank (left) + inventory (right).
+; Double-click = move (amount prompt for stacks). Right-click = full stack.
+[node name="BankOverlay" type="Control" parent="UILayer/HUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="UILayer/HUD/BankOverlay"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/HUD/BankOverlay"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -280.0
+offset_right = 350.0
+offset_bottom = 280.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/HUD/BankOverlay/Panel"]
+
+[node name="Title" type="Label" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
+text = "BÓVEDA"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="Hint" type="Label" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
+text = "Doble click: mover.  Click derecho: stack entera."
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
+
+[node name="Columns" type="HBoxContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
+size_flags_vertical = 3
+
+[node name="LeftCol" type="VBoxContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns"]
+size_flags_horizontal = 3
+
+[node name="BankLabel" type="Label" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns/LeftCol"]
+text = "Bóveda"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+
+[node name="BankGrid" type="GridContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns/LeftCol"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 5
+
+[node name="RightCol" type="VBoxContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns"]
+size_flags_horizontal = 3
+
+[node name="InvLabel" type="Label" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns/RightCol"]
+text = "Inventario"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+
+[node name="BankInvMirror" type="GridContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox/Columns/RightCol"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 5
+
+[node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/BankOverlay/Panel/VBox"]
+
+[node name="BankCloseButton" type="Button" parent="UILayer/HUD/BankOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Cerrar"
+
+; -------- Bank-amount prompt — modal-within-modal for stack moves --------
+[node name="BankAmountOverlay" type="Control" parent="UILayer/HUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="UILayer/HUD/BankAmountOverlay"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.5)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/HUD/BankAmountOverlay"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -70.0
+offset_right = 140.0
+offset_bottom = 70.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/HUD/BankAmountOverlay/Panel"]
+
+[node name="Title" type="Label" parent="UILayer/HUD/BankAmountOverlay/Panel/VBox"]
+text = "¿Cuántos?"
+horizontal_alignment = 1
+
+[node name="BankAmountInput" type="LineEdit" parent="UILayer/HUD/BankAmountOverlay/Panel/VBox"]
+unique_name_in_owner = true
+alignment = 1
+
+[node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/BankAmountOverlay/Panel/VBox"]
+
+[node name="BankAmountConfirmButton" type="Button" parent="UILayer/HUD/BankAmountOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Confirmar"
+
+[node name="BankAmountCancelButton" type="Button" parent="UILayer/HUD/BankAmountOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Cancelar"
+
+; -------- Dev overlay (F2) — search-and-spawn items/creatures, dev mode only --------
+[node name="DevOverlay" type="Control" parent="UILayer/HUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="UILayer/HUD/DevOverlay"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/HUD/DevOverlay"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -260.0
+offset_right = 260.0
+offset_bottom = 260.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/HUD/DevOverlay/Panel"]
+
+[node name="Title" type="Label" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+text = "[DEV] Crear"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="Hint" type="Label" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+text = "Filtra (Item/Criatura) → escribe para buscar → doble click → cantidad."
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
+
+[node name="CategoryRow" type="HBoxContainer" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+
+[node name="DevItemTab" type="Button" parent="UILayer/HUD/DevOverlay/Panel/VBox/CategoryRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+toggle_mode = true
+button_pressed = true
+text = "Items"
+
+[node name="DevCreatureTab" type="Button" parent="UILayer/HUD/DevOverlay/Panel/VBox/CategoryRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+toggle_mode = true
+text = "Criaturas"
+
+[node name="DevChestTab" type="Button" parent="UILayer/HUD/DevOverlay/Panel/VBox/CategoryRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+toggle_mode = true
+text = "Cofres"
+
+[node name="DevQueryInput" type="LineEdit" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+unique_name_in_owner = true
+placeholder_text = "Buscar..."
+
+[node name="DevResultsList" type="ItemList" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+
+[node name="DevCloseButton" type="Button" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
+unique_name_in_owner = true
+focus_mode = 0
+text = "Cerrar"
+
+; -------- Dev amount prompt — modal-within-modal for spawn quantity --------
+[node name="DevAmountOverlay" type="Control" parent="UILayer/HUD"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="Dimmer" type="ColorRect" parent="UILayer/HUD/DevAmountOverlay"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.5)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/HUD/DevAmountOverlay"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -70.0
+offset_right = 140.0
+offset_bottom = 70.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/HUD/DevAmountOverlay/Panel"]
+
+[node name="Title" type="Label" parent="UILayer/HUD/DevAmountOverlay/Panel/VBox"]
+text = "¿Cuántos?"
+horizontal_alignment = 1
+
+[node name="DevAmountInput" type="LineEdit" parent="UILayer/HUD/DevAmountOverlay/Panel/VBox"]
+unique_name_in_owner = true
+text = "1"
+alignment = 1
+
+[node name="ButtonBar" type="HBoxContainer" parent="UILayer/HUD/DevAmountOverlay/Panel/VBox"]
+
+[node name="DevAmountConfirmButton" type="Button" parent="UILayer/HUD/DevAmountOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Crear"
+
+[node name="DevAmountCancelButton" type="Button" parent="UILayer/HUD/DevAmountOverlay/Panel/VBox/ButtonBar"]
+unique_name_in_owner = true
 size_flags_horizontal = 3
 focus_mode = 0
 text = "Cancelar"
 
 ; -------- Floating messages — center-left over the game viewport --------
 [node name="MessagesLabel" type="Label" parent="UILayer/HUD"]
+unique_name_in_owner = true
 layout_mode = 1
 anchor_left = 0.0
 anchor_top = 0.5
