@@ -1,0 +1,21 @@
+effect_meditation:
+  id: 1
+  source: Fxs.ini[4]
+  offset:
+    x: 0
+    y: 0
+  animation:
+    frames:
+      - { file: 3069.png, region: { x: 0, y: 0, w: 60, h: 80 } }
+      - { file: 3069.png, region: { x: 60, y: 0, w: 60, h: 80 } }
+      - { file: 3069.png, region: { x: 120, y: 0, w: 60, h: 80 } }
+      - { file: 3069.png, region: { x: 180, y: 0, w: 60, h: 80 } }
+      - { file: 3069.png, region: { x: 240, y: 0, w: 60, h: 80 } }
+      - { file: 3069.png, region: { x: 0, y: 80, w: 60, h: 80 } }
+      - { file: 3069.png, region: { x: 60, y: 80, w: 60, h: 80 } }
+      - { file: 3069.png, region: { x: 120, y: 80, w: 60, h: 80 } }
+      - { file: 3069.png, region: { x: 180, y: 80, w: 60, h: 80 } }
+      - { file: 3069.png, region: { x: 240, y: 80, w: 60, h: 80 } }
+    speed_ms: 555
+    loop: true
+

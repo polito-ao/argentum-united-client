@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 Parse Cucsi graphics .ini/.dat files and emit per-catalog YAML + JSON
-describing bodies, heads, helmets, weapons, and shields ready for the Godot
-client's SpriteCatalog autoload.
+describing bodies, heads, helmets, weapons, shields, and effects ready for
+the Godot client's SpriteCatalog autoload.
 
 Source files (Windows-1252 encoded) live at
     C:/Users/agusp/Documents/Cucsiii/clientecucsi/Init/
@@ -13,6 +13,7 @@ Outputs:
     assets/sprite_data/helmets.yml        (+ .json)
     assets/sprite_data/weapons.yml        (+ .json)
     assets/sprite_data/shields.yml        (+ .json)
+    assets/sprite_data/effects.yml        (+ .json)
     assets/sprite_data/missing_refs.txt   (skip log, not data)
 
 Rules:
@@ -222,6 +223,114 @@ def parse_heads_like(ini_path: Path, section_pattern: re.Pattern, keys: Tuple[st
         if grhs is None:
             continue
         out[cid] = grhs
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Fxs.ini parser
+
+@dataclass
+class FxEntry:
+    fx_id: int
+    grh_id: int
+    offset_x: int
+    offset_y: int
+
+
+def parse_fxs(ini_path: Path) -> Dict[int, FxEntry]:
+    """
+    Cucsi Fxs.ini layout:
+      [INIT]
+      NumFxs=N
+      [FX{n}]
+      Animacion={GrhId}
+      OffsetX={int}
+      OffsetY={int}
+    """
+    sections = parse_ini(ini_path)
+    out: Dict[int, FxEntry] = {}
+    for sec, kv in sections.items():
+        m = re.match(r"^FX(\d+)$", sec)
+        if not m:
+            continue
+        fx_id = int(m.group(1))
+        try:
+            grh_id = int(kv.get("Animacion", "0"))
+            ox = int(kv.get("OffsetX", "0"))
+            oy = int(kv.get("OffsetY", "0"))
+        except ValueError:
+            continue
+        out[fx_id] = FxEntry(fx_id=fx_id, grh_id=grh_id, offset_x=ox, offset_y=oy)
+    return out
+
+
+# Effect catalog: argentum-united effect_id -> Cucsi (source_file, fx_index).
+# Server constants: scripts/game/layered_character.gd EFFECT_*.
+# Each entry's `name` is the YAML key the catalog gets emitted under so the
+# Godot side can look it up by effect_id (the numeric id on the wire). Add
+# new effects here as the server starts broadcasting them.
+EFFECT_MAP: List[Dict] = [
+    {
+        "id": 1,
+        "name": "effect_meditation",
+        "source_file": "Fxs.ini",
+        "fx_index": 4,   # FX4 = FxMeditar.CHICO (Cucsi level 1-7 default)
+    },
+]
+
+
+def build_effect_catalog(
+    fxs: Dict[int, FxEntry],
+    grhs: Dict[int, GrhEntry],
+    upscaled: set,
+    missing: List[str],
+) -> Dict[str, Dict]:
+    """
+    Resolve every entry in EFFECT_MAP into a self-contained dict:
+        {
+          id: int,
+          source: "Fxs.ini[N]",
+          offset: { x, y } (x2 applied),
+          animation: { frames: [...], speed_ms, loop: true },
+        }
+    Missing GRH or PNG -> skip the entry, log to missing_refs, leave the
+    placeholder fallback in the client.
+    """
+    out: Dict[str, Dict] = {}
+    for spec in EFFECT_MAP:
+        eid = spec["id"]
+        name = spec["name"]
+        src_file = spec["source_file"]
+        fx_index = spec["fx_index"]
+        if src_file != "Fxs.ini":
+            # Other source files (Auras.ini, particulas.ini) not wired yet.
+            missing.append(
+                f"effect {name} (id={eid}): source_file={src_file} not supported"
+            )
+            continue
+        fx = fxs.get(fx_index)
+        if fx is None:
+            missing.append(
+                f"effect {name} (id={eid}): Fxs.ini[{fx_index}] missing"
+            )
+            continue
+        ctx = f"effect {name} (id={eid}, Fxs.ini[{fx_index}], Grh{fx.grh_id})"
+        anim = resolve_animation(fx.grh_id, grhs, upscaled, missing, ctx)
+        if anim is None:
+            missing.append(f"effect {name} (id={eid}): skipping (animation unresolved)")
+            continue
+        # Default speed if Cucsi did not specify one (single-frame, etc.).
+        speed_ms = int(anim.get("speed_ms", 0)) or 1000
+        out[name] = {
+            "id": eid,
+            "source": f"{src_file}[{fx_index}]",
+            "offset": {"x": fx.offset_x * 2, "y": fx.offset_y * 2},
+            "animation": {
+                "frames": anim["frames"],
+                "speed_ms": speed_ms,
+                "loop": True,
+            },
+        }
     return out
 
 
@@ -457,6 +566,7 @@ def main() -> int:
         "Cascos.ini": CUCSI_INIT / "Cascos.ini",
         "Armas.dat": CUCSI_INIT / "Armas.dat",
         "Escudos.dat": CUCSI_INIT / "Escudos.dat",
+        "Fxs.ini": CUCSI_INIT / "Fxs.ini",
     }
     for name, path in required.items():
         if not path.exists():
@@ -520,6 +630,11 @@ def main() -> int:
     shields = build_dir_catalog(shields_raw, grhs, upscaled, missing, "shield")
     print(f"  -> shields emitted: {len(shields)} / {len(shields_raw)}")
 
+    print("Parsing Fxs.ini (effects) …", flush=True)
+    fxs = parse_fxs(required["Fxs.ini"])
+    effects = build_effect_catalog(fxs, grhs, upscaled, missing)
+    print(f"  -> effects emitted: {len(effects)} / {len(EFFECT_MAP)}")
+
     # Write outputs.
     print("Writing YAML + JSON catalogs …", flush=True)
     catalogs = [
@@ -528,6 +643,7 @@ def main() -> int:
         ("helmets", helmets, len(helmets_raw)),
         ("weapons", weapons, len(weapons_raw)),
         ("shields", shields, len(shields_raw)),
+        ("effects", effects, len(EFFECT_MAP)),
     ]
     for name, data, raw_count in catalogs:
         write_yaml(OUT_DIR / f"{name}.yml", data)
