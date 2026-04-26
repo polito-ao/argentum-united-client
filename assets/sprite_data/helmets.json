@@ -1,0 +1,7742 @@
+{
+  "helmet_1": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18006.png",
+            "region": {
+              "x": 100,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18006.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18006.png",
+            "region": {
+              "x": 2,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18006.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_3": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18001.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18001.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18001.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18001.png",
+            "region": {
+              "x": 68,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_4": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18003.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18003.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18003.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18003.png",
+            "region": {
+              "x": 68,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_5": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18016.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18016.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18016.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18016.png",
+            "region": {
+              "x": 68,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_6": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18007.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18007.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18007.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18007.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_7": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18004.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18004.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18004.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18004.png",
+            "region": {
+              "x": 68,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_8": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18018.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18018.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18018.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18018.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_9": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18023.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18023.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18023.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18023.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_10": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18019.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18019.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18019.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18019.png",
+            "region": {
+              "x": 68,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_11": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18008.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18008.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 36,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18008.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18008.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 36,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_12": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18009.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18009.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18009.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18009.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_13": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18013.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18013.png",
+            "region": {
+              "x": 36,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18013.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18013.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_14": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18014.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18014.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18014.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18014.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_15": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18026.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18026.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18026.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18026.png",
+            "region": {
+              "x": 68,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_16": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18028.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18028.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18028.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18028.png",
+            "region": {
+              "x": 68,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_17": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18306.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18306.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18306.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18306.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_18": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18306.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18306.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18306.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18306.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_19": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18308.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18308.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18308.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 28,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18308.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_20": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18310.png",
+            "region": {
+              "x": 98,
+              "y": 0,
+              "w": 36,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18310.png",
+            "region": {
+              "x": 36,
+              "y": 0,
+              "w": 30,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18310.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 36,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18310.png",
+            "region": {
+              "x": 62,
+              "y": 0,
+              "w": 30,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_21": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18312.png",
+            "region": {
+              "x": 92,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18312.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18312.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18312.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 30,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_22": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18316.png",
+            "region": {
+              "x": 94,
+              "y": 0,
+              "w": 34,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18316.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18316.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18316.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_23": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18320.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 30,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18320.png",
+            "region": {
+              "x": 30,
+              "y": 0,
+              "w": 30,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18320.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 30,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18320.png",
+            "region": {
+              "x": 68,
+              "y": 0,
+              "w": 30,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_24": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "18336.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "18336.png",
+            "region": {
+              "x": 30,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "18336.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "18336.png",
+            "region": {
+              "x": 66,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_25": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "10191.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "10191.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "10191.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "10191.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_26": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25158.png",
+            "region": {
+              "x": 94,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25158.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25158.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25158.png",
+            "region": {
+              "x": 62,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_27": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25188.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25188.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25188.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25188.png",
+            "region": {
+              "x": 62,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_28": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25190.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25190.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25190.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25190.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_29": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25280.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25280.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25280.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25280.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_30": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25282.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25282.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25282.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25282.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_31": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25290.png",
+            "region": {
+              "x": 148,
+              "y": 0,
+              "w": 52,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25290.png",
+            "region": {
+              "x": 52,
+              "y": 0,
+              "w": 50,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25290.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 50,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25290.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 44,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_32": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25342.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25342.png",
+            "region": {
+              "x": 30,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25342.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25342.png",
+            "region": {
+              "x": 66,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_33": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25492.png",
+            "region": {
+              "x": 96,
+              "y": 8,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25492.png",
+            "region": {
+              "x": 32,
+              "y": 8,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25492.png",
+            "region": {
+              "x": 0,
+              "y": 8,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25492.png",
+            "region": {
+              "x": 64,
+              "y": 8,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_34": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25508.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25508.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25508.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25508.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_35": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25522.png",
+            "region": {
+              "x": 170,
+              "y": 0,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25522.png",
+            "region": {
+              "x": 58,
+              "y": 0,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25522.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25522.png",
+            "region": {
+              "x": 114,
+              "y": 0,
+              "w": 60,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_36": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25526.png",
+            "region": {
+              "x": 162,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25526.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25526.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25526.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_37": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25542.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25542.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25542.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25542.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_38": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25553.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25553.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25553.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25553.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_39": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25563.png",
+            "region": {
+              "x": 156,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25563.png",
+            "region": {
+              "x": 52,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25563.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25563.png",
+            "region": {
+              "x": 104,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_40": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25574.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25574.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25574.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25574.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_41": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25576.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25576.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25576.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25576.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_42": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25577.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25577.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25577.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25577.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_43": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25579.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25579.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25579.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25579.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_44": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25581.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25581.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25581.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25581.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_45": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25582.png",
+            "region": {
+              "x": 146,
+              "y": 0,
+              "w": 52,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25582.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 32,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25582.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25582.png",
+            "region": {
+              "x": 106,
+              "y": 0,
+              "w": 32,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_46": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25586.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25586.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25586.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25586.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_47": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25280.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25280.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25280.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25280.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_48": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25633.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25633.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25633.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25633.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_49": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25635.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25635.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25635.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25635.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_50": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25637.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25637.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25637.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25637.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_51": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25639.png",
+            "region": {
+              "x": 96,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25639.png",
+            "region": {
+              "x": 32,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25639.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25639.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 32,
+              "h": 32
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_52": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25659.png",
+            "region": {
+              "x": 132,
+              "y": 0,
+              "w": 44,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25659.png",
+            "region": {
+              "x": 44,
+              "y": 0,
+              "w": 44,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25659.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 44,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25659.png",
+            "region": {
+              "x": 88,
+              "y": 0,
+              "w": 44,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_53": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "25661.png",
+            "region": {
+              "x": 138,
+              "y": 0,
+              "w": 46,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "25661.png",
+            "region": {
+              "x": 46,
+              "y": 0,
+              "w": 46,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "25661.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 46,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "25661.png",
+            "region": {
+              "x": 92,
+              "y": 0,
+              "w": 46,
+              "h": 52
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_54": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26358.png",
+            "region": {
+              "x": 98,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26358.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26358.png",
+            "region": {
+              "x": 2,
+              "y": 0,
+              "w": 32,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26358.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_55": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26360.png",
+            "region": {
+              "x": 98,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26360.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26360.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26360.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_56": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26362.png",
+            "region": {
+              "x": 98,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26362.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26362.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26362.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_57": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26364.png",
+            "region": {
+              "x": 98,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26364.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26364.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26364.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_58": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26366.png",
+            "region": {
+              "x": 98,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26366.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26366.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26366.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_59": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26368.png",
+            "region": {
+              "x": 98,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26368.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26368.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26368.png",
+            "region": {
+              "x": 64,
+              "y": 0,
+              "w": 34,
+              "h": 56
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_60": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26370.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26370.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26370.png",
+            "region": {
+              "x": 2,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26370.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_61": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26372.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26372.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26372.png",
+            "region": {
+              "x": 2,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26372.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_62": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26374.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26374.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26374.png",
+            "region": {
+              "x": 2,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26374.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_63": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26376.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26376.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26376.png",
+            "region": {
+              "x": 2,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26376.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_64": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26378.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26378.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26378.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26378.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_65": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26380.png",
+            "region": {
+              "x": 102,
+              "y": 0,
+              "w": 32,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26380.png",
+            "region": {
+              "x": 34,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26380.png",
+            "region": {
+              "x": 2,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26380.png",
+            "region": {
+              "x": 70,
+              "y": 0,
+              "w": 34,
+              "h": 34
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_66": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "10155.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "10155.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "10155.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "10155.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_67": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "10161.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "10161.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "10161.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "10161.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_68": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "10163.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 60,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "10163.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "10163.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 60,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "10163.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_69": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "10165.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "10165.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "10165.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "10165.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_70": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "10170.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "10170.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "10170.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "10170.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_71": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "15484.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "15484.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "15484.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "15484.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_72": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "15486.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "15486.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "15486.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "15486.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_73": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "9966.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "9966.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "9966.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "9966.png",
+            "region": {
+              "x": 0,
+              "y": 132,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_74": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "9967.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "9967.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "9967.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "9967.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_75": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "9968.png",
+            "region": {
+              "x": 126,
+              "y": 0,
+              "w": 40,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "9968.png",
+            "region": {
+              "x": 46,
+              "y": 0,
+              "w": 40,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "9968.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 40,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "9968.png",
+            "region": {
+              "x": 86,
+              "y": 0,
+              "w": 40,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_76": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "9969.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "9969.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "9969.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "9969.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_77": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "9970.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 34,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "9970.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 34,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "9970.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 34,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "9970.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 34,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_78": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "15487.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "15487.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "15487.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 64,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "15487.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_79": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "15488.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "15488.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "15488.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "15488.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_80": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "15489.png",
+            "region": {
+              "x": 0,
+              "y": 64,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "15489.png",
+            "region": {
+              "x": 0,
+              "y": 192,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "15489.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "15489.png",
+            "region": {
+              "x": 0,
+              "y": 128,
+              "w": 54,
+              "h": 64
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_81": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26558.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26558.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26558.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26558.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_82": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26559.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26559.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26559.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26559.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_83": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26560.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26560.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26560.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26560.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_84": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26561.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26561.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26561.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26561.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_85": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26562.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26562.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26562.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26562.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_86": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26563.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26563.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26563.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26563.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_87": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26564.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26564.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26564.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26564.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_88": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26565.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26565.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26565.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26565.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_89": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26566.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26566.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26566.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26566.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_90": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26567.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26567.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26567.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26567.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_91": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26568.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26568.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26568.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26568.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_92": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26569.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26569.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26569.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26569.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_93": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26570.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26570.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26570.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26570.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_94": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26571.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26571.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26571.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26571.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_95": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26572.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26572.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26572.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26572.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_96": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26573.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26573.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26573.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26573.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_97": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26574.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26574.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26574.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26574.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_98": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26575.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26575.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26575.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26575.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_99": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26576.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26576.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26576.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26576.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_100": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26577.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26577.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26577.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26577.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_101": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26578.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26578.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26578.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26578.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_102": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26579.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26579.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26579.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26579.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_103": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26580.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26580.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26580.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26580.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_104": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26581.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26581.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26581.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26581.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_105": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26582.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26582.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26582.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26582.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_106": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26583.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26583.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26583.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26583.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_107": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26584.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26584.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26584.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26584.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_108": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26585.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26585.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26585.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26585.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_109": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26586.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26586.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26586.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26586.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_110": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26587.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26587.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26587.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26587.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_111": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26636.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26636.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26636.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26636.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_112": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26637.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26637.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26637.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26637.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_113": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26638.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26638.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26638.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26638.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_114": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26639.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26639.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26639.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26639.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_115": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26640.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26640.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26640.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26640.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_116": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26641.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26641.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26641.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26641.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_117": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26642.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26642.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26642.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26642.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_118": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26643.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26643.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26643.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26643.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_119": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26644.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26644.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26644.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26644.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_120": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26645.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26645.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26645.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26645.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_121": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26646.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26646.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26646.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26646.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_122": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26647.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26647.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26647.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26647.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_123": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26648.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26648.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26648.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26648.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_124": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26649.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26649.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26649.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26649.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_125": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26650.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26650.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26650.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26650.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_126": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26651.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26651.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26651.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26651.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_127": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26652.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26652.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26652.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26652.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_128": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26653.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26653.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26653.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26653.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_129": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26654.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26654.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26654.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26654.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  },
+  "helmet_130": {
+    "animations": {
+      "walk_north": {
+        "frames": [
+          {
+            "file": "26655.png",
+            "region": {
+              "x": 54,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_east": {
+        "frames": [
+          {
+            "file": "26655.png",
+            "region": {
+              "x": 160,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_south": {
+        "frames": [
+          {
+            "file": "26655.png",
+            "region": {
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      },
+      "walk_west": {
+        "frames": [
+          {
+            "file": "26655.png",
+            "region": {
+              "x": 108,
+              "y": 0,
+              "w": 54,
+              "h": 58
+            }
+          }
+        ],
+        "speed_ms": 0
+      }
+    }
+  }
+}

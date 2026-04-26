@@ -21,10 +21,8 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 [autoload]
 
 MapTextureCache="*res://scripts/game/map_texture_cache.gd"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+SpriteCatalog="*res://scripts/game/sprite_catalog.gd"
+SpriteFramesBuilder="*res://scripts/game/sprite_frames_builder.gd"
 
 [display]
 
@@ -35,6 +33,10 @@ window/size/window_width_override=1280
 window/size/window_height_override=960
 window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
 [rendering]
 

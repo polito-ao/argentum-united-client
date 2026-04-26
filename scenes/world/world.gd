@@ -103,6 +103,11 @@ var inventory: InventoryController
 var _minimap_drawer: _MinimapDrawer
 var _is_dead: bool = false
 
+# Layered character node for the local player. Created on first
+# _apply_self_sprite_layers and reused; hidden when the legacy body_sprite_ref
+# path is used instead.
+var _self_layered: LayeredCharacter = null
+
 # Spellbook for this character — populated from server config in setup() based on
 # class + level. Empty for non-caster classes or levels below the lowest learn_level.
 var _my_spells: Array = []
@@ -269,7 +274,13 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	# AND _apply_self_body_sprite can't resolve its atlas (graficos_root is
 	# still empty at this point, so _get_map_texture returns null).
 	_render_ground()
-	_apply_self_body_sprite(character.get("body_sprite_ref", null))
+	# Prefer the new sprite_layers contract; fall back to legacy body_sprite_ref
+	# until both PRs (server + client) are merged.
+	var sprite_layers = character.get("sprite_layers", null)
+	if sprite_layers is Dictionary:
+		_apply_self_sprite_layers(sprite_layers)
+	else:
+		_apply_self_body_sprite(character.get("body_sprite_ref", null))
 	_update_player_position()
 	_setup_minimap()
 
@@ -794,9 +805,21 @@ func _tween_player_step() -> void:
 	_move_tween = create_tween().set_parallel(true)
 	_move_tween.tween_property(player_sprite, "position", target_sprite, MOVE_INTERVAL)
 	_move_tween.tween_property(camera, "position", target_camera, MOVE_INTERVAL)
+	# Animation drive — only when the new layered path is mounted. The legacy
+	# single-Sprite2D path keeps rendering a static body, which is fine: the
+	# fallback is meant to disappear once both server + client PRs land.
+	if _self_layered != null:
+		_self_layered.set_direction(my_heading)
+		_self_layered.set_walking(true)
+		_move_tween.finished.connect(_on_self_step_finished, CONNECT_ONE_SHOT)
 	hud.set_position_label(map_id, my_pos.x, my_pos.y)
 	if _minimap_drawer:
 		_minimap_drawer.queue_redraw()
+
+
+func _on_self_step_finished() -> void:
+	if _self_layered != null:
+		_self_layered.set_walking(false)
 
 var _move_cooldown: float = 0.0
 var _fps_cooldown: float = 0.0
@@ -1124,23 +1147,55 @@ func _handle_player_spawn(payload: Dictionary):
 	var pos = Vector2i(payload.get("x", 0), payload.get("y", 0))
 	var character_payload = payload.get("character", {})
 	var char_name = character_payload.get("name", "?")
-	# Server stamps body_sprite_ref onto the character summary in bootstrap.rb;
-	# nil-default means the old colored-square path still works.
+	# Prefer the new sprite_layers contract; fall back to the legacy
+	# body_sprite_ref (single-Sprite2D atlas tile) until the server PR lands.
+	var sprite_layers = character_payload.get("sprite_layers", null)
 	var sprite_ref = character_payload.get("body_sprite_ref", null)
 
-	var node = _create_entity_node(char_name, Color.CYAN, sprite_ref)
+	var node: Node2D
+	var layered: LayeredCharacter = null
+	if sprite_layers is Dictionary:
+		node = _create_layered_player_node(char_name, sprite_layers)
+		# The LayeredCharacter is the first child we added — find it for animation drive.
+		for child in node.get_children():
+			if child is LayeredCharacter:
+				layered = child
+				break
+	else:
+		node = _create_entity_node(char_name, Color.CYAN, sprite_ref)
 	node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
 	entities_layer.add_child(node)
 
-	players[id] = {"pos": pos, "name": char_name, "node": node}
+	players[id] = {"pos": pos, "name": char_name, "node": node, "layered": layered}
 	hud.add_message("%s appeared" % char_name)
 
 func _handle_player_moved(payload: Dictionary):
 	var id = payload.get("id", 0)
-	if id in players:
-		var pos = Vector2i(payload.get("x", 0), payload.get("y", 0))
-		players[id].pos = pos
-		players[id].node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
+	if not (id in players):
+		return
+	var new_pos = Vector2i(payload.get("x", 0), payload.get("y", 0))
+	var prev_pos: Vector2i = players[id].pos
+	players[id].pos = new_pos
+	var node = players[id].node
+	if node == null:
+		return
+	var target = Vector2(new_pos.x * _tile_size, new_pos.y * _tile_size)
+	# Smooth-walk the other player's sprite over MOVE_INTERVAL — same cadence
+	# as our own player. Drives the LayeredCharacter walk animation in lockstep.
+	# (Implicitly fixes the parked "other players snap" follow-up.)
+	var layered: LayeredCharacter = players[id].get("layered", null)
+	var dx: int = new_pos.x - prev_pos.x
+	var dy: int = new_pos.y - prev_pos.y
+	if layered != null:
+		layered.set_direction(CharacterDirection.from_delta(dx, dy))
+		layered.set_walking(true)
+	var tween := create_tween()
+	tween.tween_property(node, "position", target, MOVE_INTERVAL)
+	if layered != null:
+		var stop_walking := func():
+			if is_instance_valid(layered):
+				layered.set_walking(false)
+		tween.finished.connect(stop_walking, CONNECT_ONE_SHOT)
 
 func _handle_player_despawn(payload: Dictionary):
 	var id = payload.get("id", 0)
@@ -1473,6 +1528,28 @@ func _create_ground_item_node(text: String) -> Node2D:
 
 	return node
 
+func _create_layered_player_node(entity_name: String, sprite_layers: Dictionary) -> Node2D:
+	# Other-player rendering: a Node2D that owns a LayeredCharacter (5
+	# AnimatedSprite2D children) plus a name label. Mirrors what the local
+	# player gets under $PlayerSprite, just constructed programmatically.
+	var node := Node2D.new()
+	var layered := LayeredCharacter.new()
+	layered.set_tile_size(_tile_size)
+	layered.apply_layers(sprite_layers)
+	node.add_child(layered)
+
+	var label = Label.new()
+	label.text = entity_name
+	label.position = Vector2(-30, _tile_size + 2)
+	label.size = Vector2(92, 16)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 10)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	node.add_child(label)
+
+	return node
+
+
 func _create_entity_node(entity_name: String, color: Color, sprite_ref = null) -> Node2D:
 	var node = Node2D.new()
 
@@ -1519,6 +1596,27 @@ func _apply_self_body_sprite(sprite_ref):
 			existing.queue_free()
 	sprite.name = "BodySprite"
 	$PlayerSprite.add_child(sprite)
+
+
+func _apply_self_sprite_layers(sprite_layers: Dictionary) -> void:
+	# New rendering path: 5-layer LayeredCharacter mounted under PlayerSprite.
+	# Layers we render in lockstep — body and head always; helmet/weapon/shield
+	# only when the server names them.
+	$PlayerSprite/Rect.hide()
+	# Tear down legacy single-Sprite2D path if it had been mounted.
+	for existing in $PlayerSprite.get_children():
+		if existing is Sprite2D and existing.name == "BodySprite":
+			existing.queue_free()
+	if _self_layered == null:
+		_self_layered = LayeredCharacter.new()
+		_self_layered.name = "LayeredCharacter"
+		_self_layered.set_tile_size(_tile_size)
+		$PlayerSprite.add_child(_self_layered)
+	else:
+		_self_layered.set_tile_size(_tile_size)
+	_self_layered.apply_layers(sprite_layers)
+	_self_layered.set_direction(my_heading)
+	_self_layered.set_walking(false)
 
 
 func _make_entity_sprite(sprite_ref) -> Sprite2D:
