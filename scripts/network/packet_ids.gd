@@ -16,6 +16,12 @@ const CHARACTER_SELECT = 0x0022
 const CHARACTER_SELECT_RESPONSE = 0x0023
 const CHARACTER_CREATE = 0x0024
 const CHARACTER_CREATE_RESPONSE = 0x0025
+# Head picker (character creation): client requests the list of head_ids
+# allowed for a race; server replies with { race, head_ids: [Int, ...] }.
+# CHARACTER_CREATE payload may include head_id; server falls back to race
+# default when omitted (back-compat).
+const HEAD_OPTIONS_REQUEST = 0x0089
+const HEAD_OPTIONS_RESPONSE = 0x008A
 
 const MAP_LOAD = 0x0030
 const PLAYER_SPAWN = 0x0031

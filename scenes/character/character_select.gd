@@ -14,8 +14,19 @@ signal character_selected(character: Dictionary)
 @onready var title_label: Label = $Panel/VBoxContainer/TitleLabel
 @onready var logout_button: Button = $Panel/VBoxContainer/LogoutButton
 @onready var logout_confirm: ConfirmationDialog = $LogoutConfirm
+@onready var head_picker_label: Label = $Panel/VBoxContainer/CreatePanel/HeadPickerLabel
+@onready var head_picker: HBoxContainer = $Panel/VBoxContainer/CreatePanel/HeadPicker
+@onready var head_prev_button: Button = $Panel/VBoxContainer/CreatePanel/HeadPicker/HeadPrev
+@onready var head_next_button: Button = $Panel/VBoxContainer/CreatePanel/HeadPicker/HeadNext
+@onready var head_preview: Control = $Panel/VBoxContainer/CreatePanel/HeadPicker/HeadPreview
+@onready var head_body_sprite: Sprite2D = $Panel/VBoxContainer/CreatePanel/HeadPicker/HeadPreview/BodySprite
+@onready var head_head_sprite: Sprite2D = $Panel/VBoxContainer/CreatePanel/HeadPicker/HeadPreview/HeadSprite
+@onready var head_loading_label: Label = $Panel/VBoxContainer/CreatePanel/HeadPicker/HeadPreview/HeadLoading
+@onready var head_index_label: Label = $Panel/VBoxContainer/CreatePanel/HeadIndexLabel
+@onready var head_random_button: Button = $Panel/VBoxContainer/CreatePanel/HeadRandomButton
 
 var connection: ServerConnection
+var head_picker_controller: HeadPickerController
 var _characters: Array = []
 var _dice_throws: Array = []
 # Cache the select payload so we can hand it to world on MAP_LOAD (happens right after SELECT_RESPONSE).
@@ -45,6 +56,27 @@ func setup(conn: ServerConnection):
 	logout_button.pressed.connect(func(): logout_confirm.popup_centered())
 	logout_confirm.confirmed.connect(_on_logout_confirmed)
 
+	# Head picker: requests head_ids whenever the race selector changes,
+	# updates a live composite preview, and contributes head_id to the
+	# CHARACTER_CREATE payload. Constructed in setup() because it needs
+	# `connection` to send HEAD_OPTIONS_REQUEST (controller-lifecycle rule).
+	head_picker_controller = HeadPickerController.new({
+		connection    = connection,
+		body_sprite   = head_body_sprite,
+		head_sprite   = head_head_sprite,
+		label         = head_index_label,
+		prev_button   = head_prev_button,
+		next_button   = head_next_button,
+		container     = head_picker,
+		loading_label = head_loading_label,
+	})
+	race_selector.item_selected.connect(_on_race_changed)
+	head_random_button.pressed.connect(func(): head_picker_controller.pick_random())
+	# Kick off picker for the default-selected race so the preview is populated
+	# even before the user touches the dropdown.
+	if RACES.size() > 0:
+		head_picker_controller.set_race(RACES[race_selector.selected])
+
 	# Request character list
 	connection.send_packet(PacketIds.CHARACTER_LIST_REQUEST)
 	status_label.text = "Loading characters..."
@@ -59,6 +91,9 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			_handle_select_response(payload)
 		PacketIds.MAP_LOAD:
 			_enter_world(payload)
+		PacketIds.HEAD_OPTIONS_RESPONSE:
+			if head_picker_controller != null:
+				head_picker_controller.handle_options_response(payload)
 
 func _handle_character_list(payload: Dictionary):
 	_characters = payload.get("characters", [])
@@ -121,6 +156,13 @@ func _select_character(char_id: int):
 	status_label.text = "Selecting..."
 	connection.send_packet(PacketIds.CHARACTER_SELECT, {"character_id": char_id})
 
+func _on_race_changed(idx: int) -> void:
+	if head_picker_controller == null:
+		return
+	if idx < 0 or idx >= RACES.size():
+		return
+	head_picker_controller.set_race(RACES[idx])
+
 func _on_create_pressed():
 	var char_name = name_input.text.strip_edges()
 	if char_name.is_empty():
@@ -142,7 +184,8 @@ func _on_create_pressed():
 		"name": char_name,
 		"class": class_type,
 		"race": race,
-		"throw_index": throw_index
+		"throw_index": throw_index,
+		"head_id": head_picker_controller.selected_head_id() if head_picker_controller != null else 1,
 	})
 
 func _handle_create_response(payload: Dictionary):
