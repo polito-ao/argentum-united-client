@@ -54,6 +54,7 @@ var _subtitle_label: Label
 var _rating_label: Label
 var _portrait_rect: ColorRect
 var _portrait_class_label: Label
+var _portrait_texture: TextureRect
 var _attr_rows: Dictionary = {}
 
 
@@ -115,13 +116,29 @@ func set_data(data: Dictionary) -> void:
 			dim = Color(0.35, 0.85, 0.35)
 		row.dice.add_theme_color_override("font_color", dim)
 
-	# Portrait -- TODO: portrait. Drop a TextureRect with real class art
-	# once it exists. For now ColorRect + class label.
-	_portrait_rect.color = CLASS_COLORS.get(class_slug, CLASS_COLOR_FALLBACK)
-	if class_slug.is_empty():
-		_portrait_class_label.text = "?"
+	# Portrait. Try the real class art first; fall back to the colored
+	# placeholder if the texture isn't there (unknown class slug, missing
+	# asset, etc.).
+	var portrait_path := "res://assets/class_portraits/%s.jpg" % class_slug
+	var tex: Texture2D = null
+	if not class_slug.is_empty() and ResourceLoader.exists(portrait_path):
+		tex = load(portrait_path)
+
+	if tex != null:
+		_portrait_texture.texture = tex
+		_portrait_texture.visible = true
+		_portrait_rect.visible = false
+		_portrait_class_label.visible = false
 	else:
-		_portrait_class_label.text = class_slug.capitalize()
+		_portrait_texture.texture = null
+		_portrait_texture.visible = false
+		_portrait_rect.visible = true
+		_portrait_class_label.visible = true
+		_portrait_rect.color = CLASS_COLORS.get(class_slug, CLASS_COLOR_FALLBACK)
+		if class_slug.is_empty():
+			_portrait_class_label.text = "?"
+		else:
+			_portrait_class_label.text = class_slug.capitalize()
 
 	_apply_tier_border(ovr)
 
@@ -214,6 +231,14 @@ func _build_layout() -> void:
 	_portrait_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_portrait_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	portrait_box.add_child(_portrait_rect)
+
+	_portrait_texture = TextureRect.new()
+	_portrait_texture.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_portrait_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_portrait_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	_portrait_texture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_portrait_texture.visible = false
+	portrait_box.add_child(_portrait_texture)
 
 	_portrait_class_label = Label.new()
 	_portrait_class_label.text = "?"
