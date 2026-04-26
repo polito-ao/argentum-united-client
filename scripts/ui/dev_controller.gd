@@ -2,9 +2,10 @@ class_name DevController
 extends RefCounted
 
 ## Dev-tool overlay (F2 by default). Cucsi-style search + spawn:
-##   - Toggle category: Items / Criaturas
+##   - Toggle category: Items / Criaturas / Cofres
 ##   - Type to search; debounced server query returns matches
 ##   - Double-click a result → amount prompt → server spawns N
+##     (chests ignore amount; server always spawns 1 at the player's tile)
 ##
 ## Server-gated by ENV["DEV_AUTH"]; in production these packets get no
 ## response so the overlay stays empty.
@@ -21,6 +22,7 @@ var _amount_input: LineEdit
 var _results: ItemList
 var _item_tab: Button
 var _creature_tab: Button
+var _chest_tab: Button
 var _connection
 var _hud
 
@@ -37,6 +39,7 @@ func _init(refs: Dictionary) -> void:
 	_results         = refs.results
 	_item_tab        = refs.item_tab
 	_creature_tab    = refs.creature_tab
+	_chest_tab       = refs.get("chest_tab", null)
 	_connection      = refs.connection
 	_hud             = refs.hud
 	if _connection == null:
@@ -46,6 +49,8 @@ func _init(refs: Dictionary) -> void:
 	_results.item_activated.connect(_on_result_activated)
 	_item_tab.pressed.connect(func(): _switch_category("item"))
 	_creature_tab.pressed.connect(func(): _switch_category("creature"))
+	if _chest_tab != null:
+		_chest_tab.pressed.connect(func(): _switch_category("chest"))
 
 # --- Open / close ---
 
@@ -99,6 +104,8 @@ func _switch_category(category: String) -> void:
 	_category = category
 	_item_tab.button_pressed = (category == "item")
 	_creature_tab.button_pressed = (category == "creature")
+	if _chest_tab != null:
+		_chest_tab.button_pressed = (category == "chest")
 	_request_list()
 
 # --- Search ---

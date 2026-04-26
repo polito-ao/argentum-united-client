@@ -13,6 +13,7 @@ var amount_input: LineEdit
 var results: ItemList
 var item_tab: Button
 var creature_tab: Button
+var chest_tab: Button
 var conn: _StubConnection
 var hud: _StubHud
 
@@ -31,6 +32,8 @@ func before_each():
 	item_tab.button_pressed = true
 	creature_tab = Button.new()
 	creature_tab.toggle_mode = true
+	chest_tab = Button.new()
+	chest_tab.toggle_mode = true
 	conn = _StubConnection.new()
 	hud = _StubHud.new()
 	dev = DevController.new({
@@ -41,6 +44,7 @@ func before_each():
 		results        = results,
 		item_tab       = item_tab,
 		creature_tab   = creature_tab,
+		chest_tab      = chest_tab,
 		connection     = conn,
 		hud            = hud,
 	})
@@ -51,6 +55,7 @@ func after_each():
 	results.free()
 	item_tab.free()
 	creature_tab.free()
+	chest_tab.free()
 
 # --- open / close ---
 
@@ -87,6 +92,46 @@ func test_switching_to_creature_category_re_requests_list():
 	assert_eq(req.payload.category, "creature")
 	assert_true(creature_tab.button_pressed)
 	assert_false(item_tab.button_pressed)
+
+func test_switching_to_chest_category_re_requests_list():
+	dev.open()
+	conn.sent.clear()
+	dev._switch_category("chest")
+	var req = _first_packet(PacketIds.DEV_LIST_REQUEST)
+	assert_not_null(req)
+	assert_eq(req.payload.category, "chest")
+	assert_true(chest_tab.button_pressed)
+	assert_false(item_tab.button_pressed)
+	assert_false(creature_tab.button_pressed)
+
+func test_chest_list_response_renders_results():
+	dev._switch_category("chest")
+	dev.handle_list_response({
+		"category": "chest",
+		"results": [
+			{"slug": "cofre_madera", "name": "Cofre de Madera"},
+			{"slug": "cofre_dorado", "name": "Cofre Dorado"},
+		],
+	})
+	assert_eq(results.item_count, 2)
+
+func test_confirm_amount_for_chest_sends_dev_spawn_with_chest_category():
+	dev._switch_category("chest")
+	dev.handle_list_response({
+		"category": "chest",
+		"results": [{"slug": "cofre_madera", "name": "Cofre de Madera"}],
+	})
+	dev._on_result_activated(0)
+	conn.sent.clear()
+	dev.confirm_amount()
+
+	var spawn = _first_packet(PacketIds.DEV_SPAWN)
+	assert_not_null(spawn)
+	assert_eq(spawn.payload.category, "chest")
+	assert_eq(spawn.payload.slug, "cofre_madera")
+	# Server ignores amount for chests, but the controller still ships it
+	# uniformly with item / creature flow.
+	assert_eq(spawn.payload.amount, 1)
 
 # --- list response ---
 

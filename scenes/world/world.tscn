@@ -49,6 +49,9 @@ theme_override_font_sizes/font_size = 10
 [node name="GroundItems" type="Node2D" parent="."]
 z_index = -5
 
+[node name="Chests" type="Node2D" parent="."]
+z_index = -3
+
 [node name="Entities" type="Node2D" parent="."]
 
 [node name="UILayer" type="CanvasLayer" parent="."]
@@ -670,6 +673,13 @@ size_flags_horizontal = 3
 focus_mode = 0
 toggle_mode = true
 text = "Criaturas"
+
+[node name="DevChestTab" type="Button" parent="UILayer/HUD/DevOverlay/Panel/VBox/CategoryRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+toggle_mode = true
+text = "Cofres"
 
 [node name="DevQueryInput" type="LineEdit" parent="UILayer/HUD/DevOverlay/Panel/VBox"]
 unique_name_in_owner = true

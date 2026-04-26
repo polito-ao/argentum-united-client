@@ -47,11 +47,13 @@ var _self_id: int = -1
 var players: Dictionary = {}       # id -> { pos: Vector2i, name: String, node: Node2D }
 var npcs: Dictionary = {}          # id -> { pos: Vector2i, name: String, hp: int, max_hp: int, node: Node2D }
 var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D }
+var chests: Dictionary = {}        # chest_id -> { pos: Vector2i, state: String, node: Node2D }
 
 # === World scene nodes ===
 @onready var camera: Camera2D                = $Camera
 @onready var entities_layer: Node2D          = $Entities
 @onready var ground_items_layer: Node2D      = $GroundItems
+@onready var chests_layer: Node2D             = $Chests
 @onready var ground_layer: Node2D            = $Ground
 @onready var player_sprite: Node2D           = $PlayerSprite
 
@@ -128,6 +130,7 @@ const DEFAULT_BINDINGS = {
 	"exit_to_select": KEY_F1,
 	"hide": KEY_O,
 	"bank": KEY_V,
+	"open_chest": KEY_F,
 }
 
 const ACTION_LABELS = {
@@ -149,6 +152,7 @@ const ACTION_LABELS = {
 	"exit_to_select": "Salir",
 	"hide": "Ocultar",
 	"bank": "Bóveda",
+	"open_chest": "Abrir cofre",
 }
 
 var bindings: Dictionary = DEFAULT_BINDINGS.duplicate()
@@ -204,6 +208,7 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 		results        = %DevResultsList,
 		item_tab       = %DevItemTab,
 		creature_tab   = %DevCreatureTab,
+		chest_tab      = %DevChestTab,
 		connection     = connection,
 		hud            = hud,
 	})
@@ -969,6 +974,8 @@ func _input(event):
 			connection.send_packet(PacketIds.HIDE_TOGGLE)
 		"bank":
 			bank.toggle()
+		"open_chest":
+			_try_open_adjacent_chest()
 
 func _send_move(dx: int, dy: int):
 	var new_x = my_pos.x + dx
@@ -1101,6 +1108,12 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			_handle_ground_item_spawn(payload)
 		PacketIds.GROUND_ITEM_DESPAWN:
 			_handle_ground_item_despawn(payload)
+		PacketIds.CHEST_SPAWN:
+			_handle_chest_spawn(payload)
+		PacketIds.CHEST_OPENED:
+			_handle_chest_opened(payload)
+		PacketIds.CHEST_DESPAWN:
+			_handle_chest_despawn(payload)
 		PacketIds.HIDE_STATE_CHANGED:
 			_handle_hide_state_changed(payload)
 		_:
@@ -1189,6 +1202,9 @@ func _handle_map_transition(payload: Dictionary):
 	for id in ground_items:
 		ground_items[id].node.queue_free()
 	ground_items.clear()
+	for id in chests:
+		chests[id].node.queue_free()
+	chests.clear()
 
 	# Same ordering constraint as on initial world-entry.
 	_render_ground()
@@ -1340,6 +1356,100 @@ func _handle_ground_item_despawn(payload: Dictionary):
 	if id in ground_items:
 		ground_items[id].node.queue_free()
 		ground_items.erase(id)
+
+# --- Chests ---
+
+# Cardinal-adjacency check (Manhattan distance == 1). Mirrors the server's
+# Npc#in_attack_range? rule for chest interaction. Static so unit tests can
+# exercise the helper without a live world instance.
+static func find_adjacent_chest(player_pos: Vector2i, chest_dict: Dictionary) -> int:
+	for chest_id in chest_dict:
+		var entry = chest_dict[chest_id]
+		var pos: Vector2i = entry.get("pos", Vector2i.ZERO)
+		# Closed chests only — opened ones are visually present but already looted.
+		if entry.get("state", "closed") != "closed":
+			continue
+		var dx: int = abs(pos.x - player_pos.x)
+		var dy: int = abs(pos.y - player_pos.y)
+		if dx + dy == 1:
+			return int(chest_id)
+	return -1
+
+func _try_open_adjacent_chest():
+	var chest_id := find_adjacent_chest(my_pos, chests)
+	if chest_id == -1:
+		hud.add_message("No hay cofre adyacente")
+		return
+	connection.send_packet(PacketIds.CHEST_OPEN, {"chest_id": chest_id})
+
+func _handle_chest_spawn(payload: Dictionary):
+	var id = int(payload.get("chest_id", 0))
+	var pos = Vector2i(int(payload.get("x", 0)), int(payload.get("y", 0)))
+	var state = String(payload.get("state", "closed"))
+	var sprite_ref = payload.get("sprite_ref", null)
+
+	if id in chests and chests[id].has("node"):
+		chests[id].node.queue_free()
+
+	var node = _create_chest_node(state, sprite_ref)
+	node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
+	chests_layer.add_child(node)
+
+	chests[id] = {"pos": pos, "state": state, "node": node}
+
+func _handle_chest_opened(payload: Dictionary):
+	var id = int(payload.get("chest_id", 0))
+	if not (id in chests):
+		return
+	chests[id].state = "opened"
+	# Visual swap: tint the placeholder, or recolor the open marker. The
+	# closed/opened distinction is mostly state — loot ground-spawns via
+	# GROUND_ITEM_SPAWN, which is already wired.
+	var node = chests[id].node
+	if node != null and is_instance_valid(node):
+		var rect = node.get_node_or_null("Rect")
+		if rect != null and rect is ColorRect:
+			(rect as ColorRect).color = Color(0.45, 0.30, 0.10) # darker, "opened lid"
+		var label = node.get_node_or_null("Label")
+		if label != null and label is Label:
+			(label as Label).text = "cofre*"
+
+func _handle_chest_despawn(payload: Dictionary):
+	var id = int(payload.get("chest_id", 0))
+	if id in chests:
+		chests[id].node.queue_free()
+		chests.erase(id)
+
+func _create_chest_node(state: String, sprite_ref) -> Node2D:
+	# Server may ship a sprite_ref atlas region; fall back to a brown
+	# ColorRect placeholder. Wiring is the goal; art polish lands later.
+	var node = Node2D.new()
+
+	var sprite := _make_entity_sprite(sprite_ref)
+	if sprite != null:
+		node.add_child(sprite)
+	else:
+		var rect = ColorRect.new()
+		rect.name = "Rect"
+		rect.size = Vector2(_tile_size - 8, _tile_size - 8)
+		rect.position = Vector2(4, 4)
+		# closed = warm brown; opened gets darkened by _handle_chest_opened
+		rect.color = Color(0.65, 0.42, 0.18) if state == "closed" else Color(0.45, 0.30, 0.10)
+		rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		node.add_child(rect)
+
+		var label = Label.new()
+		label.name = "Label"
+		label.text = "cofre" if state == "closed" else "cofre*"
+		label.position = Vector2(-8, -16)
+		label.size = Vector2(_tile_size + 16, 14)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.add_theme_font_size_override("font_size", 9)
+		label.add_theme_color_override("font_color", Color(1, 0.92, 0.7, 1))
+		node.add_child(label)
+
+	return node
 
 func _create_ground_item_node(text: String) -> Node2D:
 	var node = Node2D.new()
