@@ -1,3 +1,8 @@
 .godot/
 *.import
 export_presets.cfg
+
+# Upscaled atlases live in Google Drive — too large to track. See CLAUDE.md.
+assets/upscaled_2x/
+assets/upscaled_2x.rar
+assets/needs_upscale/
