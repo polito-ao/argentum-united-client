@@ -80,6 +80,17 @@ const EXIT_TO_SELECT = 0x0083
 const EXITED_TO_SELECT = 0x0084
 const HIDE_STATE_CHANGED = 0x0085
 
+# TODO: confirm IDs against the server's `equipment-layers-and-meditation-effect`
+# PR once it lands. The values below are best-guess allocations in the open
+# 0x008x slot. validate_server_config() will hard-fail at boot if drift exists,
+# which gives us a loud signal to bump the constants.
+const PLAYER_LAYERS_UPDATE = 0x0086 # server → client: a player's sprite_layers changed (broadcast)
+const EFFECT_START = 0x0087         # server → client: { target_id, effect_id }
+const EFFECT_STOP = 0x0088          # server → client: { target_id, effect_id }
+
+# Effect ids — keep in sync with LayeredCharacter.EFFECT_*. Server-authoritative.
+const EFFECT_ID_MEDITATION = 1
+
 # Called on boot after CONFIG_RESPONSE arrives.
 # Errors hard if server's IDs don't match our constants.
 static func validate_server_config(server_packet_ids: Dictionary) -> Array:

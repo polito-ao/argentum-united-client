@@ -1106,6 +1106,13 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.CHAR_DEATH:
 			hud.add_message("YOU DIED! Press SPACE to respawn")
 			_is_dead = true
+			# Auto-stop any active effect on the local player (e.g. meditation
+			# aura) — server stops the effect server-side too, but the dying
+			# player needs the visual cleared whether or not an EFFECT_STOP
+			# follows. Other-player deaths (CHAR_DEATH for someone else) will
+			# arrive via a future per-target packet; for now we only clear self.
+			if _self_layered != null:
+				_self_layered.clear_effects()
 		PacketIds.SYSTEM_MESSAGE:
 			hud.add_message(payload.get("text", ""))
 		PacketIds.EXITED_TO_SELECT:
@@ -1123,6 +1130,21 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			inventory.set_inventory(payload.get("inventory", []))
 			hud.update_equipment(payload.get("equipment", {}))
 			bank.refresh_inventory_mirror() # mirror tracks live inventory while bank is open
+			# Server's `equipment-layers-and-meditation-effect` PR adds a
+			# refreshed sprite_layers field reflecting the post-equip state.
+			# Old servers don't ship the field — ignore silently in that case.
+			var sl = payload.get("sprite_layers", null)
+			if sl is Dictionary:
+				_apply_self_sprite_layers(sl)
+		PacketIds.PLAYER_LAYERS_UPDATE:
+			# Broadcast: another player's sprite_layers changed (or our own,
+			# for forward-compat). Look the player up and re-apply on their
+			# LayeredCharacter. Drop silently if the target isn't on-map.
+			_handle_player_layers_update(payload)
+		PacketIds.EFFECT_START:
+			_handle_effect_start(payload)
+		PacketIds.EFFECT_STOP:
+			_handle_effect_stop(payload)
 		PacketIds.BANK_CONTENTS:
 			bank.handle_contents(payload)
 		PacketIds.DEV_LIST_RESPONSE:
@@ -1649,6 +1671,68 @@ func _apply_self_body_sprite(sprite_ref):
 	$PlayerSprite.add_child(sprite)
 
 
+func _handle_player_layers_update(payload: Dictionary) -> void:
+	# Self update — server may use this packet for both self and others; the
+	# self path also fires on INVENTORY_UPDATE (which has more useful side
+	# effects than just layers), but mirroring it here keeps both code paths
+	# resilient to either packet arriving alone.
+	var id = int(payload.get("id", -1))
+	var sprite_layers = payload.get("sprite_layers", null)
+	if not (sprite_layers is Dictionary):
+		return
+	if id == _self_id:
+		_apply_self_sprite_layers(sprite_layers)
+		return
+	if not (id in players):
+		# Edge case: target not on-map (off-screen broadcast, just-despawned).
+		# Drop silently.
+		return
+	var layered: LayeredCharacter = players[id].get("layered", null)
+	if layered == null:
+		# Legacy single-Sprite2D path — nothing to update at the layer level.
+		return
+	layered.apply_layers(sprite_layers)
+
+
+func _handle_effect_start(payload: Dictionary) -> void:
+	var target_id = int(payload.get("target_id", -1))
+	var effect_id = int(payload.get("effect_id", -1))
+	if effect_id < 0:
+		push_warning("[world] EFFECT_START missing effect_id, payload=%s" % payload)
+		return
+	var layered := _resolve_layered(target_id)
+	if layered == null:
+		# Target off-map / unknown id — silently drop, server will resync if
+		# they re-enter our visibility radius.
+		return
+	layered.start_effect(effect_id)
+
+
+func _handle_effect_stop(payload: Dictionary) -> void:
+	var target_id = int(payload.get("target_id", -1))
+	var effect_id = int(payload.get("effect_id", -1))
+	if effect_id < 0:
+		push_warning("[world] EFFECT_STOP missing effect_id, payload=%s" % payload)
+		return
+	var layered := _resolve_layered(target_id)
+	if layered == null:
+		return
+	layered.stop_effect(effect_id)
+
+
+func _resolve_layered(entity_id: int) -> LayeredCharacter:
+	# Effects can target the local player, other players, or NPCs. NPCs not
+	# wired today — server doesn't broadcast effects on creatures yet — but
+	# the lookup is symmetric so future packets just work.
+	if entity_id == _self_id:
+		return _self_layered
+	if entity_id in players:
+		return players[entity_id].get("layered", null)
+	if entity_id in npcs:
+		return npcs[entity_id].get("layered", null)
+	return null
+
+
 func _apply_self_sprite_layers(sprite_layers: Dictionary) -> void:
 	# New rendering path: 5-layer LayeredCharacter mounted under PlayerSprite.
 	# Layers we render in lockstep — body and head always; helmet/weapon/shield
@@ -1658,16 +1742,22 @@ func _apply_self_sprite_layers(sprite_layers: Dictionary) -> void:
 	for existing in $PlayerSprite.get_children():
 		if existing is Sprite2D and existing.name == "BodySprite":
 			existing.queue_free()
+	var first_mount := false
 	if _self_layered == null:
 		_self_layered = LayeredCharacter.new()
 		_self_layered.name = "LayeredCharacter"
 		_self_layered.set_tile_size(_tile_size)
 		$PlayerSprite.add_child(_self_layered)
+		first_mount = true
 	else:
 		_self_layered.set_tile_size(_tile_size)
+	# Only seed direction + idle on the very first mount; later re-applies
+	# (e.g. equip mid-walk) preserve whatever direction/walking state the
+	# LayeredCharacter is already driving so the cycle doesn't snap.
+	if first_mount:
+		_self_layered.set_direction(my_heading)
+		_self_layered.set_walking(false)
 	_self_layered.apply_layers(sprite_layers)
-	_self_layered.set_direction(my_heading)
-	_self_layered.set_walking(false)
 
 
 func _make_entity_sprite(sprite_ref) -> Sprite2D:
