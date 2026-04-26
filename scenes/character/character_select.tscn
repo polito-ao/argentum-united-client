@@ -16,80 +16,89 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -300.0
-offset_right = 250.0
-offset_bottom = 300.0
+offset_left = -560.0
+offset_top = -380.0
+offset_right = 560.0
+offset_bottom = 380.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="OuterHBox" type="HBoxContainer" parent="Panel"]
 layout_mode = 2
 
-[node name="TitleLabel" type="Label" parent="Panel/VBoxContainer"]
+[node name="LeftColumn" type="VBoxContainer" parent="Panel/OuterHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TitleLabel" type="Label" parent="Panel/OuterHBox/LeftColumn"]
 layout_mode = 2
 text = "Characters"
 horizontal_alignment = 1
 
-[node name="CharacterList" type="VBoxContainer" parent="Panel/VBoxContainer"]
+[node name="CharacterList" type="VBoxContainer" parent="Panel/OuterHBox/LeftColumn"]
 layout_mode = 2
 
-[node name="CreatePanel" type="VBoxContainer" parent="Panel/VBoxContainer"]
+[node name="NewCharacterButton" type="Button" parent="Panel/OuterHBox/LeftColumn"]
+layout_mode = 2
+text = "+ Crear nuevo personaje"
+
+[node name="CreatePanel" type="VBoxContainer" parent="Panel/OuterHBox/LeftColumn"]
+layout_mode = 2
+visible = false
+
+[node name="Sep" type="HSeparator" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 
-[node name="Sep" type="HSeparator" parent="Panel/VBoxContainer/CreatePanel"]
-layout_mode = 2
-
-[node name="CreateLabel" type="Label" parent="Panel/VBoxContainer/CreatePanel"]
+[node name="CreateLabel" type="Label" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 text = "Create New Character"
 horizontal_alignment = 1
 
-[node name="NameInput" type="LineEdit" parent="Panel/VBoxContainer/CreatePanel"]
+[node name="NameInput" type="LineEdit" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 placeholder_text = "Character Name"
 
-[node name="ClassSelector" type="OptionButton" parent="Panel/VBoxContainer/CreatePanel"]
+[node name="ClassSelector" type="OptionButton" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 
-[node name="RaceSelector" type="OptionButton" parent="Panel/VBoxContainer/CreatePanel"]
+[node name="RaceSelector" type="OptionButton" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 
-[node name="DiceLabel" type="Label" parent="Panel/VBoxContainer/CreatePanel"]
+[node name="DiceLabel" type="Label" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 text = "Dice throws loading..."
 autowrap_mode = 2
 
-[node name="ThrowSelector" type="OptionButton" parent="Panel/VBoxContainer/CreatePanel"]
+[node name="ThrowSelector" type="OptionButton" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 
-[node name="HeadPickerLabel" type="Label" parent="Panel/VBoxContainer/CreatePanel"]
+[node name="HeadPickerLabel" type="Label" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 text = "Cabeza"
 horizontal_alignment = 1
 
-[node name="HeadPicker" type="HBoxContainer" parent="Panel/VBoxContainer/CreatePanel"]
+[node name="HeadPicker" type="HBoxContainer" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 alignment = 1
 
-[node name="HeadPrev" type="Button" parent="Panel/VBoxContainer/CreatePanel/HeadPicker"]
+[node name="HeadPrev" type="Button" parent="Panel/OuterHBox/LeftColumn/CreatePanel/HeadPicker"]
 custom_minimum_size = Vector2(40, 96)
 layout_mode = 2
 text = "<"
 
-[node name="HeadPreview" type="Control" parent="Panel/VBoxContainer/CreatePanel/HeadPicker"]
+[node name="HeadPreview" type="Control" parent="Panel/OuterHBox/LeftColumn/CreatePanel/HeadPicker"]
 custom_minimum_size = Vector2(120, 180)
 layout_mode = 2
 
-[node name="BodySprite" type="Sprite2D" parent="Panel/VBoxContainer/CreatePanel/HeadPicker/HeadPreview"]
+[node name="BodySprite" type="Sprite2D" parent="Panel/OuterHBox/LeftColumn/CreatePanel/HeadPicker/HeadPreview"]
 position = Vector2(60, 168)
 centered = false
 texture_filter = 1
 
-[node name="HeadSprite" type="Sprite2D" parent="Panel/VBoxContainer/CreatePanel/HeadPicker/HeadPreview"]
+[node name="HeadSprite" type="Sprite2D" parent="Panel/OuterHBox/LeftColumn/CreatePanel/HeadPicker/HeadPreview"]
 position = Vector2(60, 168)
 centered = false
 texture_filter = 1
 
-[node name="HeadLoading" type="Label" parent="Panel/VBoxContainer/CreatePanel/HeadPicker/HeadPreview"]
+[node name="HeadLoading" type="Label" parent="Panel/OuterHBox/LeftColumn/CreatePanel/HeadPicker/HeadPreview"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -103,39 +112,61 @@ offset_bottom = 10.0
 text = "Loading..."
 horizontal_alignment = 1
 
-[node name="HeadNext" type="Button" parent="Panel/VBoxContainer/CreatePanel/HeadPicker"]
+[node name="HeadNext" type="Button" parent="Panel/OuterHBox/LeftColumn/CreatePanel/HeadPicker"]
 custom_minimum_size = Vector2(40, 96)
 layout_mode = 2
 text = ">"
 
-[node name="HeadIndexLabel" type="Label" parent="Panel/VBoxContainer/CreatePanel"]
+[node name="HeadIndexLabel" type="Label" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 text = ""
 horizontal_alignment = 1
 
-[node name="HeadRandomButton" type="Button" parent="Panel/VBoxContainer/CreatePanel"]
+[node name="HeadRandomButton" type="Button" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 text = "Cabeza al azar"
 
-[node name="CreateButton" type="Button" parent="Panel/VBoxContainer/CreatePanel"]
+[node name="CreateButtonRow" type="HBoxContainer" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
-text = "Create Character"
 
-[node name="StatusLabel" type="Label" parent="Panel/VBoxContainer"]
+[node name="CancelButton" type="Button" parent="Panel/OuterHBox/LeftColumn/CreatePanel/CreateButtonRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancelar"
+
+[node name="CreateButton" type="Button" parent="Panel/OuterHBox/LeftColumn/CreatePanel/CreateButtonRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Crear"
+
+[node name="StatusLabel" type="Label" parent="Panel/OuterHBox/LeftColumn"]
 layout_mode = 2
 text = ""
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="LogoutSep" type="HSeparator" parent="Panel/VBoxContainer"]
+[node name="LogoutSep" type="HSeparator" parent="Panel/OuterHBox/LeftColumn"]
 layout_mode = 2
 
-[node name="LogoutButton" type="Button" parent="Panel/VBoxContainer"]
+[node name="LogoutButton" type="Button" parent="Panel/OuterHBox/LeftColumn"]
 layout_mode = 2
 text = "Logout"
+
+[node name="PreviewPanel" type="VBoxContainer" parent="Panel/OuterHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+visible = false
+
+[node name="PreviewLabel" type="Label" parent="Panel/OuterHBox/PreviewPanel"]
+layout_mode = 2
+text = "Vista previa"
+horizontal_alignment = 1
+
+[node name="PreviewCardSlot" type="VBoxContainer" parent="Panel/OuterHBox/PreviewPanel"]
+layout_mode = 2
 
 [node name="LogoutConfirm" type="ConfirmationDialog" parent="."]
 title = "Logout"
 ok_button_text = "Salir"
 cancel_button_text = "Quedarme"
-dialog_text = "¿Cerrar sesión y volver a la pantalla de login?"
+dialog_text = "Cerrar sesion y volver a la pantalla de login?"
