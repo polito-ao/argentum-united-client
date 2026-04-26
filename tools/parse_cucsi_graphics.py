@@ -276,6 +276,18 @@ EFFECT_MAP: List[Dict] = [
         "source_file": "Fxs.ini",
         "fx_index": 4,   # FX4 = FxMeditar.CHICO (Cucsi level 1-7 default)
     },
+    {
+        "id": 2,
+        "name": "effect_meditation_mediano",
+        "source_file": "Fxs.ini",
+        "fx_index": 5,   # FX5 = FxMeditar.MEDIANO (Cucsi level 15-22 upgrade)
+    },
+    {
+        "id": 3,
+        "name": "effect_meditation_grande",
+        "source_file": "Fxs.ini",
+        "fx_index": 6,   # FX6 = FxMeditar.GRANDE (Cucsi level 30-37 upgrade)
+    },
 ]
 
 

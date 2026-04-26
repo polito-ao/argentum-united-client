@@ -92,11 +92,15 @@ var chests: Dictionary = {}        # chest_id -> { pos: Vector2i, state: String,
 @onready var defaults_button: Button         = %DefaultsButton
 @onready var save_settings_button: Button    = %SaveButton
 @onready var settings_overlay: Control       = %SettingsOverlay
+@onready var meditation_aura_section: VBoxContainer = %MeditationAuraSection
+@onready var meditation_aura_options: HBoxContainer = %MeditationAuraOptions
+@onready var meditation_aura_label: Label    = %MeditationAuraCurrentLabel
 
 # === Controllers (extracted state machines — see scripts/ui/) ===
 var bank: BankController
 var chat: ChatController
 var dev: DevController
+var effect_picker: EffectPickerController
 var hud: HUDController
 var inventory: InventoryController
 
@@ -111,6 +115,10 @@ var _self_layered: LayeredCharacter = null
 # Spellbook for this character — populated from server config in setup() based on
 # class + level. Empty for non-caster classes or levels below the lowest learn_level.
 var _my_spells: Array = []
+# Server-shipped meditation aura state — refreshed when settings overlay
+# opens. Picker reads these to render its option buttons.
+var _meditation_available: Array = []
+var _meditation_chosen: int = 1
 # Click-to-cast: after pressing LANZAR with a spell selected, the NEXT click on the
 # game viewport sends CAST_SPELL with the tile coords. Escape or another LANZAR cancels.
 var _casting_armed: bool = false
@@ -265,6 +273,28 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	# Restore persisted key bindings (server-side JSONB state)
 	_apply_saved_bindings(state.get("key_bindings", {}))
 
+	# Cache server-shipped meditation-aura options. Server contract: the
+	# character payload carries `available_effects` (Hash) + `effect_choices`
+	# (Hash) keyed by category. If the in-flight server PR has not landed
+	# yet, both fields are absent and we fall back to the seeded defaults
+	# (single Chico aura, id 1) so the picker still renders coherently.
+	var avail_dict = character.get("available_effects", {"meditation": [1]})
+	var choices_dict = character.get("effect_choices", {"meditation": 1})
+	_meditation_available = []
+	var avail_list = avail_dict.get("meditation", [1]) if avail_dict is Dictionary else [1]
+	for v in avail_list:
+		_meditation_available.append(int(v))
+	_meditation_chosen = int(choices_dict.get("meditation", 1)) if choices_dict is Dictionary else 1
+
+	effect_picker = EffectPickerController.new({
+		connection    = connection,
+		hud           = hud,
+		container     = meditation_aura_section,
+		current_label = meditation_aura_label,
+		options_grid  = meditation_aura_options,
+	})
+	effect_picker.set_options(_meditation_available, _meditation_chosen)
+
 	if not state.get("alive", true):
 		_is_dead = true
 		hud.add_message("You are a ghost. Press SPACE to respawn.")
@@ -336,6 +366,8 @@ func _show_settings():
 	_capturing_action = ""
 	_capturing_button = null
 	_build_bindings_ui()
+	if effect_picker != null:
+		effect_picker.set_options(_meditation_available, _meditation_chosen)
 	settings_overlay.visible = true
 
 func _hide_settings():

@@ -19,3 +19,45 @@ effect_meditation:
     speed_ms: 555
     loop: true
 
+effect_meditation_mediano:
+  id: 2
+  source: Fxs.ini[5]
+  offset:
+    x: 0
+    y: 0
+  animation:
+    frames:
+      - { file: 3070.png, region: { x: 0, y: 0, w: 80, h: 170 } }
+      - { file: 3070.png, region: { x: 80, y: 0, w: 80, h: 170 } }
+      - { file: 3070.png, region: { x: 160, y: 0, w: 80, h: 170 } }
+      - { file: 3070.png, region: { x: 240, y: 0, w: 80, h: 170 } }
+      - { file: 3070.png, region: { x: 320, y: 0, w: 80, h: 170 } }
+      - { file: 3070.png, region: { x: 0, y: 170, w: 80, h: 170 } }
+      - { file: 3070.png, region: { x: 80, y: 170, w: 80, h: 170 } }
+      - { file: 3070.png, region: { x: 160, y: 170, w: 80, h: 170 } }
+      - { file: 3070.png, region: { x: 240, y: 170, w: 80, h: 170 } }
+      - { file: 3070.png, region: { x: 320, y: 170, w: 80, h: 170 } }
+    speed_ms: 555
+    loop: true
+
+effect_meditation_grande:
+  id: 3
+  source: Fxs.ini[6]
+  offset:
+    x: 0
+    y: 0
+  animation:
+    frames:
+      - { file: 3071.png, region: { x: 0, y: 0, w: 160, h: 340 } }
+      - { file: 3071.png, region: { x: 160, y: 0, w: 160, h: 340 } }
+      - { file: 3071.png, region: { x: 320, y: 0, w: 160, h: 340 } }
+      - { file: 3071.png, region: { x: 480, y: 0, w: 160, h: 340 } }
+      - { file: 3071.png, region: { x: 640, y: 0, w: 160, h: 340 } }
+      - { file: 3071.png, region: { x: 0, y: 340, w: 160, h: 340 } }
+      - { file: 3071.png, region: { x: 160, y: 340, w: 160, h: 340 } }
+      - { file: 3071.png, region: { x: 320, y: 340, w: 160, h: 340 } }
+      - { file: 3071.png, region: { x: 480, y: 340, w: 160, h: 340 } }
+      - { file: 3071.png, region: { x: 640, y: 340, w: 160, h: 340 } }
+    speed_ms: 555
+    loop: true
+
