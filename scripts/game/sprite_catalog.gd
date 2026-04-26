@@ -1,6 +1,6 @@
 extends Node
-## Autoload. Loads the 5 sprite catalogs (bodies, heads, helmets, weapons,
-## shields) emitted by tools/parse_cucsi_graphics.py at boot. Catalogs live
+## Autoload. Loads the 6 sprite catalogs (bodies, heads, helmets, weapons,
+## shields, effects) emitted by tools/parse_cucsi_graphics.py at boot. Catalogs live
 ## as YAML (canonical, human-edited) plus a JSON sibling we actually load
 ## here — Godot 4.6 has no YAML parser and a custom one isn't worth the
 ## risk for a static data file the tool already emits.
@@ -8,6 +8,7 @@ extends Node
 ## Each entry shape:
 ##   bodies:  { head_offset: {x,y}, animations: {walk_<dir>: {frames, speed_ms}} }
 ##   others:  { animations: {walk_<dir>: {frames, speed_ms}} }
+##   effect:  { id, source, offset: {x,y}, animation: {frames, speed_ms, loop} }
 ##   frame:   { file: "<n>.png", region: {x, y, w, h} }
 ##
 ## All pixel coords are pre-doubled by the parser; consume them as-is.
@@ -19,6 +20,7 @@ var _heads: Dictionary = {}
 var _helmets: Dictionary = {}
 var _weapons: Dictionary = {}
 var _shields: Dictionary = {}
+var _effects: Dictionary = {}
 
 var _loaded: bool = false
 
@@ -33,9 +35,10 @@ func load_catalogs() -> void:
 	_helmets = _load_one("helmets")
 	_weapons = _load_one("weapons")
 	_shields = _load_one("shields")
+	_effects = _load_one("effects")
 	_loaded = true
-	print("[sprite_catalog] bodies=%d heads=%d helmets=%d weapons=%d shields=%d" %
-		[_bodies.size(), _heads.size(), _helmets.size(), _weapons.size(), _shields.size()])
+	print("[sprite_catalog] bodies=%d heads=%d helmets=%d weapons=%d shields=%d effects=%d" %
+		[_bodies.size(), _heads.size(), _helmets.size(), _weapons.size(), _shields.size(), _effects.size()])
 
 
 func _load_one(name: String) -> Dictionary:
@@ -76,6 +79,18 @@ func weapon(id: int):
 
 func shield(id: int):
 	return _shields.get("shield_%d" % id, null)
+
+
+
+func effect(id: int):
+	# Effects are keyed in YAML by human name (effect_meditation, etc.); the
+	# wire identity is the numeric `id` field on each entry. Linear scan is
+	# fine — the catalog is a handful of entries by design.
+	for key in _effects:
+		var entry = _effects[key]
+		if entry is Dictionary and int(entry.get("id", -1)) == id:
+			return entry
+	return null
 
 
 func is_loaded() -> bool:

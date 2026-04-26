@@ -18,6 +18,7 @@ var _heads: Dictionary = {}
 var _helmets: Dictionary = {}
 var _weapons: Dictionary = {}
 var _shields: Dictionary = {}
+var _effects: Dictionary = {}
 
 # Texture cache shared across all builds (atlas PNGs are reused heavily).
 var _textures: Dictionary = {}   # file_name -> Texture2D
@@ -43,6 +44,22 @@ func for_shield(id: int) -> SpriteFrames:
 	return _get_or_build(_shields, id, SpriteCatalog.shield(id))
 
 
+func for_effect(id: int) -> SpriteFrames:
+	# Effects use a single-animation SpriteFrames (not 4-direction). The
+	# animation name is "default" so callers can `play("default")` without
+	# tracking direction state.
+	if _effects.has(id):
+		return _effects[id]
+	var entry = SpriteCatalog.effect(id)
+	if entry == null or not (entry is Dictionary):
+		return null
+	var sf := _build_effect(entry)
+	if sf == null:
+		return null
+	_effects[id] = sf
+	return sf
+
+
 func _get_or_build(cache: Dictionary, id: int, entry) -> SpriteFrames:
 	if cache.has(id):
 		return cache[id]
@@ -52,6 +69,31 @@ func _get_or_build(cache: Dictionary, id: int, entry) -> SpriteFrames:
 	if sf == null:
 		return null
 	cache[id] = sf
+	return sf
+
+
+func _build_effect(entry: Dictionary) -> SpriteFrames:
+	var animation = entry.get("animation", null)
+	if animation == null or not (animation is Dictionary):
+		push_warning("[sprite_frames_builder] effect entry missing 'animation' — abandoning")
+		return null
+	var frames: Array = animation.get("frames", [])
+	if frames.is_empty():
+		push_warning("[sprite_frames_builder] effect has zero frames — abandoning")
+		return null
+	var speed_ms: int = int(animation.get("speed_ms", 0))
+	var loop: bool = bool(animation.get("loop", true))
+	var sf := SpriteFrames.new()
+	if sf.has_animation("default"):
+		sf.remove_animation("default")
+	sf.add_animation("default")
+	sf.set_animation_loop("default", loop)
+	sf.set_animation_speed("default", _fps_for(frames.size(), speed_ms))
+	for frame in frames:
+		var tex := _atlas_for(frame)
+		if tex == null:
+			return null
+		sf.add_frame("default", tex)
 	return sf
 
 
@@ -142,4 +184,5 @@ func clear_cache() -> void:
 	_helmets.clear()
 	_weapons.clear()
 	_shields.clear()
+	_effects.clear()
 	_textures.clear()
