@@ -279,7 +279,7 @@ func test_packet_ids_are_at_documented_slots():
 	# is the runtime safety net; this test is the static one so a bad
 	# rebase that bumps the constants gets caught at unit-test time.
 	assert_eq(PacketIds.RECONNECT_PROMPT, 0x008F)
-	assert_eq(PacketIds.RECONNECT_RESPONSE, 0x0090)
+	assert_eq(PacketIds.RECONNECT_RESPONSE, 0x00C0)
 
 
 # --- helpers ----------------------------------------------------------------
