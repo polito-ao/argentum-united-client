@@ -56,6 +56,7 @@ mouse_filter = 2
 
 ; -------- Chat panel — top-left, fixed size --------
 [node name="ChatPanel" type="PanelContainer" parent="UILayer/HUD"]
+unique_name_in_owner = true
 layout_mode = 1
 anchor_left = 0.0
 anchor_top = 0.0
@@ -65,18 +66,53 @@ offset_left = 10.0
 offset_top = 10.0
 offset_right = -380.0
 offset_bottom = 174.0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_bottom = 6
 
 [node name="ChatVBox" type="VBoxContainer" parent="UILayer/HUD/ChatPanel"]
+theme_override_constants/separation = 4
 
 [node name="ChatDisplay" type="RichTextLabel" parent="UILayer/HUD/ChatPanel/ChatVBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 55)
+size_flags_vertical = 3
 scroll_following = true
 bbcode_enabled = true
+theme_override_font_sizes/normal_font_size = 13
+theme_override_font_sizes/bold_font_size = 13
+theme_override_font_sizes/italics_font_size = 13
+theme_override_font_sizes/bold_italics_font_size = 13
+theme_override_font_sizes/mono_font_size = 13
 
 [node name="ChatInput" type="LineEdit" parent="UILayer/HUD/ChatPanel/ChatVBox"]
 unique_name_in_owner = true
 placeholder_text = "Press T to chat..."
+theme_override_font_sizes/font_size = 13
+
+; Jump-to-present button — overlaid on bottom-right of ChatPanel.
+; Visible only when user has scrolled up AND new messages have arrived.
+; Anchored bottom-right with a 10px margin from each edge of the panel.
+[node name="JumpToPresentButton" type="Button" parent="UILayer/HUD/ChatPanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -42.0
+offset_top = -42.0
+offset_right = -10.0
+offset_bottom = -10.0
+focus_mode = 0
+mouse_filter = 0
+text = "↓"
+tooltip_text = "Volver al presente"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 
 ; -------- Minimap — right of chat, square (same side as chat height) --------
 [node name="MinimapPanel" type="PanelContainer" parent="UILayer/HUD"]
