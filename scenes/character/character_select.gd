@@ -15,8 +15,6 @@ const MAX_CHARACTERS := 3
 @onready var name_input: LineEdit = $Panel/OuterHBox/LeftColumn/CreatePanel/NameInput
 @onready var class_selector: OptionButton = $Panel/OuterHBox/LeftColumn/CreatePanel/ClassSelector
 @onready var race_selector: OptionButton = $Panel/OuterHBox/LeftColumn/CreatePanel/RaceSelector
-@onready var dice_label: Label = $Panel/OuterHBox/LeftColumn/CreatePanel/DiceLabel
-@onready var throw_selector: OptionButton = $Panel/OuterHBox/LeftColumn/CreatePanel/ThrowSelector
 @onready var create_button: Button = $Panel/OuterHBox/LeftColumn/CreatePanel/CreateButtonRow/CreateButton
 @onready var cancel_button: Button = $Panel/OuterHBox/LeftColumn/CreatePanel/CreateButtonRow/CancelButton
 @onready var status_label: Label = $Panel/OuterHBox/LeftColumn/StatusLabel
@@ -42,7 +40,6 @@ var head_picker_controller: HeadPickerController
 var create_toggle: CharacterCreateToggle
 var preview_card # CharacterCard, lazily built
 var _characters: Array = []
-var _dice_throws: Array = []
 var _pending_select_payload: Dictionary = {}
 
 var CLASSES: Array = []
@@ -117,7 +114,6 @@ func setup(conn: ServerConnection):
 	name_input.text_changed.connect(func(_t): _refresh_preview_card())
 	class_selector.item_selected.connect(func(_i): _refresh_preview_card())
 	race_selector.item_selected.connect(_on_race_changed)
-	throw_selector.item_selected.connect(func(_i): _refresh_preview_card())
 
 	# Head picker (controller-lifecycle: needs `connection`).
 	head_picker_controller = HeadPickerController.new({
@@ -153,7 +149,6 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 
 func _handle_character_list(payload: Dictionary):
 	_characters = payload.get("characters", [])
-	_dice_throws = payload.get("dice_throws", [])
 
 	# Warm the texture cache for each character's last map BEFORE the user
 	# picks one -- by the time they click, the world render hits a hot cache.
@@ -196,27 +191,6 @@ func _handle_character_list(payload: Dictionary):
 	if _characters.size() == 0:
 		create_toggle.show()
 
-	_update_dice_display()
-
-func _update_dice_display():
-	if _dice_throws.size() == 0:
-		dice_label.text = "No dice throws available"
-		return
-
-	throw_selector.clear()
-	for i in _dice_throws.size():
-		var throw_data = _dice_throws[i]
-		var total = 0
-		var parts = []
-		for key in throw_data:
-			total += throw_data[key]
-			if throw_data[key] > 0:
-				parts.append("%s:+%d" % [key, throw_data[key]])
-		throw_selector.add_item("Throw %d (total +%d): %s" % [i + 1, total, ", ".join(parts)])
-
-	dice_label.text = "Choose your blessing from the Shrine of Fortune:"
-	_refresh_preview_card()
-
 func _select_character(char_id):
 	if char_id == null:
 		return
@@ -242,31 +216,19 @@ func _refresh_preview_card() -> void:
 	if race_selector.selected >= 0 and race_selector.selected < RACES.size():
 		race_slug = RACES[race_selector.selected]
 
-	var dice: Dictionary = _selected_dice_throw()
-
 	var typed_name := name_input.text.strip_edges()
 	if typed_name == "":
 		typed_name = "Nuevo personaje"
 
+	# Dice rolls are deferred to the Shrine of Fortune (level 2 unlock).
+	# Creation preview always shows +0 -- server persists zeros at create time.
 	preview_card.set_data({
 		"name": typed_name,
 		"class": class_slug,
 		"race": race_slug,
-		"dice_roll": dice,
+		"dice_roll": {},
 		"show_level": false,
 	})
-
-func _selected_dice_throw() -> Dictionary:
-	var idx := throw_selector.selected
-	if idx < 0 or idx >= _dice_throws.size():
-		return {}
-	var throw_data = _dice_throws[idx]
-	if not (throw_data is Dictionary):
-		return {}
-	var out := {}
-	for k in throw_data:
-		out[String(k).to_lower()] = int(throw_data[k])
-	return out
 
 func _on_create_pressed():
 	var char_name = name_input.text.strip_edges()
@@ -276,20 +238,17 @@ func _on_create_pressed():
 
 	var class_type = CLASSES[class_selector.selected]
 	var race = RACES[race_selector.selected]
-	var throw_index = throw_selector.selected
-
-	if throw_index < 0:
-		status_label.text = "Choose a dice throw!"
-		return
 
 	status_label.text = "Creating %s..." % char_name
 	create_button.disabled = true
 
+	# Dice rolls deferred to the Shrine of Fortune (level 2). Server now
+	# ignores throw_index and persists all-zero dice at creation, so we
+	# stop sending it.
 	connection.send_packet(PacketIds.CHARACTER_CREATE, {
 		"name": char_name,
 		"class": class_type,
 		"race": race,
-		"throw_index": throw_index,
 		"head_id": head_picker_controller.selected_head_id() if head_picker_controller != null else 1,
 	})
 

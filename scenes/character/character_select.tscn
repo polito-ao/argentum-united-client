@@ -88,14 +88,6 @@ layout_mode = 2
 [node name="RaceSelector" type="OptionButton" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 
-[node name="DiceLabel" type="Label" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
-layout_mode = 2
-text = "Dice throws loading..."
-autowrap_mode = 2
-
-[node name="ThrowSelector" type="OptionButton" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
-layout_mode = 2
-
 [node name="HeadPickerLabel" type="Label" parent="Panel/OuterHBox/LeftColumn/CreatePanel"]
 layout_mode = 2
 text = "Cabeza"
