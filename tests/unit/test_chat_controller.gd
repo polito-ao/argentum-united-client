@@ -42,6 +42,38 @@ func test_append_broadcast_appends_in_order():
 	assert_gt(idx_first, -1)
 	assert_gt(idx_second, idx_first)
 
+# --- append_system ---
+
+func test_append_system_writes_visible_text():
+	chat.append_system("Settings saved")
+	assert_string_contains(display.get_parsed_text(), "Settings saved")
+
+func test_append_system_color_tag_is_consumed_by_parser():
+	chat.append_system("MISS!")
+	# A successful bbcode parse leaves no "[color" residue in the parsed
+	# (visible) text. Both visible content + clean parse confirm the
+	# distinct-from-broadcast styling is in effect.
+	var visible = display.get_parsed_text()
+	assert_string_contains(visible, "MISS!")
+	assert_eq(visible.find("[color"), -1, "color bbcode should be consumed by parser")
+
+func test_append_system_constant_uses_soft_gray():
+	# Compile-time guard: the chosen color is the documented soft gray.
+	# A redesign that bumps this should also update CLAUDE.md / hud-layout.md.
+	assert_eq(ChatController.SYSTEM_COLOR, "#9ba0a8")
+
+func test_append_system_ignores_empty_message():
+	chat.append_system("")
+	assert_eq(display.get_parsed_text(), "")
+
+func test_append_system_escapes_bracket_payload():
+	# A literal "[NPC]" in the message must not be parsed as a bbcode tag,
+	# or subsequent text gets eaten. The controller swaps "[" → "[lb]"
+	# (bbcode literal-bracket).
+	chat.append_system("Aquí: [NPC] Lobo")
+	# After parsing, "[lb]" renders as "[" — visible text contains "[NPC]".
+	assert_string_contains(display.get_parsed_text(), "[NPC]")
+
 # --- submit ---
 
 func test_submit_non_empty_sends_message():

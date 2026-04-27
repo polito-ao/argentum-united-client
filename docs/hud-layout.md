@@ -28,7 +28,7 @@ World (Node2D)                     game world root; camera follows the player he
         │       │   ├── STATS (HP / MP / stats split / gold)
         │       │   └── MENU  (placeholder buttons)
         │       └── EquipmentRow (HBox: H · A · W · S · MR)
-        └── MessagesLabel          floating kill/status feed
+        └── (system messages now route into ChatDisplay; no separate label)
 ```
 
 ## Responsive top bundle

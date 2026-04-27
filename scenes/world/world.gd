@@ -46,7 +46,7 @@ var _self_id: int = -1
 
 var players: Dictionary = {}       # id -> { pos: Vector2i, name: String, node: Node2D }
 var npcs: Dictionary = {}          # id -> { pos: Vector2i, name: String, hp: int, max_hp: int, node: Node2D }
-var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D }
+var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D, item_data: Dictionary, amount: int }
 var chests: Dictionary = {}        # chest_id -> { pos: Vector2i, state: String, node: Node2D }
 
 # Set of icon_grh_ids we have already logged a missing-catalog warning for.
@@ -209,6 +209,10 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 		chat_input   = chat_input,
 		connection   = connection,
 	})
+	# `MessagesLabel` is gone; system messages now flow through the chat
+	# console. HUD was built in _ready() before chat existed, so wire the
+	# sink now and flush any buffered messages.
+	hud.set_chat_sink(chat)
 
 	bank = BankController.new({
 		bank_grid       = %BankGrid,
@@ -363,7 +367,6 @@ func _ready():
 		eq_magres      = %MagResValue,
 		position_label = %PositionLabel,
 		fps_label      = %FPSLabel,
-		messages_label = %MessagesLabel,
 	})
 
 	help_button.pressed.connect(func(): hud.add_message("Help — coming soon"))
@@ -537,28 +540,124 @@ func _on_lanzar_pressed():
 	hud.add_message("Click target for %s (Esc to cancel)" % spell_name)
 
 func _unhandled_input(event):
-	# Click-to-cast: only fires for clicks NOT absorbed by HUD Controls (buttons, tabs, chat).
-	if not _casting_armed:
-		return
+	# Two left-click flows in the world viewport (clicks NOT absorbed by HUD
+	# Controls — buttons, tabs, chat). Casting wins when armed; otherwise
+	# fall through to the inspect-tile reporter.
 	if not (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
 		return
 
 	var world_pos = get_global_mouse_position()
 	var tile = Vector2i(int(world_pos.x / _tile_size), int(world_pos.y / _tile_size))
-	var selected = spell_list.get_selected_items()
-	if selected.is_empty():
+
+	if _casting_armed:
+		var selected = spell_list.get_selected_items()
+		if selected.is_empty():
+			_casting_armed = false
+			return
+		var spell = _my_spells[selected[0]]
+		connection.send_packet(PacketIds.CAST_SPELL, {
+			"spell_id": int(spell.get("id", 0)),
+			"x": tile.x,
+			"y": tile.y,
+		})
+		hud.add_message("Casting %s at (%d, %d)" % [spell.get("name", "?"), tile.x, tile.y])
 		_casting_armed = false
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+		get_viewport().set_input_as_handled()
 		return
-	var spell = _my_spells[selected[0]]
-	connection.send_packet(PacketIds.CAST_SPELL, {
-		"spell_id": int(spell.get("id", 0)),
-		"x": tile.x,
-		"y": tile.y,
-	})
-	hud.add_message("Casting %s at (%d, %d)" % [spell.get("name", "?"), tile.x, tile.y])
-	_casting_armed = false
-	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+	# Inspect-tile fallback: report everything currently on the clicked tile
+	# to the chat console. Pure client-side feature — all state already lives
+	# in `players` / `npcs` / `ground_items` / `chests` from the existing
+	# spawn packets. Out-of-bounds clicks silently no-op.
+	if tile.x < 0 or tile.y < 0 or tile.x >= map_size.x or tile.y >= map_size.y:
+		return
+	var report := format_inspect_report(
+		tile,
+		my_pos,
+		hud.current_hp(),
+		hud.current_max_hp(),
+		players,
+		npcs,
+		ground_items,
+		chests
+	)
+	if report != "":
+		chat.append_system(report)
 	get_viewport().set_input_as_handled()
+
+
+# --- Inspect-tile formatting ---
+
+# Pure-function helper: given click position + current world state,
+# return the formatted multi-line system message describing what's on
+# the tile. Static so unit tests can exercise it without a live world
+# instance. Returns "" only when the client has nothing to say
+# (currently never; empty tiles return "No hay nada aquí.").
+static func format_inspect_report(
+	tile: Vector2i,
+	self_pos: Vector2i,
+	self_hp: int,
+	self_max_hp: int,
+	players_dict: Dictionary,
+	npcs_dict: Dictionary,
+	ground_items_dict: Dictionary,
+	chests_dict: Dictionary
+) -> String:
+	var lines: Array = []
+
+	if tile == self_pos:
+		if self_max_hp > 0:
+			lines.append("Tú (HP %d/%d)" % [self_hp, self_max_hp])
+		else:
+			lines.append("Tú")
+
+	for id in players_dict:
+		var p = players_dict[id]
+		if p.get("pos", Vector2i.ZERO) == tile:
+			lines.append("Jugador: %s" % p.get("name", "?"))
+
+	for id in npcs_dict:
+		var n = npcs_dict[id]
+		if n.get("pos", Vector2i.ZERO) == tile:
+			var nm = n.get("name", "NPC")
+			var hp = int(n.get("hp", 0))
+			var mhp = int(n.get("max_hp", 0))
+			if mhp > 0:
+				lines.append("NPC: %s (HP %d/%d)" % [nm, hp, mhp])
+			else:
+				lines.append("NPC: %s" % nm)
+
+	for id in ground_items_dict:
+		var g = ground_items_dict[id]
+		if g.get("pos", Vector2i.ZERO) == tile:
+			lines.append("Item: %s" % _format_ground_item(g))
+
+	for id in chests_dict:
+		var c = chests_dict[id]
+		if c.get("pos", Vector2i.ZERO) == tile:
+			var state = String(c.get("state", "closed"))
+			var label = "(abierto)" if state == "opened" else "(cerrado)"
+			lines.append("Cofre %s" % label)
+
+	if lines.is_empty():
+		return "No hay nada aquí."
+	if lines.size() == 1:
+		return "Aquí: %s" % lines[0]
+	var out := "Hay aquí:"
+	for line in lines:
+		out += "\n  • " + line
+	return out
+
+static func _format_ground_item(entry: Dictionary) -> String:
+	var item_data = entry.get("item_data", {})
+	var amount := int(entry.get("amount", 1))
+	var nm := "?"
+	if item_data is Dictionary:
+		nm = String(item_data.get("name", "?"))
+	if amount > 1:
+		return "%s x%d" % [nm, amount]
+	return nm
 
 func _cancel_armed_cast():
 	if not _casting_armed:
@@ -1518,7 +1617,7 @@ func _handle_ground_item_spawn(payload: Dictionary):
 	node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
 	ground_items_layer.add_child(node)
 
-	ground_items[id] = {"pos": pos, "node": node}
+	ground_items[id] = {"pos": pos, "node": node, "item_data": item_data, "amount": amount}
 
 func _handle_hide_state_changed(payload: Dictionary):
 	var id = int(payload.get("id", 0))
