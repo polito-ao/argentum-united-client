@@ -2,8 +2,9 @@ class_name CharacterCard
 extends PanelContainer
 
 ## FIFA-style character card. Shows name + class/race header, big OVR-like
-## rating, the four attrs (INT/CON/AGI/STR) in two columns (Base | +Dice),
-## and a portrait placeholder on the right.
+## rating, the six attrs (INT/CON/AGI/STR/MAG_RES/PHYS_RES) in two columns
+## (Base | +Dice), a portrait placeholder on the right, and a one-line
+## class+race playstyle hint at the bottom.
 ##
 ## Used in two places:
 ##   1. The character-select list (one card per existing character, click
@@ -18,10 +19,12 @@ extends PanelContainer
 signal pressed(payload: Dictionary)
 
 const RaceBaseAttrsScript = preload("res://scripts/ui/race_base_attrs.gd")
+const ClassRaceHintsScript = preload("res://scripts/ui/class_race_hints.gd")
 
-# Card sizing -- keeps three cards comfortably stacked in the panel.
-const CARD_MIN_SIZE := Vector2(480, 180)
-const PORTRAIT_SIZE := Vector2(120, 160)
+# Card sizing -- taller than the 4-attr version to fit two extra stat rows
+# and the playstyle hint footer without crowding the portrait.
+const CARD_MIN_SIZE := Vector2(480, 230)
+const PORTRAIT_SIZE := Vector2(120, 170)
 
 # Tier accent colors (FIFA flourish -- gold/silver/bronze).
 const TIER_GOLD_THRESHOLD := 70
@@ -56,6 +59,7 @@ var _portrait_rect: ColorRect
 var _portrait_class_label: Label
 var _portrait_texture: TextureRect
 var _attr_rows: Dictionary = {}
+var _hint_label: Label
 
 
 func _init() -> void:
@@ -101,7 +105,7 @@ func set_data(data: Dictionary) -> void:
 	_rating_label.text = str(ovr)
 	_rating_label.add_theme_color_override("font_color", _tier_color(ovr))
 
-	for key in ["int", "con", "agi", "str"]:
+	for key in RaceBaseAttrsScript.ATTR_KEYS:
 		var row = _attr_rows[key]
 		row.base.text = str(int(base.get(key, 0)))
 		var d := int(dice.get(key, 0))
@@ -115,6 +119,13 @@ func set_data(data: Dictionary) -> void:
 		else:
 			dim = Color(0.35, 0.85, 0.35)
 		row.dice.add_theme_color_override("font_color", dim)
+
+	# Playstyle hint -- empty string means we have no copy for this combo
+	# (or no class picked yet in the create preview), so hide the label
+	# rather than print a blank line that nudges the layout.
+	var hint := ClassRaceHintsScript.hint_for(class_slug, race_slug)
+	_hint_label.text = hint
+	_hint_label.visible = not hint.is_empty()
 
 	# Portrait. Try the real class art first; fall back to the colored
 	# placeholder if the texture isn't there (unknown class slug, missing
@@ -158,9 +169,21 @@ func _build_layout() -> void:
 	stylebox.content_margin_bottom = 10
 	add_theme_stylebox_override("panel", stylebox)
 
+	# Outer column: stat row on top, playstyle hint footer at the bottom.
+	# Wrapping the previous HBox in a VBox is the smallest change that
+	# gives us a dedicated full-width slot for the hint without trampling
+	# the portrait or stat grid.
+	var outer := VBoxContainer.new()
+	outer.add_theme_constant_override("separation", 6)
+	outer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	outer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	add_child(outer)
+
 	var hbox := HBoxContainer.new()
 	hbox.add_theme_constant_override("separation", 12)
-	add_child(hbox)
+	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	outer.add_child(hbox)
 
 	var left := VBoxContainer.new()
 	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -194,27 +217,49 @@ func _build_layout() -> void:
 	var stat_grid := GridContainer.new()
 	stat_grid.columns = 3
 	stat_grid.add_theme_constant_override("h_separation", 10)
-	stat_grid.add_theme_constant_override("v_separation", 4)
+	# Tighter v_separation than the 4-attr version -- six rows would push
+	# the card past three-stacked-cards-fits-the-panel without it.
+	stat_grid.add_theme_constant_override("v_separation", 2)
 	stat_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	mid.add_child(stat_grid)
 
-	for key in ["int", "con", "agi", "str"]:
+	# Compact display labels. MAG_RES / PHYS_RES would wrap or stretch the
+	# card, so abbreviate them. Tooltip below spells out the long form.
+	var display_labels := {
+		"int": "INT",
+		"con": "CON",
+		"agi": "AGI",
+		"str": "STR",
+		"mag_res": "MAG",
+		"phys_res": "PHY",
+	}
+	var tooltips := {
+		"int": "Intelligence",
+		"con": "Constitution",
+		"agi": "Agility",
+		"str": "Strength",
+		"mag_res": "Magic Resistance",
+		"phys_res": "Physical Resistance",
+	}
+
+	for key in RaceBaseAttrsScript.ATTR_KEYS:
 		var key_label := Label.new()
-		key_label.text = key.to_upper()
-		key_label.add_theme_font_size_override("font_size", 14)
+		key_label.text = display_labels.get(key, String(key).to_upper())
+		key_label.tooltip_text = tooltips.get(key, "")
+		key_label.add_theme_font_size_override("font_size", 13)
 		key_label.add_theme_color_override("font_color", Color(0.85, 0.85, 0.85))
 		stat_grid.add_child(key_label)
 
 		var base_label := Label.new()
 		base_label.text = "?"
-		base_label.add_theme_font_size_override("font_size", 16)
+		base_label.add_theme_font_size_override("font_size", 15)
 		base_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		base_label.custom_minimum_size = Vector2(36, 0)
 		stat_grid.add_child(base_label)
 
 		var dice_label := Label.new()
 		dice_label.text = "+0"
-		dice_label.add_theme_font_size_override("font_size", 14)
+		dice_label.add_theme_font_size_override("font_size", 13)
 		dice_label.custom_minimum_size = Vector2(36, 0)
 		stat_grid.add_child(dice_label)
 
@@ -251,6 +296,18 @@ func _build_layout() -> void:
 	_portrait_class_label.add_theme_constant_override("outline_size", 4)
 	_portrait_class_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	portrait_box.add_child(_portrait_class_label)
+
+	# Playstyle hint footer. One line of muted color so it reads as a
+	# footnote against the bold attr grid. autowrap is on so a future
+	# >80-char hint never clips ugly at runtime.
+	_hint_label = Label.new()
+	_hint_label.text = ""
+	_hint_label.add_theme_font_size_override("font_size", 12)
+	_hint_label.add_theme_color_override("font_color", Color(0.78, 0.74, 0.62))
+	_hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_hint_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_hint_label.visible = false
+	outer.add_child(_hint_label)
 
 
 func _tier_color(ovr: int) -> Color:
