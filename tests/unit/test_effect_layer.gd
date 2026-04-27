@@ -125,12 +125,17 @@ func test_clear_effects_removes_active_aura():
 	assert_eq(lc.effect_layer.get_child_count(), 0, "aura children gone")
 
 
-func test_effect_layer_z_index_is_below_body():
+func test_effect_layer_z_index_is_above_all_character_layers():
 	var lc := LayeredCharacter.new()
 	add_child_autofree(lc)
 	lc.apply_layers({"body_id": 1, "head_id": 1})
 	lc.start_effect(LayeredCharacter.EFFECT_MEDITATION)
 
-	# Aura must render BEHIND the body — z_index strictly less than body's.
-	assert_lt(lc.effect_layer.z_index, lc.body_sprite.z_index,
-		"effect layer z_index is below body z_index")
+	# Aura renders ON TOP of the character so the buff is visible — strictly
+	# greater than every character layer's z_index.
+	assert_gt(lc.effect_layer.z_index, lc.body_sprite.z_index,
+		"effect layer above body")
+	assert_gt(lc.effect_layer.z_index, lc.head_sprite.z_index,
+		"effect layer above head")
+	assert_gt(lc.effect_layer.z_index, lc.weapon_sprite.z_index,
+		"effect layer above weapon")
