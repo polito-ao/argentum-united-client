@@ -14,6 +14,7 @@ Outputs:
     assets/sprite_data/weapons.yml        (+ .json)
     assets/sprite_data/shields.yml        (+ .json)
     assets/sprite_data/effects.yml        (+ .json)
+    assets/sprite_data/items.yml          (+ .json)
     assets/sprite_data/missing_refs.txt   (skip log, not data)
 
 Rules:
@@ -51,6 +52,7 @@ from typing import Dict, List, Optional, Tuple
 # Paths
 
 CUCSI_INIT = Path(r"C:/Users/agusp/Documents/Cucsiii/clientecucsi/Init")
+CUCSI_DAT = Path(r"C:/Users/agusp/Documents/Cucsiii/servercucsi/Dat")
 CLIENT_ROOT = Path(__file__).resolve().parent.parent
 UPSCALED_DIR = CLIENT_ROOT / "assets" / "upscaled_2x"
 OUT_DIR = CLIENT_ROOT / "assets" / "sprite_data"
@@ -486,6 +488,88 @@ def build_dir_catalog(
 
 
 # ---------------------------------------------------------------------------
+# obj.dat -> item icons
+
+def parse_obj_grh_indices(dat_path: Path) -> Dict[int, int]:
+    """
+    Cucsi obj.dat layout (Windows-1252):
+      [OBJ{n}]
+      Name=...
+      GrhIndex={int}
+      ObjType={int}
+      ...
+    Returns {obj_id -> grh_index}. Skips entries without a GrhIndex.
+    """
+    sections = parse_ini(dat_path)
+    out: Dict[int, int] = {}
+    for sec, kv in sections.items():
+        m = re.match(r"^OBJ(\d+)$", sec, re.IGNORECASE)
+        if not m:
+            continue
+        obj_id = int(m.group(1))
+        if "GrhIndex" not in kv:
+            continue
+        try:
+            grh_id = int(kv["GrhIndex"])
+        except ValueError:
+            continue
+        if grh_id <= 0:
+            continue
+        out[obj_id] = grh_id
+    return out
+
+
+def build_item_icon_catalog(
+    obj_grh_map: Dict[int, int],
+    grhs: Dict[int, GrhEntry],
+    upscaled: set,
+    missing: List[str],
+) -> Dict[str, Dict]:
+    """
+    Each unique GrhIndex referenced by obj.dat -> a single-frame catalog
+    entry keyed `item_icon_{grh_id}`. Wire identity is the GRH id (the
+    server ships `icon_grh_id` in GROUND_ITEM_SPAWN.item_data).
+
+    Multi-frame Grhs (rare for item icons) -> emit just the first sub-frame.
+    Any unresolved Grh -> skip + log to missing_refs.
+    """
+    out: Dict[str, Dict] = {}
+    seen: set = set()
+    # Walk obj_ids in ascending order so the YAML ordering is stable.
+    for obj_id in sorted(obj_grh_map):
+        grh_id = obj_grh_map[obj_id]
+        if grh_id in seen:
+            continue
+        seen.add(grh_id)
+        ctx = f"item_icon_{grh_id} (obj.dat[OBJ{obj_id}].GrhIndex)"
+        entry = grhs.get(grh_id)
+        if entry is None:
+            missing.append(f"{ctx}: Grh{grh_id} not in Graficos.ini")
+            continue
+        if entry.num_frames == 1:
+            frame = resolve_single_frame(grh_id, grhs, upscaled, missing, ctx)
+        else:
+            # Multi-frame icon: take the first sub-frame and treat as static.
+            if not entry.sub_ids:
+                missing.append(f"{ctx}: Grh{grh_id} multi-frame with empty sub_ids")
+                continue
+            first_sub = entry.sub_ids[0]
+            frame = resolve_single_frame(
+                first_sub, grhs, upscaled, missing,
+                f"{ctx} (multi-frame, taking first sub Grh{first_sub})",
+            )
+        if frame is None:
+            continue
+        out[f"item_icon_{grh_id}"] = {
+            "id": grh_id,
+            "source": f"Graficos.ini[Grh{grh_id}]",
+            "region": frame["region"],
+            "file": frame["file"],
+        }
+    return out
+
+
+# ---------------------------------------------------------------------------
 # YAML emitter (minimal — keeps ordering, nests dicts/lists, no PyYAML dep)
 
 def _yaml_escape(v) -> str:
@@ -570,9 +654,13 @@ def main() -> int:
         print(f"ERROR: Cucsi Init dir not found: {CUCSI_INIT}", file=sys.stderr)
         print("Cannot parse without source files. Aborting (no partial YAMLs written).", file=sys.stderr)
         return 2
+    if not CUCSI_DAT.exists():
+        print(f"ERROR: Cucsi Dat dir not found: {CUCSI_DAT}", file=sys.stderr)
+        return 2
 
     required = {
         "Graficos.ini": CUCSI_INIT / "Graficos.ini",
+        "obj.dat": CUCSI_DAT / "obj.dat",
         "Personajes.ini": CUCSI_INIT / "Personajes.ini",
         "Cabezas.ini": CUCSI_INIT / "Cabezas.ini",
         "Cascos.ini": CUCSI_INIT / "Cascos.ini",
@@ -647,6 +735,11 @@ def main() -> int:
     effects = build_effect_catalog(fxs, grhs, upscaled, missing)
     print(f"  -> effects emitted: {len(effects)} / {len(EFFECT_MAP)}")
 
+    print("Parsing obj.dat (item icons) …", flush=True)
+    obj_grh_map = parse_obj_grh_indices(required["obj.dat"])
+    items = build_item_icon_catalog(obj_grh_map, grhs, upscaled, missing)
+    print(f"  -> items emitted: {len(items)} / {len(set(obj_grh_map.values()))} unique GrhIndex")
+
     # Write outputs.
     print("Writing YAML + JSON catalogs …", flush=True)
     catalogs = [
@@ -656,6 +749,7 @@ def main() -> int:
         ("weapons", weapons, len(weapons_raw)),
         ("shields", shields, len(shields_raw)),
         ("effects", effects, len(EFFECT_MAP)),
+        ("items", items, len(set(obj_grh_map.values()))),
     ]
     for name, data, raw_count in catalogs:
         write_yaml(OUT_DIR / f"{name}.yml", data)
