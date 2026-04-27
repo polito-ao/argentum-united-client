@@ -70,6 +70,7 @@ var _warned_missing_item_icons: Dictionary = {}
 # -- Chat + minimap
 @onready var chat_display: RichTextLabel     = %ChatDisplay
 @onready var chat_input: LineEdit            = %ChatInput
+@onready var chat_jump_button: Button        = %JumpToPresentButton
 @onready var minimap: Control                = %Minimap
 
 # -- Top-bar buttons
@@ -210,6 +211,7 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 		chat_input   = chat_input,
 		connection   = connection,
 		world        = self,
+		jump_button  = chat_jump_button,
 	})
 	# `MessagesLabel` is gone; system messages now flow through the chat
 	# console. HUD was built in _ready() before chat existed, so wire the
