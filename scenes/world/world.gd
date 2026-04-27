@@ -115,6 +115,7 @@ var dev: DevController
 var effect_picker: EffectPickerController
 var hud: HUDController
 var inventory: InventoryController
+var reconnect_modal_controller: ReconnectModalController
 
 var _minimap_drawer: _MinimapDrawer
 var _is_dead: bool = false
@@ -247,6 +248,19 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	%DevAmountCancelButton.pressed.connect(dev.cancel_amount)
 	%DevAmountInput.text_submitted.connect(func(_t): dev.confirm_amount())
 	%DevQueryInput.text_submitted.connect(func(_t): dev._request_list())
+
+	# Reconnect-prompt modal: also handled in character_select, but the
+	# server's RECONNECT_PROMPT can land in either scene depending on
+	# timing -- we wire both. The controller lazy-builds the modal as
+	# a child of `self` (the world Node2D) on first prompt; visually it
+	# overlays the entire game viewport because the modal scene is a
+	# full-rect Control.
+	reconnect_modal_controller = ReconnectModalController.new({
+		host         = self,
+		connection   = connection,
+		modal_scene  = preload("res://scenes/match/reconnect_modal.tscn"),
+	})
+
 	# Two ways out of the world scene:
 	#   - Willful /salir → EXITED_TO_SELECT packet (handled in _on_packet_received)
 	#   - Unexpected drop → connection.disconnected signal
@@ -1399,6 +1413,14 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			# handles the full payload — see ChatController.
 			if chat != null:
 				chat.append_broadcast_message(payload)
+		PacketIds.RECONNECT_PROMPT:
+			# Defensive timing path: server is supposed to fire this on
+			# the post-auth flow (character_select handles it there), but
+			# if the client has already entered the world by the time the
+			# packet arrives, we still want to show the prompt rather
+			# than push_error on it. Same modal, same response packet.
+			if reconnect_modal_controller != null:
+				reconnect_modal_controller.handle_prompt(payload)
 		_:
 			push_error("DRIFT or MALICIOUS: unknown packet_id 0x%04x" % packet_id)
 

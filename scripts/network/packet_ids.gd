@@ -110,6 +110,12 @@ const DISCOVERY_UNLOCKED = 0x008D  # server -> client (only that player): { cate
 # hard-fails at boot on drift. Same defensive pattern as PLAY_SFX above.
 const BROADCAST_MESSAGE = 0x008E   # server -> recipients: { category, level, message, sender_name?, link? }
 
+# Aligned with server PR #112 — RECONNECT_RESPONSE moved off 0x0090 (BANK_OPEN
+# already owns that slot) to 0x00C0. validate_server_config() hard-fails on
+# drift as a defensive backstop.
+const RECONNECT_PROMPT = 0x008F     # server -> that one client: { match_id, match_type, expires_at }
+const RECONNECT_RESPONSE = 0x00C0   # client -> server: { match_id, accept }
+
 # Called on boot after CONFIG_RESPONSE arrives.
 # Errors hard if server's IDs don't match our constants.
 static func validate_server_config(server_packet_ids: Dictionary) -> Array:
