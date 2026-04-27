@@ -856,7 +856,7 @@ func _on_self_step_finished() -> void:
 var _move_cooldown: float = 0.0
 var _fps_cooldown: float = 0.0
 var _minimap_cooldown: float = 0.0
-const MOVE_INTERVAL: float = 0.1
+const MOVE_INTERVAL: float = 0.20 # 5 tiles/sec — matches Cucsi's measured walk speed
 const FPS_REFRESH: float = 0.5
 const MINIMAP_REFRESH: float = 0.2 # 5Hz — cheap, catches NPC/player/ground item changes
 
