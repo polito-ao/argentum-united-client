@@ -8,14 +8,14 @@
 **Server repo**: polito-ao/argentum-united-server
 **Project board**: argentum-united
 
-## Last verified state (2026-04-25)
+## Last verified state (2026-04-27)
 
-- **Tests**: 79 GUT tests, all passing. Run with:
+- **Tests**: 257 GUT tests, all passing. Run with:
   ```
   godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests/unit/ -gexit
   ```
-- **Last commit**: `abb92e3` (bank: connect gui_input signal — _gui_input virtual missed press events)
-- **M2**: in progress. Most player-facing systems wired end-to-end; sprite layers + animations are the big M9-territory remainder.
+- **Last commit**: `fd465e8` (ground items: render Cucsi icon sprites instead of yellow rect)
+- **M2**: feature-complete on visual axis. Layered character pipeline (body + head + equipment + effect aura) live for player / other players / NPCs; race-distinct bodies; equipment overlay updates live on equip; meditation aura with picker; FIFA-card character select; cosmetic login + char-select scenes; ground items render Cucsi icon sprites. Remaining: spells hotbar, sound/music, more content.
 - **Editor cache nuke if needed**: if you see "class not registered" / unresolved `%UniqueName` errors on first open, run `rm .godot/global_script_class_cache.cfg .godot/uid_cache.bin && godot --headless --path . --import` then reopen.
 
 ## Tech stack
@@ -42,8 +42,19 @@ scripts/
                     inventory_controller.gd    grid + drop dialog + use/equip
                     chat_controller.gd         log + input + send
                     bank_controller.gd         two-pane overlay + amount prompt
-                    dev_controller.gd          F2 search-and-spawn
+                    dev_controller.gd          F2 search-and-spawn (items, creatures, chests)
+                    head_picker_controller.gd  arrow-scroll head picker on character creation
+                    effect_picker_controller.gd  meditation-aura decal selector in settings
+                    character_create_toggle.gd   gates the creation form behind a button
+                    character_card.gd          FIFA-style card (6 attrs + class/race playstyle hint)
+                    race_base_attrs.gd         static race → base attr table + OVR formula
+                    class_race_hints.gd        35-cell class+race playstyle hint matrix
   game/           map_texture_cache (autoload), parsed-JSON helpers
+                    sprite_catalog.gd (autoload)        loads bodies/heads/helmets/weapons/shields/effects/items YAML
+                    sprite_frames_builder.gd            id → cached SpriteFrames resource
+                    layered_character.gd                Node2D with 5 AnimatedSprite2D layers + EffectSprite
+                    meditation_aura.gd                  effect aura node (real Cucsi sprite + placeholder fallback)
+                    character_direction.gd              delta → cardinal direction
 
 tests/
   unit/           GUT unit tests, one per controller + smoke
@@ -80,13 +91,28 @@ Each interactive subsystem lives in `scripts/ui/<controller>.gd` as a `RefCounte
 - [x] Smooth-walk for own player + NPCs (tween over MOVE_INTERVAL / 380ms). Other players still snap on PLAYER_MOVE — see Pending below.
 - [x] Mini-map (`%Minimap` control + `_MinimapDrawer` redrawn periodically)
 
+### Done since 2026-04-25 (this session)
+- [x] **Layered character pipeline** — `LayeredCharacter` with body / head / helmet / weapon / shield AnimatedSprite2D layers + EffectSprite. Player, other players, and NPCs all use it. Equipment changes re-apply layers live.
+- [x] **Walk animations** — 4-direction walk cycles driven by movement delta. Player at 5 tiles/sec (Cucsi-exact), NPCs at 380ms (Cucsi TimerAI cadence).
+- [x] **Race-distinct visuals** — Cucsi-derived body/head defaults per race (humano body 21/head 1, gnomo 222/401, etc.).
+- [x] **Head picker** — arrow-scroll picker on character creation with live body+head preview.
+- [x] **Equipment overlay** — equip a weapon/helmet/shield/armor and see it on the character live; broadcast to other players.
+- [x] **Meditation aura** — real Cucsi `FxMeditar.CHICO` sprite (with MEDIANO/GRANDE mined for level-gated upgrades), pulsing on top of the character. Decal picker in settings overlay reads `available_effects.meditation` from server.
+- [x] **Chests** — render with Cucsi icon, F-key interaction, F2 dev-spawn from `cofre_pequeno` / `cofre_grande` templates.
+- [x] **FIFA character cards** — name + class + race + portrait + 6 attrs (base + dice) + OVR + class/race playstyle hint. Creation gated behind "Crear nuevo personaje" button.
+- [x] **Cosmetic login + char-select** — painted backgrounds, Cinzel-rendered "Argentum United" wordmark, time-conditional day/night char-select bg (night = 19:00 → 05:30).
+- [x] **Ground item icons** — Cucsi item sprites driven by `icon_grh_id` from server, with yellow ColorRect fallback for missing refs.
+- [x] **Other-players smoothing** — fell out for free from layered character work; PLAYER_MOVE no longer snaps.
+
 ### Pending / not started
-- [ ] Character sprite directional frames (M2 Phase 2 / M9). Today the player is a fixed PNG; walk frames not synced to movement.
-- [ ] Other players' movement smoothing — their sprites snap on PLAYER_MOVE. Deferred until proper sprite frames land (parked in commit `df5e77a` notes).
 - [ ] Spells hotbar — spell list in tab works, no quick-cast bar yet
 - [ ] Sound / music (whole pass deferred)
 - [ ] Clan / citizenship UI (M4)
 - [ ] Settings panel: keybind UI doesn't show new actions automatically (e.g. `bank: KEY_V` is in `DEFAULT_BINDINGS` but the rebinder UI may need a refresh — verify when touched)
+- [ ] **Shrine of Fortune mechanic** — dice rolls deferred to level 2 unlock; data path is ready (`Character.dice_roll` JSONB, `to_summary` ships it), only the mechanic + UI are missing.
+- [ ] **Gender axis on Character** — schema column + dice roller + creation UI; Cucsi `_M_` female head arrays are already emitted in `race_heads.yml`, just unused.
+- [ ] **Effect catalog expansion** — only meditation auras live today (CHICO/MEDIANO/GRANDE). Mine remaining Cucsi auras (blessings, VIP indicators, status effect visuals).
+- [ ] **More maps** — only 3 maps loaded; Cucsi has 624 maps and the parser is in place.
 
 ## Tech debt (before M3)
 
