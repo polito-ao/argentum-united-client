@@ -104,6 +104,7 @@ const EFFECT_ID_MEDITATION = 1
 # Same defensive pattern as PLAYER_LAYERS_UPDATE / EFFECT_START above.
 const PLAY_SFX = 0x008B       # server -> client: { wav_id, x, y } (0/0 = non-spatial UI)
 const MUSIC_CHANGE = 0x008C   # server -> client: { music_id } (null = stop music)
+const DISCOVERY_UNLOCKED = 0x008D  # server -> client (only that player): { category, slug, name }
 
 # Called on boot after CONFIG_RESPONSE arrives.
 # Errors hard if server's IDs don't match our constants.
