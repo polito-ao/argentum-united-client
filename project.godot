@@ -18,11 +18,17 @@ config/name="Argentum United"
 run/main_scene="res://scenes/login/login.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 
+[audio]
+
+buses/default_bus_layout="res://default_bus_layout.tres"
+
 [autoload]
 
 MapTextureCache="*res://scripts/game/map_texture_cache.gd"
 SpriteCatalog="*res://scripts/game/sprite_catalog.gd"
 SpriteFramesBuilder="*res://scripts/game/sprite_frames_builder.gd"
+AudioCatalog="*res://scripts/game/audio_catalog.gd"
+AudioPlayer="*res://scripts/game/audio_player.gd"
 
 [display]
 

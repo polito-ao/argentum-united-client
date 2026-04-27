@@ -394,9 +394,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -320.0
-offset_top = -220.0
+offset_top = -290.0
 offset_right = 320.0
-offset_bottom = 220.0
+offset_bottom = 290.0
 
 [node name="VBox" type="VBoxContainer" parent="UILayer/HUD/SettingsOverlay/Panel"]
 
@@ -410,6 +410,68 @@ unique_name_in_owner = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 4
+
+[node name="AudioSeparator" type="HSeparator" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
+
+[node name="AudioTitle" type="Label" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
+text = "AUDIO"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="AudioSection" type="GridContainer" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
+unique_name_in_owner = true
+columns = 3
+
+[node name="MasterLabelL" type="Label" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/AudioSection"]
+custom_minimum_size = Vector2(110, 0)
+text = "Volumen general"
+
+[node name="MasterSlider" type="HSlider" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/AudioSection"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 0)
+size_flags_horizontal = 3
+focus_mode = 0
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+value = 0.8
+
+[node name="MasterValueLabel" type="Label" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/AudioSection"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+text = "80%"
+
+[node name="MusicLabelL" type="Label" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/AudioSection"]
+text = "Música"
+
+[node name="MusicSlider" type="HSlider" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/AudioSection"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+value = 0.7
+
+[node name="MusicValueLabel" type="Label" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/AudioSection"]
+unique_name_in_owner = true
+text = "70%"
+
+[node name="SFXLabelL" type="Label" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/AudioSection"]
+text = "Efectos"
+
+[node name="SFXSlider" type="HSlider" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/AudioSection"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+focus_mode = 0
+min_value = 0.0
+max_value = 1.0
+step = 0.01
+value = 0.9
+
+[node name="SFXValueLabel" type="Label" parent="UILayer/HUD/SettingsOverlay/Panel/VBox/AudioSection"]
+unique_name_in_owner = true
+text = "90%"
 
 [node name="VisualsSeparator" type="HSeparator" parent="UILayer/HUD/SettingsOverlay/Panel/VBox"]
 
