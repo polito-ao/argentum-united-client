@@ -1,8 +1,8 @@
 extends Control
 
-@onready var account_input: LineEdit = $VBoxContainer/AccountInput
-@onready var login_button: Button = $VBoxContainer/LoginButton
-@onready var status_label: Label = $VBoxContainer/StatusLabel
+@onready var account_input: LineEdit = $FormPanel/VBoxContainer/AccountInput
+@onready var login_button: Button = $FormPanel/VBoxContainer/LoginButton
+@onready var status_label: Label = $FormPanel/VBoxContainer/StatusLabel
 @onready var connection: ServerConnection = $ServerConnection
 
 func _ready():

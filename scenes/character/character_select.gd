@@ -35,6 +35,7 @@ const MAX_CHARACTERS := 3
 @onready var head_random_button: Button = $Panel/OuterHBox/LeftColumn/CreatePanel/HeadRandomButton
 @onready var preview_panel: VBoxContainer = $Panel/OuterHBox/PreviewPanel
 @onready var preview_card_slot: VBoxContainer = $Panel/OuterHBox/PreviewPanel/PreviewCardSlot
+@onready var background: TextureRect = $Background
 
 var connection: ServerConnection
 var head_picker_controller: HeadPickerController
@@ -46,6 +47,35 @@ var _pending_select_payload: Dictionary = {}
 
 var CLASSES: Array = []
 var RACES: Array = []
+
+func _ready() -> void:
+	_apply_time_of_day_background()
+
+
+func _apply_time_of_day_background() -> void:
+	var now := Time.get_time_dict_from_system()
+	var hour := int(now.get("hour", 0))
+	var minute := int(now.get("minute", 0))
+	var path := "res://assets/cosmetics/background_character_select_%s_with_logo.PNG" % ("night" if _is_night(hour, minute) else "day")
+	var tex := load(path)
+	if tex != null and is_instance_valid(background):
+		background.texture = tex
+
+
+# Day/night boundary helper. Pure function -- safe to call from tests without
+# instantiating the scene.
+#
+#   Night: 19:00 (inclusive) through 05:30 (exclusive)
+#   Day:   05:30 (inclusive) through 19:00 (exclusive)
+static func _is_night(hour: int, minute: int) -> bool:
+	if hour >= 19:
+		return true
+	if hour < 5:
+		return true
+	if hour == 5 and minute < 30:
+		return true
+	return false
+
 
 func setup(conn: ServerConnection):
 	connection = conn
