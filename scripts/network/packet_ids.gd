@@ -110,6 +110,20 @@ const DISCOVERY_UNLOCKED = 0x008D  # server -> client (only that player): { cate
 # hard-fails at boot on drift. Same defensive pattern as PLAY_SFX above.
 const BROADCAST_MESSAGE = 0x008E   # server -> recipients: { category, level, message, sender_name?, link? }
 
+# TODO: confirm IDs against the server's `match-primitive-and-reconnect` PR
+# once it lands. Best-guess allocations supplied by the server team:
+#   - RECONNECT_PROMPT   = 0x008F  (server -> that one client)
+#   - RECONNECT_RESPONSE = 0x0090  (client -> server)
+# NOTE: 0x0090 currently collides with our local BANK_OPEN constant. Both
+# constants resolve to the same int in GDScript -- harmless on its own,
+# but it means the server's match PR almost certainly moves BANK_OPEN to
+# a new slot. validate_server_config() hard-fails at boot if the server's
+# authoritative map disagrees with our copy, which is the loud signal to
+# bump whichever constant drifted. Same defensive pattern as PLAY_SFX,
+# BROADCAST_MESSAGE, etc.
+const RECONNECT_PROMPT = 0x008F     # server -> that one client: { match_id, match_type, expires_at }
+const RECONNECT_RESPONSE = 0x0090   # client -> server: { match_id, accept }
+
 # Called on boot after CONFIG_RESPONSE arrives.
 # Errors hard if server's IDs don't match our constants.
 static func validate_server_config(server_packet_ids: Dictionary) -> Array:

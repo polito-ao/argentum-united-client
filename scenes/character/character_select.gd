@@ -5,6 +5,8 @@ signal character_selected(character: Dictionary)
 const CharacterCardScript = preload("res://scripts/ui/character_card.gd")
 const CharacterCreateToggleScript = preload("res://scripts/ui/character_create_toggle.gd")
 const RaceBaseAttrsScript = preload("res://scripts/ui/race_base_attrs.gd")
+const ReconnectModalControllerScript = preload("res://scripts/ui/reconnect_modal_controller.gd")
+const ReconnectModalScene := preload("res://scenes/match/reconnect_modal.tscn")
 
 # How many characters can a player keep on one account.
 const MAX_CHARACTERS := 3
@@ -38,6 +40,7 @@ const MAX_CHARACTERS := 3
 var connection: ServerConnection
 var head_picker_controller: HeadPickerController
 var create_toggle: CharacterCreateToggle
+var reconnect_modal_controller: ReconnectModalController
 var preview_card # CharacterCard, lazily built
 var _characters: Array = []
 var _pending_select_payload: Dictionary = {}
@@ -134,6 +137,16 @@ func setup(conn: ServerConnection):
 	if RACES.size() > 0:
 		head_picker_controller.set_race(RACES[race_selector.selected])
 
+	# Reconnect-prompt modal: the server may fire RECONNECT_PROMPT during
+	# this scene if the player is mid-match. The controller lazy-builds
+	# the modal on first prompt and routes the user's Si/No back over
+	# `connection` as a RECONNECT_RESPONSE packet.
+	reconnect_modal_controller = ReconnectModalControllerScript.new({
+		host         = self,
+		connection   = connection,
+		modal_scene  = ReconnectModalScene,
+	})
+
 	connection.send_packet(PacketIds.CHARACTER_LIST_REQUEST)
 	status_label.text = "Loading characters..."
 
@@ -150,6 +163,12 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.HEAD_OPTIONS_RESPONSE:
 			if head_picker_controller != null:
 				head_picker_controller.handle_options_response(payload)
+		PacketIds.RECONNECT_PROMPT:
+			# Server detected an in-progress match for this character on
+			# (re-)login. Show the modal; user's response goes back over
+			# `connection` via RECONNECT_RESPONSE.
+			if reconnect_modal_controller != null:
+				reconnect_modal_controller.handle_prompt(payload)
 
 func _handle_character_list(payload: Dictionary):
 	_characters = payload.get("characters", [])
