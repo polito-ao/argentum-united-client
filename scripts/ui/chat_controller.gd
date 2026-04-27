@@ -13,6 +13,11 @@ extends RefCounted
 ## Lifecycle: needs `connection` to send → construct in world.gd's setup(),
 ## not _ready(). See feedback_godot_controller_lifecycle memory.
 
+# System-line color (soft gray) — visually contrasts with normal broadcast
+# lines without yelling. Picked over warm cream so it reads as "ambient
+# UI feedback" rather than "important game event".
+const SYSTEM_COLOR := "#9ba0a8"
+
 var _display: RichTextLabel
 var _input: LineEdit
 var _connection
@@ -32,6 +37,19 @@ func _init(refs: Dictionary) -> void:
 func append_broadcast(from_name, msg: String) -> void:
 	var name_str = from_name if from_name != null else "?"
 	_display.append_text("[%s]: %s\n" % [name_str, msg])
+
+# System-line message: status events, casting hints, server SYSTEM_MESSAGE,
+# inspect-tile reports, etc. Single colored line, no "[name]" prefix.
+# Multi-line content (e.g. "Hay aquí:\n  • ...") is rendered as a single
+# colored block by wrapping the whole text in [color] tags.
+func append_system(msg: String) -> void:
+	if msg == null or String(msg).is_empty():
+		return
+	# bbcode_enabled is true on ChatDisplay (see world.tscn). Escape
+	# square brackets in the payload so a stray "[X]" doesn't get parsed
+	# as a tag and break formatting for the rest of the log.
+	var safe := String(msg).replace("[", "[lb]")
+	_display.append_text("[color=%s]%s[/color]\n" % [SYSTEM_COLOR, safe])
 
 # --- Outgoing ---
 

@@ -27,7 +27,6 @@ func before_each():
 		eq_magres      = Label.new(),
 		position_label = Label.new(),
 		fps_label      = Label.new(),
-		messages_label = Label.new(),
 	}
 	hud = HUDController.new(refs)
 
@@ -136,21 +135,32 @@ func test_set_fps_format():
 	hud.set_fps(60)
 	assert_eq(refs.fps_label.text, "FPS 60")
 
-# --- Messages feed ---
+# --- Messages feed (delegated to chat sink) ---
 
-func test_add_message_writes_to_label():
+class _StubChatSink extends RefCounted:
+	var lines: Array = []
+	func append_system(msg: String) -> void:
+		lines.append(msg)
+
+func test_add_message_forwards_to_chat_sink():
+	var sink = _StubChatSink.new()
+	hud.set_chat_sink(sink)
 	hud.add_message("hello")
-	assert_eq(refs.messages_label.text, "hello")
+	assert_eq(sink.lines, ["hello"])
 
-func test_add_message_joins_with_newlines():
-	hud.add_message("one")
-	hud.add_message("two")
-	assert_eq(refs.messages_label.text, "one\ntwo")
+func test_add_message_buffers_until_sink_attached():
+	# HUDController is built in world.gd's _ready(); chat in setup(). Any
+	# message that arrives before set_chat_sink must flush in order once
+	# the sink is wired.
+	hud.add_message("early1")
+	hud.add_message("early2")
+	var sink = _StubChatSink.new()
+	hud.set_chat_sink(sink)
+	assert_eq(sink.lines, ["early1", "early2"])
 
-func test_add_message_caps_at_max_messages():
-	for i in range(HUDController.MAX_MESSAGES + 3):
-		hud.add_message("msg%d" % i)
-	var lines = refs.messages_label.text.split("\n")
-	assert_eq(lines.size(), HUDController.MAX_MESSAGES)
-	# Oldest dropped: msg0/1/2 gone, msg3 is now first.
-	assert_eq(lines[0], "msg3")
+func test_add_message_after_sink_attached_does_not_replay_buffer():
+	var sink = _StubChatSink.new()
+	hud.set_chat_sink(sink)
+	hud.add_message("a")
+	hud.add_message("b")
+	assert_eq(sink.lines, ["a", "b"])
