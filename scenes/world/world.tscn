@@ -28,14 +28,6 @@ offset_bottom = 63.0
 mouse_filter = 2
 color = Color(0.2, 0.8, 0.2, 1)
 
-[node name="FacingLabel" type="Label" parent="PlayerSprite"]
-offset_left = 20.0
-offset_top = 14.0
-offset_right = 60.0
-offset_bottom = 54.0
-mouse_filter = 2
-text = "v"
-
 [node name="NameLabel" type="Label" parent="PlayerSprite"]
 offset_left = -14.0
 offset_top = 66.0

@@ -1037,23 +1037,19 @@ func _send_move(dx: int, dy: int):
 	var new_y = my_pos.y + dy
 
 	if new_x < 0 or new_y < 0 or new_x >= map_size.x or new_y >= map_size.y:
-		_update_player_sprite()
 		return
 
 	for npc_id in npcs:
 		if npcs[npc_id].pos == Vector2i(new_x, new_y):
-			_update_player_sprite()
 			return
 
 	for player_id in players:
 		if players[player_id].pos == Vector2i(new_x, new_y):
-			_update_player_sprite()
 			return
 
 	connection.send_packet(PacketIds.PLAYER_MOVE, {"x": new_x, "y": new_y})
 	my_pos = Vector2i(new_x, new_y)
 	_tween_player_step()
-	_update_player_sprite()
 
 func _attack_facing():
 	var facing = _facing_offset()
@@ -1082,10 +1078,6 @@ func _facing_offset() -> Vector2i:
 		"east":  return Vector2i(1, 0)
 		"west":  return Vector2i(-1, 0)
 	return Vector2i(0, 1)
-
-func _update_player_sprite():
-	var arrow = {"north": "^", "south": "v", "east": ">", "west": "<"}
-	$PlayerSprite/FacingLabel.text = arrow.get(my_heading, "v")
 
 func _on_packet_received(packet_id: int, payload: Dictionary):
 	match packet_id:
