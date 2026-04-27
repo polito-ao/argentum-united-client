@@ -1333,6 +1333,11 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			# handles both shapes uniformly.
 			var raw = payload.get("music_id", 0)
 			AudioPlayer.play_music(0 if raw == null else int(raw))
+		PacketIds.DISCOVERY_UNLOCKED:
+			# Server fires this once per (character, category, slug) on first
+			# unlock. Show a system line in chat — no other UI yet.
+			var name = payload.get("name", payload.get("slug", "?"))
+			chat.append_system("Has descubierto: %s" % name)
 		_:
 			push_error("DRIFT or MALICIOUS: unknown packet_id 0x%04x" % packet_id)
 
