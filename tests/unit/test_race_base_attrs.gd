@@ -45,36 +45,48 @@ func test_for_race_returns_a_copy_not_table_reference():
 	assert_eq(second.get("int"), 50)
 
 
-# --- rating formula ---------------------------------------------------------
+# --- rating formula (now averaged over all six attrs) -----------------------
+# Values updated when MAG_RES/PHYS_RES were exposed on the card. The full
+# all-six coverage tests live in test_race_base_attrs_full.gd; here we keep
+# the formula edge cases.
 
 func test_rating_humano_balanced():
-	# (50+50+50+50)/4 = 50
-	assert_eq(RaceBaseAttrsScript.rating({"int": 50, "con": 50, "agi": 50, "str": 50}), 50)
+	# All 50 across six attrs -> 50.
+	assert_eq(RaceBaseAttrsScript.rating(
+		{"int": 50, "con": 50, "agi": 50, "str": 50, "mag_res": 50, "phys_res": 50}
+	), 50)
 
 func test_rating_orco_max_strength_build():
-	# (12+92+12+92)/4 = 52
-	assert_eq(RaceBaseAttrsScript.rating({"int": 12, "con": 92, "agi": 12, "str": 92}), 52)
+	# (12+92+12+92+12+92)/6 = 52.
+	assert_eq(RaceBaseAttrsScript.rating(
+		{"int": 12, "con": 92, "agi": 12, "str": 92, "mag_res": 12, "phys_res": 92}
+	), 52)
 
 func test_rating_floors_decimal_division():
-	# (51+50+50+50)/4 = 50.25 -> 50
-	assert_eq(RaceBaseAttrsScript.rating({"int": 51, "con": 50, "agi": 50, "str": 50}), 50)
+	# (51+50+50+50+50+50)/6 = 50.166 -> 50.
+	assert_eq(RaceBaseAttrsScript.rating(
+		{"int": 51, "con": 50, "agi": 50, "str": 50, "mag_res": 50, "phys_res": 50}
+	), 50)
 
 func test_rating_with_dice_bonus_via_combine():
 	var base = RaceBaseAttrsScript.for_race("humano")
 	var dice = {"int": 3, "con": 2, "agi": 0, "str": 5}
 	var effective = RaceBaseAttrsScript.combine(base, dice)
-	# (53+52+50+55)/4 = 52.5 -> 52
-	assert_eq(RaceBaseAttrsScript.rating(effective), 52)
+	# (53+52+50+55+50+50)/6 = 51.66 -> 51.
+	assert_eq(RaceBaseAttrsScript.rating(effective), 51)
 
 func test_rating_handles_missing_keys_as_zero():
 	assert_eq(RaceBaseAttrsScript.rating({}), 0)
-	assert_eq(RaceBaseAttrsScript.rating({"int": 100}), 25)
+	# (100+0+0+0+0+0)/6 = 16.66 -> 16.
+	assert_eq(RaceBaseAttrsScript.rating({"int": 100}), 16)
 
 func test_combine_treats_missing_dice_keys_as_zero():
-	var base = {"int": 50, "con": 50, "agi": 50, "str": 50}
+	var base = {"int": 50, "con": 50, "agi": 50, "str": 50, "mag_res": 50, "phys_res": 50}
 	var dice = {"int": 4} # missing the rest
 	var effective = RaceBaseAttrsScript.combine(base, dice)
 	assert_eq(effective.get("int"), 54)
 	assert_eq(effective.get("con"), 50)
 	assert_eq(effective.get("agi"), 50)
 	assert_eq(effective.get("str"), 50)
+	assert_eq(effective.get("mag_res"), 50)
+	assert_eq(effective.get("phys_res"), 50)
