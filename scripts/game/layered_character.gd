@@ -22,14 +22,14 @@ class_name LayeredCharacter extends Node2D
 const TILE_SIZE_DEFAULT := 32  # caller can override via set_tile_size()
 const MeditationAuraScript := preload("res://scripts/game/meditation_aura.gd")
 
-# z order: effect (under), body bottom, head above body, then equip layers above.
+# z order: body bottom, head above body, equip layers above, effect on top.
 # Single Node2D z_index so the whole character sits on the same map z-stack.
-const Z_EFFECT := -1
 const Z_BODY := 0
 const Z_HEAD := 1
 const Z_HELMET := 2
 const Z_SHIELD := 3
 const Z_WEAPON := 4
+const Z_EFFECT := 10  # auras / buffs render on top of the character so they're visible overlays
 
 # Effect ids (mirror server constants — see packet_ids.gd).
 const EFFECT_MEDITATION := 1
