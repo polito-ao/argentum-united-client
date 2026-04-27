@@ -14,6 +14,10 @@ func _ready():
 	account_input.text = "dev|player1"
 	status_label.text = "Not connected"
 
+	# Kick off the login theme. AudioPlayer is a global autoload; if the
+	# theme's MP3 isn't on disk it silently no-ops.
+	AudioPlayer.play_theme("login")
+
 func _on_login_pressed():
 	status_label.text = "Connecting..."
 	login_button.disabled = true

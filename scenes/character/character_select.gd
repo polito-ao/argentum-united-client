@@ -47,6 +47,10 @@ var RACES: Array = []
 
 func _ready() -> void:
 	_apply_time_of_day_background()
+	# Crossfade from the login theme into the character_select theme.
+	# AudioPlayer is a global autoload; if the MP3 is missing on disk
+	# the call silently no-ops.
+	AudioPlayer.play_theme("character_select")
 
 
 func _apply_time_of_day_background() -> void:
@@ -283,6 +287,10 @@ func _enter_world(map_payload: Dictionary):
 	if connection.disconnected.is_connected(_on_connection_lost):
 		connection.disconnected.disconnect(_on_connection_lost)
 
+	# Stop the menu theme; the world's MUSIC_CHANGE packet (if any) will
+	# crossfade into the city/zone music after spawn.
+	AudioPlayer.stop_theme()
+
 	var world_scene: PackedScene = load("res://scenes/world/world.tscn")
 	var world = world_scene.instantiate()
 	get_parent().add_child(world)
@@ -297,6 +305,9 @@ func _on_logout_confirmed():
 	if is_instance_valid(connection):
 		connection.disconnect_from_server()
 		connection.queue_free()
+	# Stop the character_select theme; login._ready() will start the
+	# login theme back up when the new scene mounts.
+	AudioPlayer.stop_theme()
 	_return_to_login()
 
 func _on_connection_lost():

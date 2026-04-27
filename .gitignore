@@ -6,3 +6,14 @@ export_presets.cfg
 assets/upscaled_2x/
 assets/upscaled_2x.rar
 assets/needs_upscale/
+
+# Audio assets are generated locally from Cucsi via tools/convert_cucsi_audio.py
+# (or downloaded from Google Drive). See assets/audio/README.md.
+# Negate the README so the docs ship even though the audio doesn't.
+assets/audio/*
+!assets/audio/README.md
+
+# fluidsynth + GPL soundfont used by the audio conversion script.
+# Bundled binary deps don't need to be checked in; tools/audio/README.md
+# documents where to grab them.
+tools/audio/TimGM6mb.sf2

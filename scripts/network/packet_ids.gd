@@ -97,6 +97,14 @@ const EFFECT_STOP = 0x0088          # server → client: { target_id, effect_id 
 # Effect ids — keep in sync with LayeredCharacter.EFFECT_*. Server-authoritative.
 const EFFECT_ID_MEDITATION = 1
 
+# TODO: confirm IDs against the server's `audio-mining-and-emit-hooks` PR
+# once it lands. Best-guess allocations in the open 0x008x slot. Client
+# boots with these as the default; validate_server_config() hard-fails at
+# boot if drift exists, giving us a loud signal to bump the constants.
+# Same defensive pattern as PLAYER_LAYERS_UPDATE / EFFECT_START above.
+const PLAY_SFX = 0x008B       # server -> client: { wav_id, x, y } (0/0 = non-spatial UI)
+const MUSIC_CHANGE = 0x008C   # server -> client: { music_id } (null = stop music)
+
 # Called on boot after CONFIG_RESPONSE arrives.
 # Errors hard if server's IDs don't match our constants.
 static func validate_server_config(server_packet_ids: Dictionary) -> Array:

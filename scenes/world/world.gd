@@ -99,8 +99,16 @@ var _warned_missing_item_icons: Dictionary = {}
 @onready var meditation_aura_section: VBoxContainer = %MeditationAuraSection
 @onready var meditation_aura_options: HBoxContainer = %MeditationAuraOptions
 @onready var meditation_aura_label: Label    = %MeditationAuraCurrentLabel
+@onready var audio_section: GridContainer    = %AudioSection
+@onready var master_slider: HSlider          = %MasterSlider
+@onready var music_slider: HSlider           = %MusicSlider
+@onready var sfx_slider: HSlider             = %SFXSlider
+@onready var master_value_label: Label       = %MasterValueLabel
+@onready var music_value_label: Label        = %MusicValueLabel
+@onready var sfx_value_label: Label          = %SFXValueLabel
 
 # === Controllers (extracted state machines — see scripts/ui/) ===
+var audio_settings: AudioSettingsController
 var bank: BankController
 var chat: ChatController
 var dev: DevController
@@ -299,6 +307,22 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	})
 	effect_picker.set_options(_meditation_available, _meditation_chosen)
 
+	# Audio sliders. Uses the same SETTINGS_SAVE channel; the wire shape is
+	# `audio: { master, music, sfx }` (mirrors `effect_choices` /
+	# `key_bindings`). On open we re-push from server state so a fresh
+	# CHARACTER_SELECT is reflected; the persisted shape lives on
+	# `character.audio` (default-empty -> AudioSettingsController.DEFAULTS).
+	audio_settings = AudioSettingsController.new({
+		connection     = connection,
+		master_slider  = master_slider,
+		music_slider   = music_slider,
+		sfx_slider     = sfx_slider,
+		master_label   = master_value_label,
+		music_label    = music_value_label,
+		sfx_label      = sfx_value_label,
+	})
+	audio_settings.set_values(character.get("audio", {}))
+
 	if not state.get("alive", true):
 		_is_dead = true
 		hud.add_message("You are a ghost. Press SPACE to respawn.")
@@ -372,6 +396,10 @@ func _show_settings():
 	_build_bindings_ui()
 	if effect_picker != null:
 		effect_picker.set_options(_meditation_available, _meditation_chosen)
+	# Audio sliders are already in their last applied state; nothing
+	# to refresh here (set_values() ran in setup() with server state,
+	# and slider drags push live). If the player opens the overlay
+	# repeatedly we just keep showing whatever they last set.
 	settings_overlay.visible = true
 
 func _hide_settings():
@@ -382,7 +410,15 @@ func _hide_settings():
 func _on_save_settings():
 	bindings = _pending_bindings.duplicate()
 	# Server persists as-is; keys are Godot keycodes, opaque to the server.
-	connection.send_packet(PacketIds.SETTINGS_SAVE, {"key_bindings": bindings})
+	# We also bundle the current audio slider values so the "Guardar y salir"
+	# path is one round-trip even if the player only touched bindings.
+	# Slider value_changed already saved on the fly, so this is mostly a
+	# safety net for the case where the player closes via Save without
+	# moving sliders -- payload is small either way.
+	var payload := {"key_bindings": bindings}
+	if audio_settings != null:
+		payload["audio"] = audio_settings.current_values()
+	connection.send_packet(PacketIds.SETTINGS_SAVE, payload)
 	hud.add_message("Settings saved")
 	_hide_settings()
 
@@ -1189,6 +1225,15 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			_handle_chest_despawn(payload)
 		PacketIds.HIDE_STATE_CHANGED:
 			_handle_hide_state_changed(payload)
+		PacketIds.PLAY_SFX:
+			# Spatial SFX from the server. payload = { wav_id, x, y }.
+			# 0/0 = non-spatial UI sound (still routed through SFX bus).
+			AudioPlayer.play_sfx(int(payload.get("wav_id", 0)), int(payload.get("x", 0)), int(payload.get("y", 0)))
+		PacketIds.MUSIC_CHANGE:
+			# music_id may be null/0 to stop the music. AudioPlayer
+			# handles both shapes uniformly.
+			var raw = payload.get("music_id", 0)
+			AudioPlayer.play_music(0 if raw == null else int(raw))
 		_:
 			push_error("DRIFT or MALICIOUS: unknown packet_id 0x%04x" % packet_id)
 
