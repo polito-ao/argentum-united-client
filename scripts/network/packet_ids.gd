@@ -105,6 +105,10 @@ const EFFECT_ID_MEDITATION = 1
 const PLAY_SFX = 0x008B       # server -> client: { wav_id, x, y } (0/0 = non-spatial UI)
 const MUSIC_CHANGE = 0x008C   # server -> client: { music_id } (null = stop music)
 const DISCOVERY_UNLOCKED = 0x008D  # server -> client (only that player): { category, slug, name }
+# TODO: confirm ID against the server's `broadcast-service` PR once it lands.
+# Best-guess allocation in the open 0x008x slot, validate_server_config()
+# hard-fails at boot on drift. Same defensive pattern as PLAY_SFX above.
+const BROADCAST_MESSAGE = 0x008E   # server -> recipients: { category, level, message, sender_name?, link? }
 
 # Called on boot after CONFIG_RESPONSE arrives.
 # Errors hard if server's IDs don't match our constants.

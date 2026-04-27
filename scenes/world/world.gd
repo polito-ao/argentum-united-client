@@ -208,6 +208,7 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 		chat_display = chat_display,
 		chat_input   = chat_input,
 		connection   = connection,
+		world        = self,
 	})
 	# `MessagesLabel` is gone; system messages now flow through the chat
 	# console. HUD was built in _ready() before chat existed, so wire the
@@ -915,6 +916,36 @@ func _setup_minimap():
 
 class _MinimapDrawer extends Control:
 	var host = null
+	# Optional pulsing marker (e.g. broadcast link `map_jump`). Active for
+	# PULSE_DURATION_S then auto-clears. Pulse is on whichever map_id was
+	# requested; we still render the dot on the current minimap because
+	# the player might be on the same map. If the destination is a
+	# different map, the dot is rendered with a "(elsewhere)" hint via
+	# the bg ring color, but the position is still the destination tile.
+	var _pulse_pos: Vector2i = Vector2i.ZERO
+	var _pulse_active: bool = false
+	var _pulse_t: float = 0.0
+	var _pulse_dest_map_id: int = 0
+	const PULSE_DURATION_S: float = 4.0
+	const PULSE_RATE_HZ: float = 2.0
+
+	func _ready():
+		set_process(true)
+
+	func _process(delta: float) -> void:
+		if not _pulse_active:
+			return
+		_pulse_t += delta
+		if _pulse_t >= PULSE_DURATION_S:
+			_pulse_active = false
+		queue_redraw()
+
+	func start_pulse(map_id: int, pos: Vector2i) -> void:
+		_pulse_dest_map_id = map_id
+		_pulse_pos = pos
+		_pulse_active = true
+		_pulse_t = 0.0
+		queue_redraw()
 
 	func _draw():
 		var sz = size
@@ -941,10 +972,34 @@ class _MinimapDrawer extends Control:
 		# Self — bright red, largest, drawn last (on top)
 		_dot(host.my_pos, sz, Color(1, 0.2, 0.2), 3.0)
 
+		# Broadcast link pulse marker — drawn last, on top of everything.
+		# Yellow if on the current map (actionable), pale gold if on
+		# another map (informational only — player chooses to travel).
+		if _pulse_active:
+			var phase = sin(_pulse_t * PULSE_RATE_HZ * TAU) * 0.5 + 0.5
+			var radius = 4.0 + phase * 4.0
+			var same_map = (host.map_id == _pulse_dest_map_id)
+			var color = Color(1, 0.95, 0.3, 0.85) if same_map else Color(0.85, 0.75, 0.45, 0.65)
+			_dot(_pulse_pos, sz, color, radius)
+
 	func _dot(world_pos: Vector2i, sz: Vector2, color: Color, radius: float):
 		var px = (float(world_pos.x) / host.map_size.x) * sz.x
 		var py = (float(world_pos.y) / host.map_size.y) * sz.y
 		draw_circle(Vector2(px, py), radius, color)
+
+# Public API for BroadcastLinkDispatcher.map_jump. Pulses a marker on the
+# minimap at the destination tile. We deliberately do NOT teleport — the
+# player's free-will travel is preserved. If the destination is on a
+# different map, the marker is still drawn (on the current minimap) with
+# a dimmer color so the player knows where to head.
+func pulse_minimap_marker(dest_map_id: int, x: int, y: int) -> void:
+	if _minimap_drawer == null:
+		return
+	# Make sure the minimap is visible — broadcast clicks should not be
+	# silent if the player has the panel collapsed.
+	if minimap != null:
+		minimap.visible = true
+	_minimap_drawer.start_pulse(dest_map_id, Vector2i(x, y))
 
 # --- XP bar (thin wrapper — resolves the level threshold then delegates) ---
 
@@ -1338,6 +1393,12 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			# unlock. Show a system line in chat — no other UI yet.
 			var name = payload.get("name", payload.get("slug", "?"))
 			chat.append_system("Has descubierto: %s" % name)
+		PacketIds.BROADCAST_MESSAGE:
+			# Server-wide / city-scoped broadcasts (siege, governor bounty,
+			# discoveries, system events). Renderer + click-link dispatcher
+			# handles the full payload — see ChatController.
+			if chat != null:
+				chat.append_broadcast_message(payload)
 		_:
 			push_error("DRIFT or MALICIOUS: unknown packet_id 0x%04x" % packet_id)
 
