@@ -9,6 +9,7 @@ extends Node
 ##   bodies:  { head_offset: {x,y}, animations: {walk_<dir>: {frames, speed_ms}} }
 ##   others:  { animations: {walk_<dir>: {frames, speed_ms}} }
 ##   effect:  { id, source, offset: {x,y}, animation: {frames, speed_ms, loop} }
+##   item:    { id, source, file: "<n>.png", region: {x, y, w, h} }   # single-frame icon
 ##   frame:   { file: "<n>.png", region: {x, y, w, h} }
 ##
 ## All pixel coords are pre-doubled by the parser; consume them as-is.
@@ -21,6 +22,7 @@ var _helmets: Dictionary = {}
 var _weapons: Dictionary = {}
 var _shields: Dictionary = {}
 var _effects: Dictionary = {}
+var _items: Dictionary = {}
 
 var _loaded: bool = false
 
@@ -36,9 +38,10 @@ func load_catalogs() -> void:
 	_weapons = _load_one("weapons")
 	_shields = _load_one("shields")
 	_effects = _load_one("effects")
+	_items = _load_one("items")
 	_loaded = true
-	print("[sprite_catalog] bodies=%d heads=%d helmets=%d weapons=%d shields=%d effects=%d" %
-		[_bodies.size(), _heads.size(), _helmets.size(), _weapons.size(), _shields.size(), _effects.size()])
+	print("[sprite_catalog] bodies=%d heads=%d helmets=%d weapons=%d shields=%d effects=%d items=%d" %
+		[_bodies.size(), _heads.size(), _helmets.size(), _weapons.size(), _shields.size(), _effects.size(), _items.size()])
 
 
 func _load_one(name: String) -> Dictionary:
@@ -91,6 +94,13 @@ func effect(id: int):
 		if entry is Dictionary and int(entry.get("id", -1)) == id:
 			return entry
 	return null
+
+
+func item_icon(id: int):
+	# Item icons are keyed `item_icon_{grh_id}` in the YAML; the wire
+	# identity is the GRH id (server ships `icon_grh_id` on
+	# GROUND_ITEM_SPAWN.item_data). Direct lookup, no scan.
+	return _items.get("item_icon_%d" % id, null)
 
 
 func is_loaded() -> bool:

@@ -49,6 +49,10 @@ var npcs: Dictionary = {}          # id -> { pos: Vector2i, name: String, hp: in
 var ground_items: Dictionary = {}  # ground_id -> { pos: Vector2i, node: Node2D }
 var chests: Dictionary = {}        # chest_id -> { pos: Vector2i, state: String, node: Node2D }
 
+# Set of icon_grh_ids we have already logged a missing-catalog warning for.
+# Prevents log spam when the same item type spawns repeatedly.
+var _warned_missing_item_icons: Dictionary = {}
+
 # === World scene nodes ===
 @onready var camera: Camera2D                = $Camera
 @onready var entities_layer: Node2D          = $Entities
@@ -1447,12 +1451,25 @@ func _handle_ground_item_spawn(payload: Dictionary):
 	if id in ground_items and ground_items[id].has("node"):
 		ground_items[id].node.queue_free()
 
-	var nm: String = item_data.get("name", "?")
-	var label_text = nm.substr(0, min(4, nm.length()))
-	if amount > 1:
-		label_text = "%s\nx%d" % [label_text, amount]
+	# Stack badge: small "xN" overlay on the corner. Empty when amount == 1
+	# so the icon is not cluttered with a redundant "x1".
+	var amount_text := "" if amount <= 1 else "x%d" % amount
 
-	var node = _create_ground_item_node(label_text)
+	# Server-side ground-item-icons PR ships icon_grh_id in item_data.
+	# When present and the catalog resolves, render the actual Cucsi
+	# sprite. Otherwise fall back to the legacy yellow-rect placeholder
+	# (server pre-PR, or item type without an icon mapping).
+	var icon_grh_id := ground_item_icon_grh_id(item_data)
+	var node: Node2D = null
+	if icon_grh_id > 0:
+		node = _create_ground_item_sprite_node(icon_grh_id, amount_text)
+	if node == null:
+		var nm: String = item_data.get("name", "?")
+		var label_text = nm.substr(0, min(4, nm.length()))
+		if amount_text != "":
+			label_text = "%s\n%s" % [label_text, amount_text]
+		node = _create_ground_item_node(label_text)
+
 	node.position = Vector2(pos.x * _tile_size, pos.y * _tile_size)
 	ground_items_layer.add_child(node)
 
@@ -1485,6 +1502,23 @@ func _handle_ground_item_despawn(payload: Dictionary):
 	if id in ground_items:
 		ground_items[id].node.queue_free()
 		ground_items.erase(id)
+
+# --- Ground item dispatch helper ---
+
+# Pure-data decision: given the GROUND_ITEM_SPAWN payload's `item_data`,
+# return the icon GRH id we should try to render (>0 means "build a
+# sprite-based node"; 0 means "fall back to the yellow-rect placeholder").
+# Static so the dispatch logic is testable without standing up the world
+# scene tree. The render path itself (catalog lookup, AtlasTexture
+# construction) lives in _create_ground_item_sprite_node and is exercised
+# at runtime against the real catalog.
+static func ground_item_icon_grh_id(item_data) -> int:
+	if not (item_data is Dictionary):
+		return 0
+	var raw = item_data.get("icon_grh_id", 0)
+	var iid := int(raw)
+	return iid if iid > 0 else 0
+
 
 # --- Chests ---
 
@@ -1599,6 +1633,83 @@ func _create_ground_item_node(text: String) -> Node2D:
 	label.add_theme_font_size_override("font_size", 8)
 	label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
 	node.add_child(label)
+
+	return node
+
+
+# Resolve a Cucsi GRH id through SpriteCatalog and build a Sprite2D that
+# crops the upscaled atlas via AtlasTexture. Returns null on missing
+# catalog entry, missing PNG, or any other resolve failure: caller is
+# expected to fall back to the placeholder. Each missing icon_grh_id is
+# logged exactly once via _warned_missing_item_icons to keep the console
+# usable when many of the same item drop.
+func _create_ground_item_sprite_node(icon_grh_id: int, amount_text: String) -> Node2D:
+	var entry = SpriteCatalog.item_icon(icon_grh_id)
+	if not (entry is Dictionary):
+		if not _warned_missing_item_icons.has(icon_grh_id):
+			_warned_missing_item_icons[icon_grh_id] = true
+			push_warning("[ground_items] no sprite_catalog entry for icon_grh_id=%d (re-run tools/parse_cucsi_graphics.py?)" % icon_grh_id)
+		return null
+
+	var file_name: String = String(entry.get("file", ""))
+	if file_name == "":
+		return null
+	var atlas_path := "res://assets/upscaled_2x/" + file_name
+	if not ResourceLoader.exists(atlas_path):
+		if not _warned_missing_item_icons.has(icon_grh_id):
+			_warned_missing_item_icons[icon_grh_id] = true
+			push_warning("[ground_items] icon_grh_id=%d resolved to missing file %s" % [icon_grh_id, atlas_path])
+		return null
+	var base_tex: Texture2D = load(atlas_path)
+	if base_tex == null:
+		return null
+
+	var region_data = entry.get("region", {})
+	if not (region_data is Dictionary):
+		return null
+	var atlas := AtlasTexture.new()
+	atlas.atlas = base_tex
+	atlas.region = Rect2(
+		float(region_data.get("x", 0)),
+		float(region_data.get("y", 0)),
+		float(region_data.get("w", 0)),
+		float(region_data.get("h", 0)),
+	)
+	atlas.filter_clip = true
+
+	var node := Node2D.new()
+	var sprite := Sprite2D.new()
+	sprite.texture = atlas
+	sprite.centered = false
+	# Center the icon over the tile. Cucsi icons are typically 32x32 in
+	# source (64x64 after the parser doubling). Fit it inside one tile
+	# and center it horizontally + vertically.
+	var iw := float(region_data.get("w", _tile_size))
+	var ih := float(region_data.get("h", _tile_size))
+	var scale := 1.0
+	var max_dim: float = max(iw, ih)
+	if max_dim > 0.0 and max_dim > float(_tile_size):
+		scale = float(_tile_size) / max_dim
+	sprite.scale = Vector2(scale, scale)
+	sprite.position = Vector2(
+		(float(_tile_size) - iw * scale) * 0.5,
+		(float(_tile_size) - ih * scale) * 0.5,
+	)
+	node.add_child(sprite)
+
+	if amount_text != "":
+		var label := Label.new()
+		label.text = amount_text
+		# Bottom-right corner of the tile.
+		label.position = Vector2(_tile_size - 22, _tile_size - 16)
+		label.size = Vector2(20, 14)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.add_theme_font_size_override("font_size", 9)
+		label.add_theme_color_override("font_color", Color(1, 1, 0.4, 1))
+		label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+		label.add_theme_constant_override("outline_size", 2)
+		node.add_child(label)
 
 	return node
 

@@ -1,0 +1,9590 @@
+item_icon_506:
+  id: 506
+  source: Graficos.ini[Grh506]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19006.png
+
+item_icon_504:
+  id: 504
+  source: Graficos.ini[Grh504]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16036.png
+
+item_icon_505:
+  id: 505
+  source: Graficos.ini[Grh505]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16037.png
+
+item_icon_7000:
+  id: 7000
+  source: Graficos.ini[Grh7000]
+  region:
+    x: 0
+    y: 0
+    w: 512
+    h: 512
+  file: 6070.png
+
+item_icon_7001:
+  id: 7001
+  source: Graficos.ini[Grh7001]
+  region:
+    x: 0
+    y: 0
+    w: 512
+    h: 512
+  file: 6071.png
+
+item_icon_5593:
+  id: 5593
+  source: Graficos.ini[Grh5593]
+  region:
+    x: 192
+    y: 0
+    w: 192
+    h: 128
+  file: 11022.png
+
+item_icon_508:
+  id: 508
+  source: Graficos.ini[Grh508]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16038.png
+
+item_icon_502:
+  id: 502
+  source: Graficos.ini[Grh502]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15134.png
+
+item_icon_503:
+  id: 503
+  source: Graficos.ini[Grh503]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15135.png
+
+item_icon_511:
+  id: 511
+  source: Graficos.ini[Grh511]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22010.png
+
+item_icon_500:
+  id: 500
+  source: Graficos.ini[Grh500]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7006.png
+
+item_icon_509:
+  id: 509
+  source: Graficos.ini[Grh509]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22009.png
+
+item_icon_5600:
+  id: 5600
+  source: Graficos.ini[Grh5600]
+  region:
+    x: 192
+    y: 0
+    w: 192
+    h: 128
+  file: 11025.png
+
+item_icon_512:
+  id: 512
+  source: Graficos.ini[Grh512]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7008.png
+
+item_icon_5748:
+  id: 5748
+  source: Graficos.ini[Grh5748]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16099.png
+
+item_icon_513:
+  id: 513
+  source: Graficos.ini[Grh513]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15137.png
+
+item_icon_515:
+  id: 515
+  source: Graficos.ini[Grh515]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19007.png
+
+item_icon_516:
+  id: 516
+  source: Graficos.ini[Grh516]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19008.png
+
+item_icon_517:
+  id: 517
+  source: Graficos.ini[Grh517]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19009.png
+
+item_icon_518:
+  id: 518
+  source: Graficos.ini[Grh518]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19010.png
+
+item_icon_519:
+  id: 519
+  source: Graficos.ini[Grh519]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19011.png
+
+item_icon_520:
+  id: 520
+  source: Graficos.ini[Grh520]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19012.png
+
+item_icon_521:
+  id: 521
+  source: Graficos.ini[Grh521]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19013.png
+
+item_icon_522:
+  id: 522
+  source: Graficos.ini[Grh522]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19014.png
+
+item_icon_523:
+  id: 523
+  source: Graficos.ini[Grh523]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19015.png
+
+item_icon_526:
+  id: 526
+  source: Graficos.ini[Grh526]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 163.png
+
+item_icon_527:
+  id: 527
+  source: Graficos.ini[Grh527]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 164.png
+
+item_icon_528:
+  id: 528
+  source: Graficos.ini[Grh528]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 165.png
+
+item_icon_530:
+  id: 530
+  source: Graficos.ini[Grh530]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7011.png
+
+item_icon_529:
+  id: 529
+  source: Graficos.ini[Grh529]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7010.png
+
+item_icon_535:
+  id: 535
+  source: Graficos.ini[Grh535]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 166.png
+
+item_icon_540:
+  id: 540
+  source: Graficos.ini[Grh540]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 23000.png
+
+item_icon_541:
+  id: 541
+  source: Graficos.ini[Grh541]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 23001.png
+
+item_icon_542:
+  id: 542
+  source: Graficos.ini[Grh542]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 23002.png
+
+item_icon_543:
+  id: 543
+  source: Graficos.ini[Grh543]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 23003.png
+
+item_icon_538:
+  id: 538
+  source: Graficos.ini[Grh538]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22012.png
+
+item_icon_539:
+  id: 539
+  source: Graficos.ini[Grh539]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22013.png
+
+item_icon_536:
+  id: 536
+  source: Graficos.ini[Grh536]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19016.png
+
+item_icon_537:
+  id: 537
+  source: Graficos.ini[Grh537]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19017.png
+
+item_icon_641:
+  id: 641
+  source: Graficos.ini[Grh641]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 256
+  file: 6065.png
+
+item_icon_644:
+  id: 644
+  source: Graficos.ini[Grh644]
+  region:
+    x: 0
+    y: 0
+    w: 512
+    h: 512
+  file: 6067.png
+
+item_icon_647:
+  id: 647
+  source: Graficos.ini[Grh647]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 256
+  file: 6068.png
+
+item_icon_5592:
+  id: 5592
+  source: Graficos.ini[Grh5592]
+  region:
+    x: 0
+    y: 0
+    w: 192
+    h: 128
+  file: 11022.png
+
+item_icon_5599:
+  id: 5599
+  source: Graficos.ini[Grh5599]
+  region:
+    x: 0
+    y: 0
+    w: 192
+    h: 128
+  file: 11025.png
+
+item_icon_550:
+  id: 550
+  source: Graficos.ini[Grh550]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22014.png
+
+item_icon_546:
+  id: 546
+  source: Graficos.ini[Grh546]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7002.png
+
+item_icon_547:
+  id: 547
+  source: Graficos.ini[Grh547]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7003.png
+
+item_icon_548:
+  id: 548
+  source: Graficos.ini[Grh548]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7004.png
+
+item_icon_549:
+  id: 549
+  source: Graficos.ini[Grh549]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7005.png
+
+item_icon_1521:
+  id: 1521
+  source: Graficos.ini[Grh1521]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15143.png
+
+item_icon_553:
+  id: 553
+  source: Graficos.ini[Grh553]
+  region:
+    x: 0
+    y: 0
+    w: 126
+    h: 64
+  file: 7016.png
+
+item_icon_552:
+  id: 552
+  source: Graficos.ini[Grh552]
+  region:
+    x: 0
+    y: 0
+    w: 126
+    h: 64
+  file: 7015.png
+
+item_icon_551:
+  id: 551
+  source: Graficos.ini[Grh551]
+  region:
+    x: 0
+    y: 0
+    w: 126
+    h: 64
+  file: 7014.png
+
+item_icon_554:
+  id: 554
+  source: Graficos.ini[Grh554]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 271.png
+
+item_icon_555:
+  id: 555
+  source: Graficos.ini[Grh555]
+  region:
+    x: 0
+    y: 0
+    w: 126
+    h: 64
+  file: 7017.png
+
+item_icon_556:
+  id: 556
+  source: Graficos.ini[Grh556]
+  region:
+    x: 0
+    y: 0
+    w: 126
+    h: 64
+  file: 7018.png
+
+item_icon_567:
+  id: 567
+  source: Graficos.ini[Grh567]
+  region:
+    x: 0
+    y: 0
+    w: 126
+    h: 64
+  file: 7019.png
+
+item_icon_568:
+  id: 568
+  source: Graficos.ini[Grh568]
+  region:
+    x: 0
+    y: 0
+    w: 126
+    h: 64
+  file: 7020.png
+
+item_icon_569:
+  id: 569
+  source: Graficos.ini[Grh569]
+  region:
+    x: 0
+    y: 0
+    w: 126
+    h: 64
+  file: 7021.png
+
+item_icon_561:
+  id: 561
+  source: Graficos.ini[Grh561]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16040.png
+
+item_icon_562:
+  id: 562
+  source: Graficos.ini[Grh562]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16041.png
+
+item_icon_22723:
+  id: 22723
+  source: Graficos.ini[Grh22723]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16094.png
+
+item_icon_564:
+  id: 564
+  source: Graficos.ini[Grh564]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16043.png
+
+item_icon_565:
+  id: 565
+  source: Graficos.ini[Grh565]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16044.png
+
+item_icon_4860:
+  id: 4860
+  source: Graficos.ini[Grh4860]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 20010.png
+
+item_icon_566:
+  id: 566
+  source: Graficos.ini[Grh566]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16045.png
+
+item_icon_558:
+  id: 558
+  source: Graficos.ini[Grh558]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18020.png
+
+item_icon_559:
+  id: 559
+  source: Graficos.ini[Grh559]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18021.png
+
+item_icon_27397:
+  id: 27397
+  source: Graficos.ini[Grh27397]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25324.png
+
+item_icon_570:
+  id: 570
+  source: Graficos.ini[Grh570]
+  region:
+    x: 0
+    y: 0
+    w: 126
+    h: 64
+  file: 7022.png
+
+item_icon_657:
+  id: 657
+  source: Graficos.ini[Grh657]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 279.png
+
+item_icon_572:
+  id: 572
+  source: Graficos.ini[Grh572]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22015.png
+
+item_icon_574:
+  id: 574
+  source: Graficos.ini[Grh574]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 21004.png
+
+item_icon_573:
+  id: 573
+  source: Graficos.ini[Grh573]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19018.png
+
+item_icon_9199:
+  id: 9199
+  source: Graficos.ini[Grh9199]
+  region:
+    x: 0
+    y: 0
+    w: 192
+    h: 192
+  file: 11046.png
+
+item_icon_9193:
+  id: 9193
+  source: Graficos.ini[Grh9193]
+  region:
+    x: 0
+    y: 0
+    w: 192
+    h: 192
+  file: 11045.png
+
+item_icon_27107:
+  id: 27107
+  source: Graficos.ini[Grh27107]
+  region:
+    x: 0
+    y: 0
+    w: 80
+    h: 128
+  file: 25307.png
+
+item_icon_7002:
+  id: 7002
+  source: Graficos.ini[Grh7002]
+  region:
+    x: 0
+    y: 0
+    w: 512
+    h: 512
+  file: 6072.png
+
+item_icon_7222:
+  id: 7222
+  source: Graficos.ini[Grh7222]
+  region:
+    x: 0
+    y: 0
+    w: 512
+    h: 640
+  file: 6073.png
+
+item_icon_7223:
+  id: 7223
+  source: Graficos.ini[Grh7223]
+  region:
+    x: 0
+    y: 0
+    w: 512
+    h: 640
+  file: 6074.png
+
+item_icon_7224:
+  id: 7224
+  source: Graficos.ini[Grh7224]
+  region:
+    x: 0
+    y: 0
+    w: 512
+    h: 640
+  file: 6076.png
+
+item_icon_7225:
+  id: 7225
+  source: Graficos.ini[Grh7225]
+  region:
+    x: 0
+    y: 0
+    w: 512
+    h: 640
+  file: 6075.png
+
+item_icon_7226:
+  id: 7226
+  source: Graficos.ini[Grh7226]
+  region:
+    x: 0
+    y: 0
+    w: 564
+    h: 640
+  file: 6077.png
+
+item_icon_575:
+  id: 575
+  source: Graficos.ini[Grh575]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22016.png
+
+item_icon_576:
+  id: 576
+  source: Graficos.ini[Grh576]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22017.png
+
+item_icon_579:
+  id: 579
+  source: Graficos.ini[Grh579]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22020.png
+
+item_icon_581:
+  id: 581
+  source: Graficos.ini[Grh581]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19019.png
+
+item_icon_583:
+  id: 583
+  source: Graficos.ini[Grh583]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16046.png
+
+item_icon_585:
+  id: 585
+  source: Graficos.ini[Grh585]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19021.png
+
+item_icon_584:
+  id: 584
+  source: Graficos.ini[Grh584]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19020.png
+
+item_icon_586:
+  id: 586
+  source: Graficos.ini[Grh586]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22023.png
+
+item_icon_587:
+  id: 587
+  source: Graficos.ini[Grh587]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22024.png
+
+item_icon_588:
+  id: 588
+  source: Graficos.ini[Grh588]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16047.png
+
+item_icon_4999:
+  id: 4999
+  source: Graficos.ini[Grh4999]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16084.png
+
+item_icon_601:
+  id: 601
+  source: Graficos.ini[Grh601]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 23004.png
+
+item_icon_593:
+  id: 593
+  source: Graficos.ini[Grh593]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22027.png
+
+item_icon_598:
+  id: 598
+  source: Graficos.ini[Grh598]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22028.png
+
+item_icon_600:
+  id: 600
+  source: Graficos.ini[Grh600]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15175.png
+
+item_icon_608:
+  id: 608
+  source: Graficos.ini[Grh608]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 21007.png
+
+item_icon_8616:
+  id: 8616
+  source: Graficos.ini[Grh8616]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 128
+  file: 15182.png
+
+item_icon_8617:
+  id: 8617
+  source: Graficos.ini[Grh8617]
+  region:
+    x: 128
+    y: 0
+    w: 128
+    h: 128
+  file: 15182.png
+
+item_icon_8618:
+  id: 8618
+  source: Graficos.ini[Grh8618]
+  region:
+    x: 256
+    y: 0
+    w: 64
+    h: 64
+  file: 15182.png
+
+item_icon_8619:
+  id: 8619
+  source: Graficos.ini[Grh8619]
+  region:
+    x: 256
+    y: 64
+    w: 64
+    h: 64
+  file: 15182.png
+
+item_icon_604:
+  id: 604
+  source: Graficos.ini[Grh604]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22030.png
+
+item_icon_632:
+  id: 632
+  source: Graficos.ini[Grh632]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22033.png
+
+item_icon_631:
+  id: 631
+  source: Graficos.ini[Grh631]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22032.png
+
+item_icon_27132:
+  id: 27132
+  source: Graficos.ini[Grh27132]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25311.png
+
+item_icon_606:
+  id: 606
+  source: Graficos.ini[Grh606]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 275.png
+
+item_icon_609:
+  id: 609
+  source: Graficos.ini[Grh609]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22031.png
+
+item_icon_607:
+  id: 607
+  source: Graficos.ini[Grh607]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 21006.png
+
+item_icon_686:
+  id: 686
+  source: Graficos.ini[Grh686]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22036.png
+
+item_icon_610:
+  id: 610
+  source: Graficos.ini[Grh610]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7023.png
+
+item_icon_611:
+  id: 611
+  source: Graficos.ini[Grh611]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7024.png
+
+item_icon_612:
+  id: 612
+  source: Graficos.ini[Grh612]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7025.png
+
+item_icon_613:
+  id: 613
+  source: Graficos.ini[Grh613]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7026.png
+
+item_icon_614:
+  id: 614
+  source: Graficos.ini[Grh614]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7027.png
+
+item_icon_615:
+  id: 615
+  source: Graficos.ini[Grh615]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7028.png
+
+item_icon_616:
+  id: 616
+  source: Graficos.ini[Grh616]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7029.png
+
+item_icon_617:
+  id: 617
+  source: Graficos.ini[Grh617]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7030.png
+
+item_icon_618:
+  id: 618
+  source: Graficos.ini[Grh618]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7031.png
+
+item_icon_619:
+  id: 619
+  source: Graficos.ini[Grh619]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7032.png
+
+item_icon_620:
+  id: 620
+  source: Graficos.ini[Grh620]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7033.png
+
+item_icon_621:
+  id: 621
+  source: Graficos.ini[Grh621]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7034.png
+
+item_icon_622:
+  id: 622
+  source: Graficos.ini[Grh622]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7035.png
+
+item_icon_623:
+  id: 623
+  source: Graficos.ini[Grh623]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7036.png
+
+item_icon_625:
+  id: 625
+  source: Graficos.ini[Grh625]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7038.png
+
+item_icon_624:
+  id: 624
+  source: Graficos.ini[Grh624]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7037.png
+
+item_icon_626:
+  id: 626
+  source: Graficos.ini[Grh626]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7039.png
+
+item_icon_628:
+  id: 628
+  source: Graficos.ini[Grh628]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7041.png
+
+item_icon_627:
+  id: 627
+  source: Graficos.ini[Grh627]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7040.png
+
+item_icon_8608:
+  id: 8608
+  source: Graficos.ini[Grh8608]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 128
+  file: 15181.png
+
+item_icon_8609:
+  id: 8609
+  source: Graficos.ini[Grh8609]
+  region:
+    x: 128
+    y: 0
+    w: 128
+    h: 128
+  file: 15181.png
+
+item_icon_8610:
+  id: 8610
+  source: Graficos.ini[Grh8610]
+  region:
+    x: 256
+    y: 0
+    w: 64
+    h: 64
+  file: 15181.png
+
+item_icon_8611:
+  id: 8611
+  source: Graficos.ini[Grh8611]
+  region:
+    x: 256
+    y: 64
+    w: 64
+    h: 64
+  file: 15181.png
+
+item_icon_8612:
+  id: 8612
+  source: Graficos.ini[Grh8612]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 128
+  file: 15183.png
+
+item_icon_8613:
+  id: 8613
+  source: Graficos.ini[Grh8613]
+  region:
+    x: 128
+    y: 0
+    w: 128
+    h: 128
+  file: 15183.png
+
+item_icon_8614:
+  id: 8614
+  source: Graficos.ini[Grh8614]
+  region:
+    x: 256
+    y: 0
+    w: 64
+    h: 64
+  file: 15183.png
+
+item_icon_8615:
+  id: 8615
+  source: Graficos.ini[Grh8615]
+  region:
+    x: 256
+    y: 64
+    w: 64
+    h: 64
+  file: 15183.png
+
+item_icon_656:
+  id: 656
+  source: Graficos.ini[Grh656]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 278.png
+
+item_icon_8684:
+  id: 8684
+  source: Graficos.ini[Grh8684]
+  region:
+    x: 0
+    y: 0
+    w: 192
+    h: 192
+  file: 11037.png
+
+item_icon_9198:
+  id: 9198
+  source: Graficos.ini[Grh9198]
+  region:
+    x: 384
+    y: 192
+    w: 192
+    h: 192
+  file: 11045.png
+
+item_icon_670:
+  id: 670
+  source: Graficos.ini[Grh670]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7043.png
+
+item_icon_672:
+  id: 672
+  source: Graficos.ini[Grh672]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7045.png
+
+item_icon_673:
+  id: 673
+  source: Graficos.ini[Grh673]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7046.png
+
+item_icon_671:
+  id: 671
+  source: Graficos.ini[Grh671]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7044.png
+
+item_icon_719:
+  id: 719
+  source: Graficos.ini[Grh719]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7051.png
+
+item_icon_9201:
+  id: 9201
+  source: Graficos.ini[Grh9201]
+  region:
+    x: 384
+    y: 0
+    w: 192
+    h: 192
+  file: 11046.png
+
+item_icon_9195:
+  id: 9195
+  source: Graficos.ini[Grh9195]
+  region:
+    x: 384
+    y: 0
+    w: 192
+    h: 192
+  file: 11045.png
+
+item_icon_675:
+  id: 675
+  source: Graficos.ini[Grh675]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7047.png
+
+item_icon_676:
+  id: 676
+  source: Graficos.ini[Grh676]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7048.png
+
+item_icon_677:
+  id: 677
+  source: Graficos.ini[Grh677]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7049.png
+
+item_icon_680:
+  id: 680
+  source: Graficos.ini[Grh680]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 283.png
+
+item_icon_693:
+  id: 693
+  source: Graficos.ini[Grh693]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 293.png
+
+item_icon_25378:
+  id: 25378
+  source: Graficos.ini[Grh25378]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25135.png
+
+item_icon_683:
+  id: 683
+  source: Graficos.ini[Grh683]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 286.png
+
+item_icon_684:
+  id: 684
+  source: Graficos.ini[Grh684]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22034.png
+
+item_icon_710:
+  id: 710
+  source: Graficos.ini[Grh710]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16053.png
+
+item_icon_711:
+  id: 711
+  source: Graficos.ini[Grh711]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16054.png
+
+item_icon_5595:
+  id: 5595
+  source: Graficos.ini[Grh5595]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16089.png
+
+item_icon_691:
+  id: 691
+  source: Graficos.ini[Grh691]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 291.png
+
+item_icon_467:
+  id: 467
+  source: Graficos.ini[Grh467]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18017.png
+
+item_icon_759:
+  id: 759
+  source: Graficos.ini[Grh759]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 301.png
+
+item_icon_695:
+  id: 695
+  source: Graficos.ini[Grh695]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 295.png
+
+item_icon_571:
+  id: 571
+  source: Graficos.ini[Grh571]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 272.png
+
+item_icon_694:
+  id: 694
+  source: Graficos.ini[Grh694]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 294.png
+
+item_icon_18994:
+  id: 18994
+  source: Graficos.ini[Grh18994]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18005.png
+
+item_icon_722:
+  id: 722
+  source: Graficos.ini[Grh722]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15192.png
+
+item_icon_724:
+  id: 724
+  source: Graficos.ini[Grh724]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22050.png
+
+item_icon_725:
+  id: 725
+  source: Graficos.ini[Grh725]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22051.png
+
+item_icon_723:
+  id: 723
+  source: Graficos.ini[Grh723]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22049.png
+
+item_icon_726:
+  id: 726
+  source: Graficos.ini[Grh726]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 21008.png
+
+item_icon_23734:
+  id: 23734
+  source: Graficos.ini[Grh23734]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 3518.png
+
+item_icon_23762:
+  id: 23762
+  source: Graficos.ini[Grh23762]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 3520.png
+
+item_icon_23901:
+  id: 23901
+  source: Graficos.ini[Grh23901]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 3463.png
+
+item_icon_24041:
+  id: 24041
+  source: Graficos.ini[Grh24041]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18241.png
+
+item_icon_714:
+  id: 714
+  source: Graficos.ini[Grh714]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16056.png
+
+item_icon_709:
+  id: 709
+  source: Graficos.ini[Grh709]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16052.png
+
+item_icon_715:
+  id: 715
+  source: Graficos.ini[Grh715]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16057.png
+
+item_icon_708:
+  id: 708
+  source: Graficos.ini[Grh708]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16051.png
+
+item_icon_27189:
+  id: 27189
+  source: Graficos.ini[Grh27189]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25316.png
+
+item_icon_713:
+  id: 713
+  source: Graficos.ini[Grh713]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16055.png
+
+item_icon_712:
+  id: 712
+  source: Graficos.ini[Grh712]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 20013.png
+
+item_icon_717:
+  id: 717
+  source: Graficos.ini[Grh717]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18022.png
+
+item_icon_700:
+  id: 700
+  source: Graficos.ini[Grh700]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22040.png
+
+item_icon_701:
+  id: 701
+  source: Graficos.ini[Grh701]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22041.png
+
+item_icon_702:
+  id: 702
+  source: Graficos.ini[Grh702]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22042.png
+
+item_icon_703:
+  id: 703
+  source: Graficos.ini[Grh703]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22043.png
+
+item_icon_704:
+  id: 704
+  source: Graficos.ini[Grh704]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22045.png
+
+item_icon_705:
+  id: 705
+  source: Graficos.ini[Grh705]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22046.png
+
+item_icon_706:
+  id: 706
+  source: Graficos.ini[Grh706]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22047.png
+
+item_icon_707:
+  id: 707
+  source: Graficos.ini[Grh707]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22048.png
+
+item_icon_697:
+  id: 697
+  source: Graficos.ini[Grh697]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22037.png
+
+item_icon_699:
+  id: 699
+  source: Graficos.ini[Grh699]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22039.png
+
+item_icon_698:
+  id: 698
+  source: Graficos.ini[Grh698]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22038.png
+
+item_icon_9203:
+  id: 9203
+  source: Graficos.ini[Grh9203]
+  region:
+    x: 192
+    y: 192
+    w: 192
+    h: 192
+  file: 11046.png
+
+item_icon_9197:
+  id: 9197
+  source: Graficos.ini[Grh9197]
+  region:
+    x: 192
+    y: 192
+    w: 192
+    h: 192
+  file: 11045.png
+
+item_icon_9202:
+  id: 9202
+  source: Graficos.ini[Grh9202]
+  region:
+    x: 0
+    y: 192
+    w: 192
+    h: 192
+  file: 11046.png
+
+item_icon_9196:
+  id: 9196
+  source: Graficos.ini[Grh9196]
+  region:
+    x: 0
+    y: 192
+    w: 192
+    h: 192
+  file: 11045.png
+
+item_icon_721:
+  id: 721
+  source: Graficos.ini[Grh721]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7053.png
+
+item_icon_15249:
+  id: 15249
+  source: Graficos.ini[Grh15249]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 445.png
+
+item_icon_685:
+  id: 685
+  source: Graficos.ini[Grh685]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22035.png
+
+item_icon_735:
+  id: 735
+  source: Graficos.ini[Grh735]
+  region:
+    x: 0
+    y: 0
+    w: 512
+    h: 512
+  file: 6078.png
+
+item_icon_731:
+  id: 731
+  source: Graficos.ini[Grh731]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13017.png
+
+item_icon_749:
+  id: 749
+  source: Graficos.ini[Grh749]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 17012.png
+
+item_icon_5587:
+  id: 5587
+  source: Graficos.ini[Grh5587]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 17013.png
+
+item_icon_5594:
+  id: 5594
+  source: Graficos.ini[Grh5594]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 17014.png
+
+item_icon_750:
+  id: 750
+  source: Graficos.ini[Grh750]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16062.png
+
+item_icon_751:
+  id: 751
+  source: Graficos.ini[Grh751]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16063.png
+
+item_icon_752:
+  id: 752
+  source: Graficos.ini[Grh752]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16065.png
+
+item_icon_756:
+  id: 756
+  source: Graficos.ini[Grh756]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 298.png
+
+item_icon_757:
+  id: 757
+  source: Graficos.ini[Grh757]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 299.png
+
+item_icon_758:
+  id: 758
+  source: Graficos.ini[Grh758]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 300.png
+
+item_icon_760:
+  id: 760
+  source: Graficos.ini[Grh760]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 303.png
+
+item_icon_761:
+  id: 761
+  source: Graficos.ini[Grh761]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 304.png
+
+item_icon_762:
+  id: 762
+  source: Graficos.ini[Grh762]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 305.png
+
+item_icon_763:
+  id: 763
+  source: Graficos.ini[Grh763]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 419.png
+
+item_icon_764:
+  id: 764
+  source: Graficos.ini[Grh764]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 307.png
+
+item_icon_765:
+  id: 765
+  source: Graficos.ini[Grh765]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 308.png
+
+item_icon_766:
+  id: 766
+  source: Graficos.ini[Grh766]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 309.png
+
+item_icon_560:
+  id: 560
+  source: Graficos.ini[Grh560]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 20012.png
+
+item_icon_768:
+  id: 768
+  source: Graficos.ini[Grh768]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 311.png
+
+item_icon_769:
+  id: 769
+  source: Graficos.ini[Grh769]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 312.png
+
+item_icon_13255:
+  id: 13255
+  source: Graficos.ini[Grh13255]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 20007.png
+
+item_icon_771:
+  id: 771
+  source: Graficos.ini[Grh771]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 315.png
+
+item_icon_772:
+  id: 772
+  source: Graficos.ini[Grh772]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 316.png
+
+item_icon_773:
+  id: 773
+  source: Graficos.ini[Grh773]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 317.png
+
+item_icon_20509:
+  id: 20509
+  source: Graficos.ini[Grh20509]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19005.png
+
+item_icon_775:
+  id: 775
+  source: Graficos.ini[Grh775]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 319.png
+
+item_icon_776:
+  id: 776
+  source: Graficos.ini[Grh776]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 320.png
+
+item_icon_777:
+  id: 777
+  source: Graficos.ini[Grh777]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 321.png
+
+item_icon_778:
+  id: 778
+  source: Graficos.ini[Grh778]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 322.png
+
+item_icon_779:
+  id: 779
+  source: Graficos.ini[Grh779]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 323.png
+
+item_icon_780:
+  id: 780
+  source: Graficos.ini[Grh780]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 324.png
+
+item_icon_781:
+  id: 781
+  source: Graficos.ini[Grh781]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 325.png
+
+item_icon_782:
+  id: 782
+  source: Graficos.ini[Grh782]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 326.png
+
+item_icon_783:
+  id: 783
+  source: Graficos.ini[Grh783]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 327.png
+
+item_icon_784:
+  id: 784
+  source: Graficos.ini[Grh784]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 328.png
+
+item_icon_785:
+  id: 785
+  source: Graficos.ini[Grh785]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 329.png
+
+item_icon_786:
+  id: 786
+  source: Graficos.ini[Grh786]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 330.png
+
+item_icon_787:
+  id: 787
+  source: Graficos.ini[Grh787]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 331.png
+
+item_icon_789:
+  id: 789
+  source: Graficos.ini[Grh789]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 333.png
+
+item_icon_790:
+  id: 790
+  source: Graficos.ini[Grh790]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 335.png
+
+item_icon_791:
+  id: 791
+  source: Graficos.ini[Grh791]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 336.png
+
+item_icon_792:
+  id: 792
+  source: Graficos.ini[Grh792]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 337.png
+
+item_icon_793:
+  id: 793
+  source: Graficos.ini[Grh793]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 338.png
+
+item_icon_794:
+  id: 794
+  source: Graficos.ini[Grh794]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 339.png
+
+item_icon_795:
+  id: 795
+  source: Graficos.ini[Grh795]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 340.png
+
+item_icon_796:
+  id: 796
+  source: Graficos.ini[Grh796]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 341.png
+
+item_icon_797:
+  id: 797
+  source: Graficos.ini[Grh797]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 342.png
+
+item_icon_690:
+  id: 690
+  source: Graficos.ini[Grh690]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 290.png
+
+item_icon_20507:
+  id: 20507
+  source: Graficos.ini[Grh20507]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19003.png
+
+item_icon_800:
+  id: 800
+  source: Graficos.ini[Grh800]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 347.png
+
+item_icon_801:
+  id: 801
+  source: Graficos.ini[Grh801]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 349.png
+
+item_icon_802:
+  id: 802
+  source: Graficos.ini[Grh802]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 359.png
+
+item_icon_803:
+  id: 803
+  source: Graficos.ini[Grh803]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 367.png
+
+item_icon_804:
+  id: 804
+  source: Graficos.ini[Grh804]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 378.png
+
+item_icon_806:
+  id: 806
+  source: Graficos.ini[Grh806]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 400.png
+
+item_icon_807:
+  id: 807
+  source: Graficos.ini[Grh807]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 408.png
+
+item_icon_26812:
+  id: 26812
+  source: Graficos.ini[Grh26812]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25272.png
+
+item_icon_850:
+  id: 850
+  source: Graficos.ini[Grh850]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19028.png
+
+item_icon_849:
+  id: 849
+  source: Graficos.ini[Grh849]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19027.png
+
+item_icon_844:
+  id: 844
+  source: Graficos.ini[Grh844]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 21009.png
+
+item_icon_845:
+  id: 845
+  source: Graficos.ini[Grh845]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19023.png
+
+item_icon_846:
+  id: 846
+  source: Graficos.ini[Grh846]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19024.png
+
+item_icon_847:
+  id: 847
+  source: Graficos.ini[Grh847]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19025.png
+
+item_icon_863:
+  id: 863
+  source: Graficos.ini[Grh863]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7054.png
+
+item_icon_864:
+  id: 864
+  source: Graficos.ini[Grh864]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7055.png
+
+item_icon_799:
+  id: 799
+  source: Graficos.ini[Grh799]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 344.png
+
+item_icon_20508:
+  id: 20508
+  source: Graficos.ini[Grh20508]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19004.png
+
+item_icon_755:
+  id: 755
+  source: Graficos.ini[Grh755]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16068.png
+
+item_icon_754:
+  id: 754
+  source: Graficos.ini[Grh754]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16067.png
+
+item_icon_753:
+  id: 753
+  source: Graficos.ini[Grh753]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16066.png
+
+item_icon_264:
+  id: 264
+  source: Graficos.ini[Grh264]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 3105.png
+
+item_icon_263:
+  id: 263
+  source: Graficos.ini[Grh263]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 3104.png
+
+item_icon_20504:
+  id: 20504
+  source: Graficos.ini[Grh20504]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19000.png
+
+item_icon_774:
+  id: 774
+  source: Graficos.ini[Grh774]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 318.png
+
+item_icon_867:
+  id: 867
+  source: Graficos.ini[Grh867]
+  region:
+    x: 0
+    y: 0
+    w: 124
+    h: 88
+  file: 13024.png
+
+item_icon_868:
+  id: 868
+  source: Graficos.ini[Grh868]
+  region:
+    x: 0
+    y: 0
+    w: 154
+    h: 116
+  file: 13025.png
+
+item_icon_869:
+  id: 869
+  source: Graficos.ini[Grh869]
+  region:
+    x: 0
+    y: 0
+    w: 150
+    h: 112
+  file: 13026.png
+
+item_icon_870:
+  id: 870
+  source: Graficos.ini[Grh870]
+  region:
+    x: 0
+    y: 0
+    w: 156
+    h: 110
+  file: 13027.png
+
+item_icon_871:
+  id: 871
+  source: Graficos.ini[Grh871]
+  region:
+    x: 0
+    y: 0
+    w: 108
+    h: 80
+  file: 13028.png
+
+item_icon_872:
+  id: 872
+  source: Graficos.ini[Grh872]
+  region:
+    x: 0
+    y: 0
+    w: 96
+    h: 82
+  file: 13029.png
+
+item_icon_873:
+  id: 873
+  source: Graficos.ini[Grh873]
+  region:
+    x: 0
+    y: 0
+    w: 112
+    h: 96
+  file: 13030.png
+
+item_icon_875:
+  id: 875
+  source: Graficos.ini[Grh875]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7056.png
+
+item_icon_878:
+  id: 878
+  source: Graficos.ini[Grh878]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7059.png
+
+item_icon_20506:
+  id: 20506
+  source: Graficos.ini[Grh20506]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19002.png
+
+item_icon_24641:
+  id: 24641
+  source: Graficos.ini[Grh24641]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18328.png
+
+item_icon_20505:
+  id: 20505
+  source: Graficos.ini[Grh20505]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19001.png
+
+item_icon_145:
+  id: 145
+  source: Graficos.ini[Grh145]
+  region:
+    x: 0
+    y: 0
+    w: 80
+    h: 170
+  file: 3070.png
+
+item_icon_687:
+  id: 687
+  source: Graficos.ini[Grh687]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 287.png
+
+item_icon_692:
+  id: 692
+  source: Graficos.ini[Grh692]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 292.png
+
+item_icon_654:
+  id: 654
+  source: Graficos.ini[Grh654]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 276.png
+
+item_icon_53:
+  id: 53
+  source: Graficos.ini[Grh53]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 23005.png
+
+item_icon_689:
+  id: 689
+  source: Graficos.ini[Grh689]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 289.png
+
+item_icon_1100:
+  id: 1100
+  source: Graficos.ini[Grh1100]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 6.png
+
+item_icon_308:
+  id: 308
+  source: Graficos.ini[Grh308]
+  region:
+    x: 0
+    y: 0
+    w: 160
+    h: 340
+  file: 4075.png
+
+item_icon_12402:
+  id: 12402
+  source: Graficos.ini[Grh12402]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15218.png
+
+item_icon_12408:
+  id: 12408
+  source: Graficos.ini[Grh12408]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15221.png
+
+item_icon_12410:
+  id: 12410
+  source: Graficos.ini[Grh12410]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15222.png
+
+item_icon_932:
+  id: 932
+  source: Graficos.ini[Grh932]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16000.png
+
+item_icon_959:
+  id: 959
+  source: Graficos.ini[Grh959]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16002.png
+
+item_icon_986:
+  id: 986
+  source: Graficos.ini[Grh986]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16004.png
+
+item_icon_1013:
+  id: 1013
+  source: Graficos.ini[Grh1013]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18000.png
+
+item_icon_1018:
+  id: 1018
+  source: Graficos.ini[Grh1018]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18002.png
+
+item_icon_26753:
+  id: 26753
+  source: Graficos.ini[Grh26753]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25265.png
+
+item_icon_26751:
+  id: 26751
+  source: Graficos.ini[Grh26751]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25263.png
+
+item_icon_26752:
+  id: 26752
+  source: Graficos.ini[Grh26752]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25264.png
+
+item_icon_740:
+  id: 740
+  source: Graficos.ini[Grh740]
+  region:
+    x: 0
+    y: 0
+    w: 218
+    h: 140
+  file: 4053.png
+
+item_icon_32190:
+  id: 32190
+  source: Graficos.ini[Grh32190]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 841.png
+
+item_icon_1154:
+  id: 1154
+  source: Graficos.ini[Grh1154]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 10.png
+
+item_icon_1181:
+  id: 1181
+  source: Graficos.ini[Grh1181]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 12.png
+
+item_icon_1208:
+  id: 1208
+  source: Graficos.ini[Grh1208]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 14.png
+
+item_icon_1235:
+  id: 1235
+  source: Graficos.ini[Grh1235]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 17.png
+
+item_icon_1262:
+  id: 1262
+  source: Graficos.ini[Grh1262]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19.png
+
+item_icon_4924:
+  id: 4924
+  source: Graficos.ini[Grh4924]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 95.png
+
+item_icon_4925:
+  id: 4925
+  source: Graficos.ini[Grh4925]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 96.png
+
+item_icon_4926:
+  id: 4926
+  source: Graficos.ini[Grh4926]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 97.png
+
+item_icon_4927:
+  id: 4927
+  source: Graficos.ini[Grh4927]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 98.png
+
+item_icon_4922:
+  id: 4922
+  source: Graficos.ini[Grh4922]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 89.png
+
+item_icon_4921:
+  id: 4921
+  source: Graficos.ini[Grh4921]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 99.png
+
+item_icon_4920:
+  id: 4920
+  source: Graficos.ini[Grh4920]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 90.png
+
+item_icon_4919:
+  id: 4919
+  source: Graficos.ini[Grh4919]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 92.png
+
+item_icon_4918:
+  id: 4918
+  source: Graficos.ini[Grh4918]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 94.png
+
+item_icon_4917:
+  id: 4917
+  source: Graficos.ini[Grh4917]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 93.png
+
+item_icon_4916:
+  id: 4916
+  source: Graficos.ini[Grh4916]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 91.png
+
+item_icon_4915:
+  id: 4915
+  source: Graficos.ini[Grh4915]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 88.png
+
+item_icon_4914:
+  id: 4914
+  source: Graficos.ini[Grh4914]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 100.png
+
+item_icon_4913:
+  id: 4913
+  source: Graficos.ini[Grh4913]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 85.png
+
+item_icon_798:
+  id: 798
+  source: Graficos.ini[Grh798]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 417.png
+
+item_icon_4912:
+  id: 4912
+  source: Graficos.ini[Grh4912]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 84.png
+
+item_icon_4910:
+  id: 4910
+  source: Graficos.ini[Grh4910]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 87.png
+
+item_icon_34854:
+  id: 34854
+  source: Graficos.ini[Grh34854]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25996.png
+
+item_icon_4901:
+  id: 4901
+  source: Graficos.ini[Grh4901]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 20004.png
+
+item_icon_4902:
+  id: 4902
+  source: Graficos.ini[Grh4902]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 20005.png
+
+item_icon_4903:
+  id: 4903
+  source: Graficos.ini[Grh4903]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 20006.png
+
+item_icon_4911:
+  id: 4911
+  source: Graficos.ini[Grh4911]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 86.png
+
+item_icon_13282:
+  id: 13282
+  source: Graficos.ini[Grh13282]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 102.png
+
+item_icon_1460:
+  id: 1460
+  source: Graficos.ini[Grh1460]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 384
+  file: 8169.png
+
+item_icon_54:
+  id: 54
+  source: Graficos.ini[Grh54]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22052.png
+
+item_icon_14:
+  id: 14
+  source: Graficos.ini[Grh14]
+  region:
+    x: 0
+    y: 0
+    w: 100
+    h: 84
+  file: 15157.png
+
+item_icon_25:
+  id: 25
+  source: Graficos.ini[Grh25]
+  region:
+    x: 0
+    y: 0
+    w: 22
+    h: 60
+  file: 15158.png
+
+item_icon_30:
+  id: 30
+  source: Graficos.ini[Grh30]
+  region:
+    x: 0
+    y: 0
+    w: 102
+    h: 162
+  file: 15159.png
+
+item_icon_31:
+  id: 31
+  source: Graficos.ini[Grh31]
+  region:
+    x: 0
+    y: 0
+    w: 120
+    h: 108
+  file: 15160.png
+
+item_icon_32:
+  id: 32
+  source: Graficos.ini[Grh32]
+  region:
+    x: 0
+    y: 0
+    w: 80
+    h: 60
+  file: 15161.png
+
+item_icon_36:
+  id: 36
+  source: Graficos.ini[Grh36]
+  region:
+    x: 0
+    y: 0
+    w: 70
+    h: 64
+  file: 15162.png
+
+item_icon_37:
+  id: 37
+  source: Graficos.ini[Grh37]
+  region:
+    x: 0
+    y: 0
+    w: 70
+    h: 64
+  file: 15163.png
+
+item_icon_49:
+  id: 49
+  source: Graficos.ini[Grh49]
+  region:
+    x: 0
+    y: 0
+    w: 70
+    h: 70
+  file: 15164.png
+
+item_icon_50:
+  id: 50
+  source: Graficos.ini[Grh50]
+  region:
+    x: 0
+    y: 0
+    w: 150
+    h: 150
+  file: 15165.png
+
+item_icon_51:
+  id: 51
+  source: Graficos.ini[Grh51]
+  region:
+    x: 0
+    y: 0
+    w: 70
+    h: 60
+  file: 15166.png
+
+item_icon_52:
+  id: 52
+  source: Graficos.ini[Grh52]
+  region:
+    x: 0
+    y: 0
+    w: 90
+    h: 74
+  file: 15167.png
+
+item_icon_492:
+  id: 492
+  source: Graficos.ini[Grh492]
+  region:
+    x: 6
+    y: 0
+    w: 76
+    h: 74
+  file: 15010.png
+
+item_icon_534:
+  id: 534
+  source: Graficos.ini[Grh534]
+  region:
+    x: 0
+    y: 0
+    w: 68
+    h: 130
+  file: 15022.png
+
+item_icon_60:
+  id: 60
+  source: Graficos.ini[Grh60]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 128
+  file: 15169.png
+
+item_icon_99:
+  id: 99
+  source: Graficos.ini[Grh99]
+  region:
+    x: 2
+    y: 0
+    w: 168
+    h: 186
+  file: 15001.png
+
+item_icon_309:
+  id: 309
+  source: Graficos.ini[Grh309]
+  region:
+    x: 18
+    y: 0
+    w: 90
+    h: 128
+  file: 15003.png
+
+item_icon_311:
+  id: 311
+  source: Graficos.ini[Grh311]
+  region:
+    x: 10
+    y: 22
+    w: 64
+    h: 64
+  file: 15005.png
+
+item_icon_312:
+  id: 312
+  source: Graficos.ini[Grh312]
+  region:
+    x: 16
+    y: 16
+    w: 50
+    h: 90
+  file: 15007.png
+
+item_icon_310:
+  id: 310
+  source: Graficos.ini[Grh310]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15004.png
+
+item_icon_313:
+  id: 313
+  source: Graficos.ini[Grh313]
+  region:
+    x: 0
+    y: 12
+    w: 160
+    h: 244
+  file: 15011.png
+
+item_icon_314:
+  id: 314
+  source: Graficos.ini[Grh314]
+  region:
+    x: 2
+    y: 0
+    w: 64
+    h: 64
+  file: 15013.png
+
+item_icon_493:
+  id: 493
+  source: Graficos.ini[Grh493]
+  region:
+    x: 8
+    y: 20
+    w: 84
+    h: 70
+  file: 15012.png
+
+item_icon_494:
+  id: 494
+  source: Graficos.ini[Grh494]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15014.png
+
+item_icon_496:
+  id: 496
+  source: Graficos.ini[Grh496]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 80
+  file: 15015.png
+
+item_icon_495:
+  id: 495
+  source: Graficos.ini[Grh495]
+  region:
+    x: 0
+    y: 20
+    w: 80
+    h: 60
+  file: 15016.png
+
+item_icon_497:
+  id: 497
+  source: Graficos.ini[Grh497]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15017.png
+
+item_icon_498:
+  id: 498
+  source: Graficos.ini[Grh498]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15019.png
+
+item_icon_532:
+  id: 532
+  source: Graficos.ini[Grh532]
+  region:
+    x: 0
+    y: 0
+    w: 90
+    h: 60
+  file: 15018.png
+
+item_icon_533:
+  id: 533
+  source: Graficos.ini[Grh533]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15020.png
+
+item_icon_499:
+  id: 499
+  source: Graficos.ini[Grh499]
+  region:
+    x: 10
+    y: 44
+    w: 200
+    h: 120
+  file: 15021.png
+
+item_icon_507:
+  id: 507
+  source: Graficos.ini[Grh507]
+  region:
+    x: 0
+    y: 0
+    w: 40
+    h: 100
+  file: 15028.png
+
+item_icon_524:
+  id: 524
+  source: Graficos.ini[Grh524]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 208
+  file: 15141.png
+
+item_icon_525:
+  id: 525
+  source: Graficos.ini[Grh525]
+  region:
+    x: 0
+    y: 0
+    w: 84
+    h: 98
+  file: 22011.png
+
+item_icon_577:
+  id: 577
+  source: Graficos.ini[Grh577]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22018.png
+
+item_icon_578:
+  id: 578
+  source: Graficos.ini[Grh578]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22019.png
+
+item_icon_580:
+  id: 580
+  source: Graficos.ini[Grh580]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22021.png
+
+item_icon_582:
+  id: 582
+  source: Graficos.ini[Grh582]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22022.png
+
+item_icon_590:
+  id: 590
+  source: Graficos.ini[Grh590]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16048.png
+
+item_icon_591:
+  id: 591
+  source: Graficos.ini[Grh591]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19022.png
+
+item_icon_592:
+  id: 592
+  source: Graficos.ini[Grh592]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15170.png
+
+item_icon_594:
+  id: 594
+  source: Graficos.ini[Grh594]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15171.png
+
+item_icon_595:
+  id: 595
+  source: Graficos.ini[Grh595]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15172.png
+
+item_icon_596:
+  id: 596
+  source: Graficos.ini[Grh596]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15173.png
+
+item_icon_597:
+  id: 597
+  source: Graficos.ini[Grh597]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15174.png
+
+item_icon_642:
+  id: 642
+  source: Graficos.ini[Grh642]
+  region:
+    x: 24
+    y: 30
+    w: 130
+    h: 100
+  file: 15031.png
+
+item_icon_648:
+  id: 648
+  source: Graficos.ini[Grh648]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 128
+  file: 6069.png
+
+item_icon_649:
+  id: 649
+  source: Graficos.ini[Grh649]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 15184.png
+
+item_icon_650:
+  id: 650
+  source: Graficos.ini[Grh650]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 192
+  file: 15185.png
+
+item_icon_651:
+  id: 651
+  source: Graficos.ini[Grh651]
+  region:
+    x: 0
+    y: 0
+    w: 192
+    h: 128
+  file: 15186.png
+
+item_icon_652:
+  id: 652
+  source: Graficos.ini[Grh652]
+  region:
+    x: 0
+    y: 0
+    w: 192
+    h: 128
+  file: 15187.png
+
+item_icon_653:
+  id: 653
+  source: Graficos.ini[Grh653]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 128
+  file: 15188.png
+
+item_icon_729:
+  id: 729
+  source: Graficos.ini[Grh729]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13015.png
+
+item_icon_730:
+  id: 730
+  source: Graficos.ini[Grh730]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13016.png
+
+item_icon_732:
+  id: 732
+  source: Graficos.ini[Grh732]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13018.png
+
+item_icon_733:
+  id: 733
+  source: Graficos.ini[Grh733]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13019.png
+
+item_icon_727:
+  id: 727
+  source: Graficos.ini[Grh727]
+  region:
+    x: 0
+    y: 0
+    w: 100
+    h: 100
+  file: 15027.png
+
+item_icon_739:
+  id: 739
+  source: Graficos.ini[Grh739]
+  region:
+    x: 0
+    y: 20
+    w: 240
+    h: 180
+  file: 15033.png
+
+item_icon_747:
+  id: 747
+  source: Graficos.ini[Grh747]
+  region:
+    x: 0
+    y: 16
+    w: 130
+    h: 100
+  file: 15034.png
+
+item_icon_748:
+  id: 748
+  source: Graficos.ini[Grh748]
+  region:
+    x: 0
+    y: 0
+    w: 80
+    h: 100
+  file: 15036.png
+
+item_icon_848:
+  id: 848
+  source: Graficos.ini[Grh848]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19026.png
+
+item_icon_879:
+  id: 879
+  source: Graficos.ini[Grh879]
+  region:
+    x: 0
+    y: 30
+    w: 54
+    h: 80
+  file: 15044.png
+
+item_icon_1472:
+  id: 1472
+  source: Graficos.ini[Grh1472]
+  region:
+    x: 0
+    y: 0
+    w: 44
+    h: 70
+  file: 15025.png
+
+item_icon_1473:
+  id: 1473
+  source: Graficos.ini[Grh1473]
+  region:
+    x: 0
+    y: 0
+    w: 36
+    h: 80
+  file: 15026.png
+
+item_icon_1474:
+  id: 1474
+  source: Graficos.ini[Grh1474]
+  region:
+    x: 8
+    y: 0
+    w: 170
+    h: 100
+  file: 15030.png
+
+item_icon_1475:
+  id: 1475
+  source: Graficos.ini[Grh1475]
+  region:
+    x: 20
+    y: 20
+    w: 170
+    h: 100
+  file: 15032.png
+
+item_icon_1477:
+  id: 1477
+  source: Graficos.ini[Grh1477]
+  region:
+    x: 0
+    y: 10
+    w: 200
+    h: 220
+  file: 15035.png
+
+item_icon_1479:
+  id: 1479
+  source: Graficos.ini[Grh1479]
+  region:
+    x: 0
+    y: 0
+    w: 100
+    h: 180
+  file: 15042.png
+
+item_icon_1480:
+  id: 1480
+  source: Graficos.ini[Grh1480]
+  region:
+    x: 0
+    y: 50
+    w: 200
+    h: 140
+  file: 15043.png
+
+item_icon_1478:
+  id: 1478
+  source: Graficos.ini[Grh1478]
+  region:
+    x: 30
+    y: 34
+    w: 80
+    h: 80
+  file: 15041.png
+
+item_icon_1481:
+  id: 1481
+  source: Graficos.ini[Grh1481]
+  region:
+    x: 0
+    y: 10
+    w: 80
+    h: 60
+  file: 15045.png
+
+item_icon_1482:
+  id: 1482
+  source: Graficos.ini[Grh1482]
+  region:
+    x: 0
+    y: 0
+    w: 60
+    h: 60
+  file: 15046.png
+
+item_icon_1483:
+  id: 1483
+  source: Graficos.ini[Grh1483]
+  region:
+    x: 0
+    y: 0
+    w: 100
+    h: 86
+  file: 15047.png
+
+item_icon_1484:
+  id: 1484
+  source: Graficos.ini[Grh1484]
+  region:
+    x: 0
+    y: 0
+    w: 74
+    h: 80
+  file: 15037.png
+
+item_icon_1485:
+  id: 1485
+  source: Graficos.ini[Grh1485]
+  region:
+    x: 0
+    y: 0
+    w: 80
+    h: 80
+  file: 15038.png
+
+item_icon_1488:
+  id: 1488
+  source: Graficos.ini[Grh1488]
+  region:
+    x: 0
+    y: 0
+    w: 74
+    h: 70
+  file: 15048.png
+
+item_icon_1489:
+  id: 1489
+  source: Graficos.ini[Grh1489]
+  region:
+    x: 0
+    y: 0
+    w: 74
+    h: 70
+  file: 15049.png
+
+item_icon_1490:
+  id: 1490
+  source: Graficos.ini[Grh1490]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 100
+  file: 13000.png
+
+item_icon_1491:
+  id: 1491
+  source: Graficos.ini[Grh1491]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 100
+  file: 13001.png
+
+item_icon_1492:
+  id: 1492
+  source: Graficos.ini[Grh1492]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 100
+  file: 13002.png
+
+item_icon_1496:
+  id: 1496
+  source: Graficos.ini[Grh1496]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 128
+  file: 15053.png
+
+item_icon_1497:
+  id: 1497
+  source: Graficos.ini[Grh1497]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15054.png
+
+item_icon_1498:
+  id: 1498
+  source: Graficos.ini[Grh1498]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22001.png
+
+item_icon_1499:
+  id: 1499
+  source: Graficos.ini[Grh1499]
+  region:
+    x: 10
+    y: 0
+    w: 64
+    h: 174
+  file: 22002.png
+
+item_icon_1501:
+  id: 1501
+  source: Graficos.ini[Grh1501]
+  region:
+    x: 0
+    y: 0
+    w: 140
+    h: 84
+  file: 15057.png
+
+item_icon_1502:
+  id: 1502
+  source: Graficos.ini[Grh1502]
+  region:
+    x: 0
+    y: 0
+    w: 106
+    h: 98
+  file: 15058.png
+
+item_icon_1503:
+  id: 1503
+  source: Graficos.ini[Grh1503]
+  region:
+    x: 0
+    y: 0
+    w: 140
+    h: 76
+  file: 15059.png
+
+item_icon_1504:
+  id: 1504
+  source: Graficos.ini[Grh1504]
+  region:
+    x: 0
+    y: 0
+    w: 418
+    h: 214
+  file: 15060.png
+
+item_icon_2130:
+  id: 2130
+  source: Graficos.ini[Grh2130]
+  region:
+    x: 0
+    y: 0
+    w: 66
+    h: 106
+  file: 15061.png
+
+item_icon_2131:
+  id: 2131
+  source: Graficos.ini[Grh2131]
+  region:
+    x: 84
+    y: 0
+    w: 66
+    h: 106
+  file: 15061.png
+
+item_icon_2132:
+  id: 2132
+  source: Graficos.ini[Grh2132]
+  region:
+    x: 0
+    y: 106
+    w: 66
+    h: 106
+  file: 15061.png
+
+item_icon_2133:
+  id: 2133
+  source: Graficos.ini[Grh2133]
+  region:
+    x: 84
+    y: 106
+    w: 66
+    h: 106
+  file: 15061.png
+
+item_icon_2134:
+  id: 2134
+  source: Graficos.ini[Grh2134]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13003.png
+
+item_icon_2135:
+  id: 2135
+  source: Graficos.ini[Grh2135]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13004.png
+
+item_icon_2136:
+  id: 2136
+  source: Graficos.ini[Grh2136]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13005.png
+
+item_icon_2137:
+  id: 2137
+  source: Graficos.ini[Grh2137]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13006.png
+
+item_icon_2172:
+  id: 2172
+  source: Graficos.ini[Grh2172]
+  region:
+    x: 0
+    y: 0
+    w: 48
+    h: 200
+  file: 15064.png
+
+item_icon_2173:
+  id: 2173
+  source: Graficos.ini[Grh2173]
+  region:
+    x: 0
+    y: 0
+    w: 34
+    h: 144
+  file: 15065.png
+
+item_icon_2174:
+  id: 2174
+  source: Graficos.ini[Grh2174]
+  region:
+    x: 0
+    y: 0
+    w: 250
+    h: 182
+  file: 15066.png
+
+item_icon_2175:
+  id: 2175
+  source: Graficos.ini[Grh2175]
+  region:
+    x: 0
+    y: 0
+    w: 210
+    h: 278
+  file: 15067.png
+
+item_icon_2138:
+  id: 2138
+  source: Graficos.ini[Grh2138]
+  region:
+    x: 0
+    y: 0
+    w: 140
+    h: 120
+  file: 15068.png
+
+item_icon_2139:
+  id: 2139
+  source: Graficos.ini[Grh2139]
+  region:
+    x: 0
+    y: 0
+    w: 140
+    h: 100
+  file: 15069.png
+
+item_icon_2634:
+  id: 2634
+  source: Graficos.ini[Grh2634]
+  region:
+    x: 0
+    y: 0
+    w: 46
+    h: 86
+  file: 15070.png
+
+item_icon_1524:
+  id: 1524
+  source: Graficos.ini[Grh1524]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15071.png
+
+item_icon_1525:
+  id: 1525
+  source: Graficos.ini[Grh1525]
+  region:
+    x: 0
+    y: 0
+    w: 148
+    h: 128
+  file: 15072.png
+
+item_icon_1526:
+  id: 1526
+  source: Graficos.ini[Grh1526]
+  region:
+    x: 148
+    y: 0
+    w: 128
+    h: 128
+  file: 15072.png
+
+item_icon_1527:
+  id: 1527
+  source: Graficos.ini[Grh1527]
+  region:
+    x: 256
+    y: 0
+    w: 128
+    h: 128
+  file: 15072.png
+
+item_icon_1528:
+  id: 1528
+  source: Graficos.ini[Grh1528]
+  region:
+    x: 0
+    y: 0
+    w: 160
+    h: 160
+  file: 15073.png
+
+item_icon_1529:
+  id: 1529
+  source: Graficos.ini[Grh1529]
+  region:
+    x: 0
+    y: 0
+    w: 600
+    h: 540
+  file: 6002.png
+
+item_icon_1530:
+  id: 1530
+  source: Graficos.ini[Grh1530]
+  region:
+    x: 0
+    y: 0
+    w: 408
+    h: 408
+  file: 6004.png
+
+item_icon_1531:
+  id: 1531
+  source: Graficos.ini[Grh1531]
+  region:
+    x: 0
+    y: 0
+    w: 464
+    h: 600
+  file: 6005.png
+
+item_icon_1532:
+  id: 1532
+  source: Graficos.ini[Grh1532]
+  region:
+    x: 0
+    y: 0
+    w: 242
+    h: 584
+  file: 6006.png
+
+item_icon_1533:
+  id: 1533
+  source: Graficos.ini[Grh1533]
+  region:
+    x: 0
+    y: 0
+    w: 400
+    h: 414
+  file: 6007.png
+
+item_icon_1534:
+  id: 1534
+  source: Graficos.ini[Grh1534]
+  region:
+    x: 0
+    y: 0
+    w: 534
+    h: 594
+  file: 6008.png
+
+item_icon_1535:
+  id: 1535
+  source: Graficos.ini[Grh1535]
+  region:
+    x: 0
+    y: 0
+    w: 160
+    h: 128
+  file: 6009.png
+
+item_icon_1536:
+  id: 1536
+  source: Graficos.ini[Grh1536]
+  region:
+    x: 0
+    y: 0
+    w: 130
+    h: 128
+  file: 6010.png
+
+item_icon_1537:
+  id: 1537
+  source: Graficos.ini[Grh1537]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22025.png
+
+item_icon_1538:
+  id: 1538
+  source: Graficos.ini[Grh1538]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 128
+  file: 8174.png
+
+item_icon_1539:
+  id: 1539
+  source: Graficos.ini[Grh1539]
+  region:
+    x: 0
+    y: 0
+    w: 512
+    h: 320
+  file: 8175.png
+
+item_icon_2619:
+  id: 2619
+  source: Graficos.ini[Grh2619]
+  region:
+    x: 0
+    y: 0
+    w: 80
+    h: 110
+  file: 15055.png
+
+item_icon_2620:
+  id: 2620
+  source: Graficos.ini[Grh2620]
+  region:
+    x: 78
+    y: 18
+    w: 124
+    h: 90
+  file: 15055.png
+
+item_icon_2621:
+  id: 2621
+  source: Graficos.ini[Grh2621]
+  region:
+    x: 6
+    y: 116
+    w: 140
+    h: 100
+  file: 15055.png
+
+item_icon_2622:
+  id: 2622
+  source: Graficos.ini[Grh2622]
+  region:
+    x: 10
+    y: 220
+    w: 100
+    h: 70
+  file: 15055.png
+
+item_icon_2623:
+  id: 2623
+  source: Graficos.ini[Grh2623]
+  region:
+    x: 4
+    y: 290
+    w: 166
+    h: 120
+  file: 15055.png
+
+item_icon_2624:
+  id: 2624
+  source: Graficos.ini[Grh2624]
+  region:
+    x: 0
+    y: 410
+    w: 140
+    h: 100
+  file: 15055.png
+
+item_icon_2625:
+  id: 2625
+  source: Graficos.ini[Grh2625]
+  region:
+    x: 4
+    y: 508
+    w: 90
+    h: 102
+  file: 15055.png
+
+item_icon_2626:
+  id: 2626
+  source: Graficos.ini[Grh2626]
+  region:
+    x: 100
+    y: 512
+    w: 80
+    h: 110
+  file: 15055.png
+
+item_icon_2627:
+  id: 2627
+  source: Graficos.ini[Grh2627]
+  region:
+    x: 4
+    y: 616
+    w: 76
+    h: 120
+  file: 15055.png
+
+item_icon_2628:
+  id: 2628
+  source: Graficos.ini[Grh2628]
+  region:
+    x: 90
+    y: 630
+    w: 104
+    h: 114
+  file: 15055.png
+
+item_icon_2629:
+  id: 2629
+  source: Graficos.ini[Grh2629]
+  region:
+    x: 6
+    y: 740
+    w: 116
+    h: 88
+  file: 15055.png
+
+item_icon_3300:
+  id: 3300
+  source: Graficos.ini[Grh3300]
+  region:
+    x: 0
+    y: 0
+    w: 110
+    h: 200
+  file: 15201.png
+
+item_icon_3877:
+  id: 3877
+  source: Graficos.ini[Grh3877]
+  region:
+    x: 0
+    y: 0
+    w: 110
+    h: 200
+  file: 15202.png
+
+item_icon_12429:
+  id: 12429
+  source: Graficos.ini[Grh12429]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 128
+  file: 15207.png
+
+item_icon_95:
+  id: 95
+  source: Graficos.ini[Grh95]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 198
+  file: 9000.png
+
+item_icon_55:
+  id: 55
+  source: Graficos.ini[Grh55]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18024.png
+
+item_icon_4488:
+  id: 4488
+  source: Graficos.ini[Grh4488]
+  region:
+    x: 0
+    y: 0
+    w: 50
+    h: 100
+  file: 15008.png
+
+item_icon_4489:
+  id: 4489
+  source: Graficos.ini[Grh4489]
+  region:
+    x: 0
+    y: 0
+    w: 96
+    h: 64
+  file: 15009.png
+
+item_icon_388:
+  id: 388
+  source: Graficos.ini[Grh388]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22008.png
+
+item_icon_403:
+  id: 403
+  source: Graficos.ini[Grh403]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22026.png
+
+item_icon_5326:
+  id: 5326
+  source: Graficos.ini[Grh5326]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 477.png
+
+item_icon_1469:
+  id: 1469
+  source: Graficos.ini[Grh1469]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16035.png
+
+item_icon_11980:
+  id: 11980
+  source: Graficos.ini[Grh11980]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22007.png
+
+item_icon_11979:
+  id: 11979
+  source: Graficos.ini[Grh11979]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22006.png
+
+item_icon_681:
+  id: 681
+  source: Graficos.ini[Grh681]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 284.png
+
+item_icon_20233:
+  id: 20233
+  source: Graficos.ini[Grh20233]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16030.png
+
+item_icon_20239:
+  id: 20239
+  source: Graficos.ini[Grh20239]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 108.png
+
+item_icon_20266:
+  id: 20266
+  source: Graficos.ini[Grh20266]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 110.png
+
+item_icon_20293:
+  id: 20293
+  source: Graficos.ini[Grh20293]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 112.png
+
+item_icon_20320:
+  id: 20320
+  source: Graficos.ini[Grh20320]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 114.png
+
+item_icon_20347:
+  id: 20347
+  source: Graficos.ini[Grh20347]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 116.png
+
+item_icon_20374:
+  id: 20374
+  source: Graficos.ini[Grh20374]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 118.png
+
+item_icon_20405:
+  id: 20405
+  source: Graficos.ini[Grh20405]
+  region:
+    x: 0
+    y: 0
+    w: 158
+    h: 240
+  file: 15112.png
+
+item_icon_20406:
+  id: 20406
+  source: Graficos.ini[Grh20406]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 121.png
+
+item_icon_20433:
+  id: 20433
+  source: Graficos.ini[Grh20433]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 123.png
+
+item_icon_20460:
+  id: 20460
+  source: Graficos.ini[Grh20460]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22003.png
+
+item_icon_20238:
+  id: 20238
+  source: Graficos.ini[Grh20238]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18015.png
+
+item_icon_20066:
+  id: 20066
+  source: Graficos.ini[Grh20066]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18010.png
+
+item_icon_20067:
+  id: 20067
+  source: Graficos.ini[Grh20067]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18011.png
+
+item_icon_20068:
+  id: 20068
+  source: Graficos.ini[Grh20068]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18012.png
+
+item_icon_603:
+  id: 603
+  source: Graficos.ini[Grh603]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 21005.png
+
+item_icon_1999:
+  id: 1999
+  source: Graficos.ini[Grh1999]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22053.png
+
+item_icon_18802:
+  id: 18802
+  source: Graficos.ini[Grh18802]
+  region:
+    x: 0
+    y: 0
+    w: 512
+    h: 590
+  file: 6000.png
+
+item_icon_2341:
+  id: 2341
+  source: Graficos.ini[Grh2341]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16072.png
+
+item_icon_22034:
+  id: 22034
+  source: Graficos.ini[Grh22034]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18025.png
+
+item_icon_2639:
+  id: 2639
+  source: Graficos.ini[Grh2639]
+  region:
+    x: 0
+    y: 0
+    w: 50
+    h: 204
+  file: 22072.png
+
+item_icon_21969:
+  id: 21969
+  source: Graficos.ini[Grh21969]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7060.png
+
+item_icon_21970:
+  id: 21970
+  source: Graficos.ini[Grh21970]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7061.png
+
+item_icon_21971:
+  id: 21971
+  source: Graficos.ini[Grh21971]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7062.png
+
+item_icon_21972:
+  id: 21972
+  source: Graficos.ini[Grh21972]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7063.png
+
+item_icon_21973:
+  id: 21973
+  source: Graficos.ini[Grh21973]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7064.png
+
+item_icon_21974:
+  id: 21974
+  source: Graficos.ini[Grh21974]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7065.png
+
+item_icon_21975:
+  id: 21975
+  source: Graficos.ini[Grh21975]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7066.png
+
+item_icon_21976:
+  id: 21976
+  source: Graficos.ini[Grh21976]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7067.png
+
+item_icon_21977:
+  id: 21977
+  source: Graficos.ini[Grh21977]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7068.png
+
+item_icon_21978:
+  id: 21978
+  source: Graficos.ini[Grh21978]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7069.png
+
+item_icon_21979:
+  id: 21979
+  source: Graficos.ini[Grh21979]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7070.png
+
+item_icon_21980:
+  id: 21980
+  source: Graficos.ini[Grh21980]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7071.png
+
+item_icon_4909:
+  id: 4909
+  source: Graficos.ini[Grh4909]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7074.png
+
+item_icon_4986:
+  id: 4986
+  source: Graficos.ini[Grh4986]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7076.png
+
+item_icon_4923:
+  id: 4923
+  source: Graficos.ini[Grh4923]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 64
+  file: 7075.png
+
+item_icon_22033:
+  id: 22033
+  source: Graficos.ini[Grh22033]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16075.png
+
+item_icon_23069:
+  id: 23069
+  source: Graficos.ini[Grh23069]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 20019.png
+
+item_icon_23068:
+  id: 23068
+  source: Graficos.ini[Grh23068]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 20018.png
+
+item_icon_23150:
+  id: 23150
+  source: Graficos.ini[Grh23150]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 681.png
+
+item_icon_23096:
+  id: 23096
+  source: Graficos.ini[Grh23096]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 677.png
+
+item_icon_23177:
+  id: 23177
+  source: Graficos.ini[Grh23177]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 683.png
+
+item_icon_23123:
+  id: 23123
+  source: Graficos.ini[Grh23123]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 679.png
+
+item_icon_1523:
+  id: 1523
+  source: Graficos.ini[Grh1523]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16050.png
+
+item_icon_1522:
+  id: 1522
+  source: Graficos.ini[Grh1522]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 16049.png
+
+item_icon_23929:
+  id: 23929
+  source: Graficos.ini[Grh23929]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 3758.png
+
+item_icon_23790:
+  id: 23790
+  source: Graficos.ini[Grh23790]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 10057.png
+
+item_icon_23651:
+  id: 23651
+  source: Graficos.ini[Grh23651]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 3471.png
+
+item_icon_23678:
+  id: 23678
+  source: Graficos.ini[Grh23678]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 3497.png
+
+item_icon_23706:
+  id: 23706
+  source: Graficos.ini[Grh23706]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 3510.png
+
+item_icon_23817:
+  id: 23817
+  source: Graficos.ini[Grh23817]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1327.png
+
+item_icon_23845:
+  id: 23845
+  source: Graficos.ini[Grh23845]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1343.png
+
+item_icon_24069:
+  id: 24069
+  source: Graficos.ini[Grh24069]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 19069.png
+
+item_icon_23873:
+  id: 23873
+  source: Graficos.ini[Grh23873]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1345.png
+
+item_icon_23957:
+  id: 23957
+  source: Graficos.ini[Grh23957]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 3770.png
+
+item_icon_23985:
+  id: 23985
+  source: Graficos.ini[Grh23985]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 3772.png
+
+item_icon_25023:
+  id: 25023
+  source: Graficos.ini[Grh25023]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13623.png
+
+item_icon_25134:
+  id: 25134
+  source: Graficos.ini[Grh25134]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13736.png
+
+item_icon_25441:
+  id: 25441
+  source: Graficos.ini[Grh25441]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25141.png
+
+item_icon_25442:
+  id: 25442
+  source: Graficos.ini[Grh25442]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25142.png
+
+item_icon_21427:
+  id: 21427
+  source: Graficos.ini[Grh21427]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 652.png
+
+item_icon_21400:
+  id: 21400
+  source: Graficos.ini[Grh21400]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 650.png
+
+item_icon_25576:
+  id: 25576
+  source: Graficos.ini[Grh25576]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25151.png
+
+item_icon_25604:
+  id: 25604
+  source: Graficos.ini[Grh25604]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25153.png
+
+item_icon_25632:
+  id: 25632
+  source: Graficos.ini[Grh25632]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25155.png
+
+item_icon_25722:
+  id: 25722
+  source: Graficos.ini[Grh25722]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25163.png
+
+item_icon_25750:
+  id: 25750
+  source: Graficos.ini[Grh25750]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25165.png
+
+item_icon_25778:
+  id: 25778
+  source: Graficos.ini[Grh25778]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25167.png
+
+item_icon_25806:
+  id: 25806
+  source: Graficos.ini[Grh25806]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25169.png
+
+item_icon_25834:
+  id: 25834
+  source: Graficos.ini[Grh25834]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25171.png
+
+item_icon_25889:
+  id: 25889
+  source: Graficos.ini[Grh25889]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25174.png
+
+item_icon_25890:
+  id: 25890
+  source: Graficos.ini[Grh25890]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25175.png
+
+item_icon_25918:
+  id: 25918
+  source: Graficos.ini[Grh25918]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25177.png
+
+item_icon_24939:
+  id: 24939
+  source: Graficos.ini[Grh24939]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 10167.png
+
+item_icon_24995:
+  id: 24995
+  source: Graficos.ini[Grh24995]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13611.png
+
+item_icon_24967:
+  id: 24967
+  source: Graficos.ini[Grh24967]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13605.png
+
+item_icon_27645:
+  id: 27645
+  source: Graficos.ini[Grh27645]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25362.png
+
+item_icon_25282:
+  id: 25282
+  source: Graficos.ini[Grh25282]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 9696.png
+
+item_icon_25284:
+  id: 25284
+  source: Graficos.ini[Grh25284]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 9698.png
+
+item_icon_25283:
+  id: 25283
+  source: Graficos.ini[Grh25283]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 9697.png
+
+item_icon_3993:
+  id: 3993
+  source: Graficos.ini[Grh3993]
+  region:
+    x: 0
+    y: 0
+    w: 100
+    h: 100
+  file: 15203.png
+
+item_icon_25279:
+  id: 25279
+  source: Graficos.ini[Grh25279]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25021.png
+
+item_icon_25278:
+  id: 25278
+  source: Graficos.ini[Grh25278]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25020.png
+
+item_icon_25281:
+  id: 25281
+  source: Graficos.ini[Grh25281]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25023.png
+
+item_icon_25280:
+  id: 25280
+  source: Graficos.ini[Grh25280]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25022.png
+
+item_icon_24725:
+  id: 24725
+  source: Graficos.ini[Grh24725]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25010.png
+
+item_icon_40391:
+  id: 40391
+  source: Graficos.ini[Grh40391]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26523.png
+
+item_icon_25946:
+  id: 25946
+  source: Graficos.ini[Grh25946]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25179.png
+
+item_icon_25974:
+  id: 25974
+  source: Graficos.ini[Grh25974]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25181.png
+
+item_icon_26357:
+  id: 26357
+  source: Graficos.ini[Grh26357]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25207.png
+
+item_icon_26385:
+  id: 26385
+  source: Graficos.ini[Grh26385]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25209.png
+
+item_icon_27398:
+  id: 27398
+  source: Graficos.ini[Grh27398]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25333.png
+
+item_icon_27426:
+  id: 27426
+  source: Graficos.ini[Grh27426]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25335.png
+
+item_icon_27483:
+  id: 27483
+  source: Graficos.ini[Grh27483]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25339.png
+
+item_icon_27454:
+  id: 27454
+  source: Graficos.ini[Grh27454]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25337.png
+
+item_icon_26878:
+  id: 26878
+  source: Graficos.ini[Grh26878]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25281.png
+
+item_icon_24266:
+  id: 24266
+  source: Graficos.ini[Grh24266]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18307.png
+
+item_icon_24272:
+  id: 24272
+  source: Graficos.ini[Grh24272]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18309.png
+
+item_icon_26872:
+  id: 26872
+  source: Graficos.ini[Grh26872]
+  region:
+    x: 0
+    y: 0
+    w: 66
+    h: 68
+  file: 25279.png
+
+item_icon_24260:
+  id: 24260
+  source: Graficos.ini[Grh24260]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18305.png
+
+item_icon_24301:
+  id: 24301
+  source: Graficos.ini[Grh24301]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 10190.png
+
+item_icon_24296:
+  id: 24296
+  source: Graficos.ini[Grh24296]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18335.png
+
+item_icon_24290:
+  id: 24290
+  source: Graficos.ini[Grh24290]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18319.png
+
+item_icon_27510:
+  id: 27510
+  source: Graficos.ini[Grh27510]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25341.png
+
+item_icon_24284:
+  id: 24284
+  source: Graficos.ini[Grh24284]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18315.png
+
+item_icon_24278:
+  id: 24278
+  source: Graficos.ini[Grh24278]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18311.png
+
+item_icon_24306:
+  id: 24306
+  source: Graficos.ini[Grh24306]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 838.png
+
+item_icon_24334:
+  id: 24334
+  source: Graficos.ini[Grh24334]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1296.png
+
+item_icon_24362:
+  id: 24362
+  source: Graficos.ini[Grh24362]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1302.png
+
+item_icon_27617:
+  id: 27617
+  source: Graficos.ini[Grh27617]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25360.png
+
+item_icon_27516:
+  id: 27516
+  source: Graficos.ini[Grh27516]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25343.png
+
+item_icon_26940:
+  id: 26940
+  source: Graficos.ini[Grh26940]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25287.png
+
+item_icon_27546:
+  id: 27546
+  source: Graficos.ini[Grh27546]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25347.png
+
+item_icon_24390:
+  id: 24390
+  source: Graficos.ini[Grh24390]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 10196.png
+
+item_icon_24502:
+  id: 24502
+  source: Graficos.ini[Grh24502]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13125.png
+
+item_icon_26070:
+  id: 26070
+  source: Graficos.ini[Grh26070]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25191.png
+
+item_icon_24474:
+  id: 24474
+  source: Graficos.ini[Grh24474]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13123.png
+
+item_icon_24446:
+  id: 24446
+  source: Graficos.ini[Grh24446]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 13120.png
+
+item_icon_27544:
+  id: 27544
+  source: Graficos.ini[Grh27544]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25345.png
+
+item_icon_26912:
+  id: 26912
+  source: Graficos.ini[Grh26912]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25285.png
+
+item_icon_26813:
+  id: 26813
+  source: Graficos.ini[Grh26813]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25273.png
+
+item_icon_26814:
+  id: 26814
+  source: Graficos.ini[Grh26814]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25274.png
+
+item_icon_24697:
+  id: 24697
+  source: Graficos.ini[Grh24697]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18366.png
+
+item_icon_26750:
+  id: 26750
+  source: Graficos.ini[Grh26750]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25262.png
+
+item_icon_24669:
+  id: 24669
+  source: Graficos.ini[Grh24669]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 18334.png
+
+item_icon_27073:
+  id: 27073
+  source: Graficos.ini[Grh27073]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25305.png
+
+item_icon_27673:
+  id: 27673
+  source: Graficos.ini[Grh27673]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25364.png
+
+item_icon_27675:
+  id: 27675
+  source: Graficos.ini[Grh27675]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25366.png
+
+item_icon_26884:
+  id: 26884
+  source: Graficos.ini[Grh26884]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25283.png
+
+item_icon_26781:
+  id: 26781
+  source: Graficos.ini[Grh26781]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25267.png
+
+item_icon_27674:
+  id: 27674
+  source: Graficos.ini[Grh27674]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25365.png
+
+item_icon_27115:
+  id: 27115
+  source: Graficos.ini[Grh27115]
+  region:
+    x: 0
+    y: 0
+    w: 80
+    h: 128
+  file: 25308.png
+
+item_icon_27123:
+  id: 27123
+  source: Graficos.ini[Grh27123]
+  region:
+    x: 0
+    y: 0
+    w: 80
+    h: 128
+  file: 25309.png
+
+item_icon_27131:
+  id: 27131
+  source: Graficos.ini[Grh27131]
+  region:
+    x: 0
+    y: 0
+    w: 80
+    h: 128
+  file: 25310.png
+
+item_icon_26528:
+  id: 26528
+  source: Graficos.ini[Grh26528]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25229.png
+
+item_icon_26529:
+  id: 26529
+  source: Graficos.ini[Grh26529]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25230.png
+
+item_icon_26413:
+  id: 26413
+  source: Graficos.ini[Grh26413]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25211.png
+
+item_icon_26609:
+  id: 26609
+  source: Graficos.ini[Grh26609]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25257.png
+
+item_icon_26608:
+  id: 26608
+  source: Graficos.ini[Grh26608]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25256.png
+
+item_icon_26461:
+  id: 26461
+  source: Graficos.ini[Grh26461]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25215.png
+
+item_icon_26462:
+  id: 26462
+  source: Graficos.ini[Grh26462]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25216.png
+
+item_icon_26548:
+  id: 26548
+  source: Graficos.ini[Grh26548]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25248.png
+
+item_icon_26547:
+  id: 26547
+  source: Graficos.ini[Grh26547]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25247.png
+
+item_icon_26545:
+  id: 26545
+  source: Graficos.ini[Grh26545]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25245.png
+
+item_icon_26550:
+  id: 26550
+  source: Graficos.ini[Grh26550]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25250.png
+
+item_icon_26749:
+  id: 26749
+  source: Graficos.ini[Grh26749]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25261.png
+
+item_icon_26546:
+  id: 26546
+  source: Graficos.ini[Grh26546]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25246.png
+
+item_icon_27733:
+  id: 27733
+  source: Graficos.ini[Grh27733]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25386.png
+
+item_icon_27734:
+  id: 27734
+  source: Graficos.ini[Grh27734]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25387.png
+
+item_icon_26551:
+  id: 26551
+  source: Graficos.ini[Grh26551]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25251.png
+
+item_icon_26549:
+  id: 26549
+  source: Graficos.ini[Grh26549]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25249.png
+
+item_icon_27190:
+  id: 27190
+  source: Graficos.ini[Grh27190]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25317.png
+
+item_icon_24585:
+  id: 24585
+  source: Graficos.ini[Grh24585]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 4929.png
+
+item_icon_24557:
+  id: 24557
+  source: Graficos.ini[Grh24557]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 4926.png
+
+item_icon_40404:
+  id: 40404
+  source: Graficos.ini[Grh40404]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 14382.png
+
+item_icon_40405:
+  id: 40405
+  source: Graficos.ini[Grh40405]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 14383.png
+
+item_icon_32550:
+  id: 32550
+  source: Graficos.ini[Grh32550]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25687.png
+
+item_icon_34855:
+  id: 34855
+  source: Graficos.ini[Grh34855]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25997.png
+
+item_icon_34857:
+  id: 34857
+  source: Graficos.ini[Grh34857]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25999.png
+
+item_icon_34852:
+  id: 34852
+  source: Graficos.ini[Grh34852]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25994.png
+
+item_icon_34859:
+  id: 34859
+  source: Graficos.ini[Grh34859]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26001.png
+
+item_icon_34856:
+  id: 34856
+  source: Graficos.ini[Grh34856]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25998.png
+
+item_icon_34860:
+  id: 34860
+  source: Graficos.ini[Grh34860]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26002.png
+
+item_icon_32188:
+  id: 32188
+  source: Graficos.ini[Grh32188]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25629.png
+
+item_icon_32189:
+  id: 32189
+  source: Graficos.ini[Grh32189]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25630.png
+
+item_icon_32182:
+  id: 32182
+  source: Graficos.ini[Grh32182]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25623.png
+
+item_icon_32184:
+  id: 32184
+  source: Graficos.ini[Grh32184]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25625.png
+
+item_icon_28832:
+  id: 28832
+  source: Graficos.ini[Grh28832]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25491.png
+
+item_icon_28838:
+  id: 28838
+  source: Graficos.ini[Grh28838]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25493.png
+
+item_icon_29894:
+  id: 29894
+  source: Graficos.ini[Grh29894]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25587.png
+
+item_icon_29061:
+  id: 29061
+  source: Graficos.ini[Grh29061]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25507.png
+
+item_icon_28950:
+  id: 28950
+  source: Graficos.ini[Grh28950]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25485.png
+
+item_icon_29005:
+  id: 29005
+  source: Graficos.ini[Grh29005]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25503.png
+
+item_icon_29207:
+  id: 29207
+  source: Graficos.ini[Grh29207]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25521.png
+
+item_icon_29033:
+  id: 29033
+  source: Graficos.ini[Grh29033]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25505.png
+
+item_icon_43685:
+  id: 43685
+  source: Graficos.ini[Grh43685]
+  region:
+    x: 0
+    y: 448
+    w: 64
+    h: 64
+  file: 26739.png
+
+item_icon_29241:
+  id: 29241
+  source: Graficos.ini[Grh29241]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25525.png
+
+item_icon_29179:
+  id: 29179
+  source: Graficos.ini[Grh29179]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25519.png
+
+item_icon_29247:
+  id: 29247
+  source: Graficos.ini[Grh29247]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25527.png
+
+item_icon_29469:
+  id: 29469
+  source: Graficos.ini[Grh29469]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25541.png
+
+item_icon_32337:
+  id: 32337
+  source: Graficos.ini[Grh32337]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25646.png
+
+item_icon_29474:
+  id: 29474
+  source: Graficos.ini[Grh29474]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25543.png
+
+item_icon_29560:
+  id: 29560
+  source: Graficos.ini[Grh29560]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25552.png
+
+item_icon_29441:
+  id: 29441
+  source: Graficos.ini[Grh29441]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25539.png
+
+item_icon_29566:
+  id: 29566
+  source: Graficos.ini[Grh29566]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25554.png
+
+item_icon_29678:
+  id: 29678
+  source: Graficos.ini[Grh29678]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25562.png
+
+item_icon_29712:
+  id: 29712
+  source: Graficos.ini[Grh29712]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25566.png
+
+item_icon_29740:
+  id: 29740
+  source: Graficos.ini[Grh29740]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25568.png
+
+item_icon_29823:
+  id: 29823
+  source: Graficos.ini[Grh29823]
+  region:
+    x: 0
+    y: 0
+    w: 32
+    h: 32
+  file: 25574.png
+
+item_icon_29839:
+  id: 29839
+  source: Graficos.ini[Grh29839]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25578.png
+
+item_icon_29768:
+  id: 29768
+  source: Graficos.ini[Grh29768]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25570.png
+
+item_icon_29828:
+  id: 29828
+  source: Graficos.ini[Grh29828]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25575.png
+
+item_icon_29386:
+  id: 29386
+  source: Graficos.ini[Grh29386]
+  region:
+    x: 0
+    y: 0
+    w: 54
+    h: 92
+  file: 25536.png
+
+item_icon_29855:
+  id: 29855
+  source: Graficos.ini[Grh29855]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25580.png
+
+item_icon_29861:
+  id: 29861
+  source: Graficos.ini[Grh29861]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25583.png
+
+item_icon_29888:
+  id: 29888
+  source: Graficos.ini[Grh29888]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25585.png
+
+item_icon_28721:
+  id: 28721
+  source: Graficos.ini[Grh28721]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25470.png
+
+item_icon_28777:
+  id: 28777
+  source: Graficos.ini[Grh28777]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25487.png
+
+item_icon_28804:
+  id: 28804
+  source: Graficos.ini[Grh28804]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25489.png
+
+item_icon_28867:
+  id: 28867
+  source: Graficos.ini[Grh28867]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25497.png
+
+item_icon_28895:
+  id: 28895
+  source: Graficos.ini[Grh28895]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25499.png
+
+item_icon_28977:
+  id: 28977
+  source: Graficos.ini[Grh28977]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25501.png
+
+item_icon_29067:
+  id: 29067
+  source: Graficos.ini[Grh29067]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25509.png
+
+item_icon_29095:
+  id: 29095
+  source: Graficos.ini[Grh29095]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25513.png
+
+item_icon_29123:
+  id: 29123
+  source: Graficos.ini[Grh29123]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25515.png
+
+item_icon_29151:
+  id: 29151
+  source: Graficos.ini[Grh29151]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25517.png
+
+item_icon_29330:
+  id: 29330
+  source: Graficos.ini[Grh29330]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25531.png
+
+item_icon_29358:
+  id: 29358
+  source: Graficos.ini[Grh29358]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25533.png
+
+item_icon_29413:
+  id: 29413
+  source: Graficos.ini[Grh29413]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25537.png
+
+item_icon_29502:
+  id: 29502
+  source: Graficos.ini[Grh29502]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25545.png
+
+item_icon_29594:
+  id: 29594
+  source: Graficos.ini[Grh29594]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25556.png
+
+item_icon_29622:
+  id: 29622
+  source: Graficos.ini[Grh29622]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25558.png
+
+item_icon_29650:
+  id: 29650
+  source: Graficos.ini[Grh29650]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25560.png
+
+item_icon_39085:
+  id: 39085
+  source: Graficos.ini[Grh39085]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26435.png
+
+item_icon_29530:
+  id: 29530
+  source: Graficos.ini[Grh29530]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25547.png
+
+item_icon_43712:
+  id: 43712
+  source: Graficos.ini[Grh43712]
+  region:
+    x: 0
+    y: 448
+    w: 64
+    h: 64
+  file: 26740.png
+
+item_icon_26810:
+  id: 26810
+  source: Graficos.ini[Grh26810]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25270.png
+
+item_icon_26811:
+  id: 26811
+  source: Graficos.ini[Grh26811]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25271.png
+
+item_icon_29930:
+  id: 29930
+  source: Graficos.ini[Grh29930]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 921.png
+
+item_icon_29958:
+  id: 29958
+  source: Graficos.ini[Grh29958]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 923.png
+
+item_icon_29986:
+  id: 29986
+  source: Graficos.ini[Grh29986]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 925.png
+
+item_icon_30014:
+  id: 30014
+  source: Graficos.ini[Grh30014]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 927.png
+
+item_icon_26580:
+  id: 26580
+  source: Graficos.ini[Grh26580]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25254.png
+
+item_icon_30126:
+  id: 30126
+  source: Graficos.ini[Grh30126]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 935.png
+
+item_icon_30154:
+  id: 30154
+  source: Graficos.ini[Grh30154]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 937.png
+
+item_icon_30182:
+  id: 30182
+  source: Graficos.ini[Grh30182]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 939.png
+
+item_icon_30042:
+  id: 30042
+  source: Graficos.ini[Grh30042]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 929.png
+
+item_icon_30071:
+  id: 30071
+  source: Graficos.ini[Grh30071]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 931.png
+
+item_icon_30099:
+  id: 30099
+  source: Graficos.ini[Grh30099]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 933.png
+
+item_icon_26552:
+  id: 26552
+  source: Graficos.ini[Grh26552]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25252.png
+
+item_icon_30237:
+  id: 30237
+  source: Graficos.ini[Grh30237]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 943.png
+
+item_icon_30210:
+  id: 30210
+  source: Graficos.ini[Grh30210]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 941.png
+
+item_icon_25660:
+  id: 25660
+  source: Graficos.ini[Grh25660]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25157.png
+
+item_icon_26058:
+  id: 26058
+  source: Graficos.ini[Grh26058]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25187.png
+
+item_icon_26064:
+  id: 26064
+  source: Graficos.ini[Grh26064]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25189.png
+
+item_icon_30502:
+  id: 30502
+  source: Graficos.ini[Grh30502]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25590.png
+
+item_icon_30574:
+  id: 30574
+  source: Graficos.ini[Grh30574]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25598.png
+
+item_icon_30734:
+  id: 30734
+  source: Graficos.ini[Grh30734]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 977.png
+
+item_icon_31673:
+  id: 31673
+  source: Graficos.ini[Grh31673]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25601.png
+
+item_icon_31700:
+  id: 31700
+  source: Graficos.ini[Grh31700]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25603.png
+
+item_icon_31727:
+  id: 31727
+  source: Graficos.ini[Grh31727]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25605.png
+
+item_icon_43739:
+  id: 43739
+  source: Graficos.ini[Grh43739]
+  region:
+    x: 0
+    y: 448
+    w: 64
+    h: 64
+  file: 26741.png
+
+item_icon_25693:
+  id: 25693
+  source: Graficos.ini[Grh25693]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25160.png
+
+item_icon_25721:
+  id: 25721
+  source: Graficos.ini[Grh25721]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25162.png
+
+item_icon_26815:
+  id: 26815
+  source: Graficos.ini[Grh26815]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25275.png
+
+item_icon_26002:
+  id: 26002
+  source: Graficos.ini[Grh26002]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25183.png
+
+item_icon_26030:
+  id: 26030
+  source: Graficos.ini[Grh26030]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25185.png
+
+item_icon_32186:
+  id: 32186
+  source: Graficos.ini[Grh32186]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25627.png
+
+item_icon_6834:
+  id: 6834
+  source: Graficos.ini[Grh6834]
+  region:
+    x: 0
+    y: 0
+    w: 240
+    h: 240
+  file: 25621.png
+
+item_icon_32236:
+  id: 32236
+  source: Graficos.ini[Grh32236]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25632.png
+
+item_icon_32241:
+  id: 32241
+  source: Graficos.ini[Grh32241]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25634.png
+
+item_icon_32246:
+  id: 32246
+  source: Graficos.ini[Grh32246]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25636.png
+
+item_icon_32251:
+  id: 32251
+  source: Graficos.ini[Grh32251]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25638.png
+
+item_icon_32524:
+  id: 32524
+  source: Graficos.ini[Grh32524]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25676.png
+
+item_icon_32523:
+  id: 32523
+  source: Graficos.ini[Grh32523]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25675.png
+
+item_icon_32519:
+  id: 32519
+  source: Graficos.ini[Grh32519]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25671.png
+
+item_icon_32521:
+  id: 32521
+  source: Graficos.ini[Grh32521]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25673.png
+
+item_icon_42650:
+  id: 42650
+  source: Graficos.ini[Grh42650]
+  region:
+    x: 260
+    y: 134
+    w: 96
+    h: 102
+  file: 26709.png
+
+item_icon_42537:
+  id: 42537
+  source: Graficos.ini[Grh42537]
+  region:
+    x: 258
+    y: 134
+    w: 96
+    h: 102
+  file: 26700.png
+
+item_icon_42595:
+  id: 42595
+  source: Graficos.ini[Grh42595]
+  region:
+    x: 384
+    y: 128
+    w: 128
+    h: 132
+  file: 26702.png
+
+item_icon_32545:
+  id: 32545
+  source: Graficos.ini[Grh32545]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25682.png
+
+item_icon_42671:
+  id: 42671
+  source: Graficos.ini[Grh42671]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26712.png
+
+item_icon_42670:
+  id: 42670
+  source: Graficos.ini[Grh42670]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26711.png
+
+item_icon_32547:
+  id: 32547
+  source: Graficos.ini[Grh32547]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25684.png
+
+item_icon_32556:
+  id: 32556
+  source: Graficos.ini[Grh32556]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25693.png
+
+item_icon_32557:
+  id: 32557
+  source: Graficos.ini[Grh32557]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25694.png
+
+item_icon_32558:
+  id: 32558
+  source: Graficos.ini[Grh32558]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25695.png
+
+item_icon_32559:
+  id: 32559
+  source: Graficos.ini[Grh32559]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25696.png
+
+item_icon_32554:
+  id: 32554
+  source: Graficos.ini[Grh32554]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25691.png
+
+item_icon_32551:
+  id: 32551
+  source: Graficos.ini[Grh32551]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25688.png
+
+item_icon_33072:
+  id: 33072
+  source: Graficos.ini[Grh33072]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25772.png
+
+item_icon_32562:
+  id: 32562
+  source: Graficos.ini[Grh32562]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25697.png
+
+item_icon_32589:
+  id: 32589
+  source: Graficos.ini[Grh32589]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25699.png
+
+item_icon_33099:
+  id: 33099
+  source: Graficos.ini[Grh33099]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25774.png
+
+item_icon_32616:
+  id: 32616
+  source: Graficos.ini[Grh32616]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25701.png
+
+item_icon_32643:
+  id: 32643
+  source: Graficos.ini[Grh32643]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25703.png
+
+item_icon_33126:
+  id: 33126
+  source: Graficos.ini[Grh33126]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25776.png
+
+item_icon_32670:
+  id: 32670
+  source: Graficos.ini[Grh32670]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25705.png
+
+item_icon_32697:
+  id: 32697
+  source: Graficos.ini[Grh32697]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25707.png
+
+item_icon_33153:
+  id: 33153
+  source: Graficos.ini[Grh33153]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25778.png
+
+item_icon_32724:
+  id: 32724
+  source: Graficos.ini[Grh32724]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25709.png
+
+item_icon_32751:
+  id: 32751
+  source: Graficos.ini[Grh32751]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25711.png
+
+item_icon_33180:
+  id: 33180
+  source: Graficos.ini[Grh33180]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25780.png
+
+item_icon_32778:
+  id: 32778
+  source: Graficos.ini[Grh32778]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25713.png
+
+item_icon_32805:
+  id: 32805
+  source: Graficos.ini[Grh32805]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25715.png
+
+item_icon_33207:
+  id: 33207
+  source: Graficos.ini[Grh33207]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25782.png
+
+item_icon_32832:
+  id: 32832
+  source: Graficos.ini[Grh32832]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25717.png
+
+item_icon_32859:
+  id: 32859
+  source: Graficos.ini[Grh32859]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25719.png
+
+item_icon_33843:
+  id: 33843
+  source: Graficos.ini[Grh33843]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25937.png
+
+item_icon_33870:
+  id: 33870
+  source: Graficos.ini[Grh33870]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25939.png
+
+item_icon_33897:
+  id: 33897
+  source: Graficos.ini[Grh33897]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25941.png
+
+item_icon_33924:
+  id: 33924
+  source: Graficos.ini[Grh33924]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25943.png
+
+item_icon_34398:
+  id: 34398
+  source: Graficos.ini[Grh34398]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25972.png
+
+item_icon_34349:
+  id: 34349
+  source: Graficos.ini[Grh34349]
+  region:
+    x: 0
+    y: 0
+    w: 96
+    h: 112
+  file: 25966.png
+
+item_icon_34344:
+  id: 34344
+  source: Graficos.ini[Grh34344]
+  region:
+    x: 0
+    y: 0
+    w: 182
+    h: 158
+  file: 25961.png
+
+item_icon_34350:
+  id: 34350
+  source: Graficos.ini[Grh34350]
+  region:
+    x: 0
+    y: 0
+    w: 208
+    h: 172
+  file: 25967.png
+
+item_icon_34343:
+  id: 34343
+  source: Graficos.ini[Grh34343]
+  region:
+    x: 0
+    y: 0
+    w: 590
+    h: 604
+  file: 25960.png
+
+item_icon_34345:
+  id: 34345
+  source: Graficos.ini[Grh34345]
+  region:
+    x: 0
+    y: 0
+    w: 382
+    h: 174
+  file: 25962.png
+
+item_icon_34346:
+  id: 34346
+  source: Graficos.ini[Grh34346]
+  region:
+    x: 0
+    y: 0
+    w: 298
+    h: 294
+  file: 25963.png
+
+item_icon_34347:
+  id: 34347
+  source: Graficos.ini[Grh34347]
+  region:
+    x: 0
+    y: 0
+    w: 304
+    h: 300
+  file: 25964.png
+
+item_icon_34348:
+  id: 34348
+  source: Graficos.ini[Grh34348]
+  region:
+    x: 0
+    y: 0
+    w: 154
+    h: 120
+  file: 25965.png
+
+item_icon_34858:
+  id: 34858
+  source: Graficos.ini[Grh34858]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26000.png
+
+item_icon_38292:
+  id: 38292
+  source: Graficos.ini[Grh38292]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26357.png
+
+item_icon_38298:
+  id: 38298
+  source: Graficos.ini[Grh38298]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26359.png
+
+item_icon_38303:
+  id: 38303
+  source: Graficos.ini[Grh38303]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26361.png
+
+item_icon_38308:
+  id: 38308
+  source: Graficos.ini[Grh38308]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26363.png
+
+item_icon_38313:
+  id: 38313
+  source: Graficos.ini[Grh38313]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26365.png
+
+item_icon_38318:
+  id: 38318
+  source: Graficos.ini[Grh38318]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26367.png
+
+item_icon_38323:
+  id: 38323
+  source: Graficos.ini[Grh38323]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26369.png
+
+item_icon_38328:
+  id: 38328
+  source: Graficos.ini[Grh38328]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26371.png
+
+item_icon_38333:
+  id: 38333
+  source: Graficos.ini[Grh38333]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26373.png
+
+item_icon_38338:
+  id: 38338
+  source: Graficos.ini[Grh38338]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26375.png
+
+item_icon_38343:
+  id: 38343
+  source: Graficos.ini[Grh38343]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26377.png
+
+item_icon_38348:
+  id: 38348
+  source: Graficos.ini[Grh38348]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26379.png
+
+item_icon_38353:
+  id: 38353
+  source: Graficos.ini[Grh38353]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26381.png
+
+item_icon_38380:
+  id: 38380
+  source: Graficos.ini[Grh38380]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26383.png
+
+item_icon_38407:
+  id: 38407
+  source: Graficos.ini[Grh38407]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26385.png
+
+item_icon_38434:
+  id: 38434
+  source: Graficos.ini[Grh38434]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26387.png
+
+item_icon_38461:
+  id: 38461
+  source: Graficos.ini[Grh38461]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26389.png
+
+item_icon_38488:
+  id: 38488
+  source: Graficos.ini[Grh38488]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26391.png
+
+item_icon_38515:
+  id: 38515
+  source: Graficos.ini[Grh38515]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26393.png
+
+item_icon_38543:
+  id: 38543
+  source: Graficos.ini[Grh38543]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26395.png
+
+item_icon_38570:
+  id: 38570
+  source: Graficos.ini[Grh38570]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26397.png
+
+item_icon_38626:
+  id: 38626
+  source: Graficos.ini[Grh38626]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26401.png
+
+item_icon_38653:
+  id: 38653
+  source: Graficos.ini[Grh38653]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26403.png
+
+item_icon_38680:
+  id: 38680
+  source: Graficos.ini[Grh38680]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26405.png
+
+item_icon_38707:
+  id: 38707
+  source: Graficos.ini[Grh38707]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26407.png
+
+item_icon_38734:
+  id: 38734
+  source: Graficos.ini[Grh38734]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26409.png
+
+item_icon_38761:
+  id: 38761
+  source: Graficos.ini[Grh38761]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26411.png
+
+item_icon_38788:
+  id: 38788
+  source: Graficos.ini[Grh38788]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26413.png
+
+item_icon_38815:
+  id: 38815
+  source: Graficos.ini[Grh38815]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26415.png
+
+item_icon_38842:
+  id: 38842
+  source: Graficos.ini[Grh38842]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26417.png
+
+item_icon_38869:
+  id: 38869
+  source: Graficos.ini[Grh38869]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26419.png
+
+item_icon_38896:
+  id: 38896
+  source: Graficos.ini[Grh38896]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26421.png
+
+item_icon_38923:
+  id: 38923
+  source: Graficos.ini[Grh38923]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26423.png
+
+item_icon_38950:
+  id: 38950
+  source: Graficos.ini[Grh38950]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26425.png
+
+item_icon_38977:
+  id: 38977
+  source: Graficos.ini[Grh38977]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26427.png
+
+item_icon_39004:
+  id: 39004
+  source: Graficos.ini[Grh39004]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26429.png
+
+item_icon_39031:
+  id: 39031
+  source: Graficos.ini[Grh39031]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26431.png
+
+item_icon_39058:
+  id: 39058
+  source: Graficos.ini[Grh39058]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26433.png
+
+item_icon_39112:
+  id: 39112
+  source: Graficos.ini[Grh39112]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26437.png
+
+item_icon_39139:
+  id: 39139
+  source: Graficos.ini[Grh39139]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26439.png
+
+item_icon_39166:
+  id: 39166
+  source: Graficos.ini[Grh39166]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26441.png
+
+item_icon_39193:
+  id: 39193
+  source: Graficos.ini[Grh39193]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26443.png
+
+item_icon_39220:
+  id: 39220
+  source: Graficos.ini[Grh39220]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26445.png
+
+item_icon_39247:
+  id: 39247
+  source: Graficos.ini[Grh39247]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26447.png
+
+item_icon_39274:
+  id: 39274
+  source: Graficos.ini[Grh39274]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26449.png
+
+item_icon_39301:
+  id: 39301
+  source: Graficos.ini[Grh39301]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26451.png
+
+item_icon_39328:
+  id: 39328
+  source: Graficos.ini[Grh39328]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26453.png
+
+item_icon_39355:
+  id: 39355
+  source: Graficos.ini[Grh39355]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26455.png
+
+item_icon_39382:
+  id: 39382
+  source: Graficos.ini[Grh39382]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26457.png
+
+item_icon_39409:
+  id: 39409
+  source: Graficos.ini[Grh39409]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26459.png
+
+item_icon_39436:
+  id: 39436
+  source: Graficos.ini[Grh39436]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26461.png
+
+item_icon_39463:
+  id: 39463
+  source: Graficos.ini[Grh39463]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26463.png
+
+item_icon_39490:
+  id: 39490
+  source: Graficos.ini[Grh39490]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26465.png
+
+item_icon_39517:
+  id: 39517
+  source: Graficos.ini[Grh39517]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26467.png
+
+item_icon_39544:
+  id: 39544
+  source: Graficos.ini[Grh39544]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26469.png
+
+item_icon_39571:
+  id: 39571
+  source: Graficos.ini[Grh39571]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26471.png
+
+item_icon_39598:
+  id: 39598
+  source: Graficos.ini[Grh39598]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26473.png
+
+item_icon_39625:
+  id: 39625
+  source: Graficos.ini[Grh39625]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26475.png
+
+item_icon_39652:
+  id: 39652
+  source: Graficos.ini[Grh39652]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26477.png
+
+item_icon_39679:
+  id: 39679
+  source: Graficos.ini[Grh39679]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26479.png
+
+item_icon_39706:
+  id: 39706
+  source: Graficos.ini[Grh39706]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26481.png
+
+item_icon_39733:
+  id: 39733
+  source: Graficos.ini[Grh39733]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26483.png
+
+item_icon_39760:
+  id: 39760
+  source: Graficos.ini[Grh39760]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26485.png
+
+item_icon_39787:
+  id: 39787
+  source: Graficos.ini[Grh39787]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26487.png
+
+item_icon_39814:
+  id: 39814
+  source: Graficos.ini[Grh39814]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26489.png
+
+item_icon_39841:
+  id: 39841
+  source: Graficos.ini[Grh39841]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26491.png
+
+item_icon_39868:
+  id: 39868
+  source: Graficos.ini[Grh39868]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26493.png
+
+item_icon_39895:
+  id: 39895
+  source: Graficos.ini[Grh39895]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26495.png
+
+item_icon_39922:
+  id: 39922
+  source: Graficos.ini[Grh39922]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26497.png
+
+item_icon_39949:
+  id: 39949
+  source: Graficos.ini[Grh39949]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26499.png
+
+item_icon_39976:
+  id: 39976
+  source: Graficos.ini[Grh39976]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26501.png
+
+item_icon_40003:
+  id: 40003
+  source: Graficos.ini[Grh40003]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26503.png
+
+item_icon_40030:
+  id: 40030
+  source: Graficos.ini[Grh40030]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26505.png
+
+item_icon_40057:
+  id: 40057
+  source: Graficos.ini[Grh40057]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26507.png
+
+item_icon_40084:
+  id: 40084
+  source: Graficos.ini[Grh40084]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26509.png
+
+item_icon_40111:
+  id: 40111
+  source: Graficos.ini[Grh40111]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26511.png
+
+item_icon_40406:
+  id: 40406
+  source: Graficos.ini[Grh40406]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 14384.png
+
+item_icon_682:
+  id: 682
+  source: Graficos.ini[Grh682]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 285.png
+
+item_icon_1127:
+  id: 1127
+  source: Graficos.ini[Grh1127]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 8.png
+
+item_icon_40430:
+  id: 40430
+  source: Graficos.ini[Grh40430]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 10154.png
+
+item_icon_40431:
+  id: 40431
+  source: Graficos.ini[Grh40431]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 10160.png
+
+item_icon_40436:
+  id: 40436
+  source: Graficos.ini[Grh40436]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 10162.png
+
+item_icon_40441:
+  id: 40441
+  source: Graficos.ini[Grh40441]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 10164.png
+
+item_icon_40446:
+  id: 40446
+  source: Graficos.ini[Grh40446]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 10169.png
+
+item_icon_40451:
+  id: 40451
+  source: Graficos.ini[Grh40451]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15483.png
+
+item_icon_40456:
+  id: 40456
+  source: Graficos.ini[Grh40456]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15485.png
+
+item_icon_40479:
+  id: 40479
+  source: Graficos.ini[Grh40479]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 9963.png
+
+item_icon_40480:
+  id: 40480
+  source: Graficos.ini[Grh40480]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 9964.png
+
+item_icon_40481:
+  id: 40481
+  source: Graficos.ini[Grh40481]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 9965.png
+
+item_icon_40528:
+  id: 40528
+  source: Graficos.ini[Grh40528]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 9627.png
+
+item_icon_40541:
+  id: 40541
+  source: Graficos.ini[Grh40541]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15490.png
+
+item_icon_40542:
+  id: 40542
+  source: Graficos.ini[Grh40542]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15491.png
+
+item_icon_40652:
+  id: 40652
+  source: Graficos.ini[Grh40652]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1307.png
+
+item_icon_40648:
+  id: 40648
+  source: Graficos.ini[Grh40648]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 15385.png
+
+item_icon_40833:
+  id: 40833
+  source: Graficos.ini[Grh40833]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1311.png
+
+item_icon_40832:
+  id: 40832
+  source: Graficos.ini[Grh40832]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1310.png
+
+item_icon_40651:
+  id: 40651
+  source: Graficos.ini[Grh40651]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1306.png
+
+item_icon_40830:
+  id: 40830
+  source: Graficos.ini[Grh40830]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1308.png
+
+item_icon_40834:
+  id: 40834
+  source: Graficos.ini[Grh40834]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 8225.png
+
+item_icon_41062:
+  id: 41062
+  source: Graficos.ini[Grh41062]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26544.png
+
+item_icon_41052:
+  id: 41052
+  source: Graficos.ini[Grh41052]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26534.png
+
+item_icon_41057:
+  id: 41057
+  source: Graficos.ini[Grh41057]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26539.png
+
+item_icon_41066:
+  id: 41066
+  source: Graficos.ini[Grh41066]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26548.png
+
+item_icon_41056:
+  id: 41056
+  source: Graficos.ini[Grh41056]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26538.png
+
+item_icon_41065:
+  id: 41065
+  source: Graficos.ini[Grh41065]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26547.png
+
+item_icon_41258:
+  id: 41258
+  source: Graficos.ini[Grh41258]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26606.png
+
+item_icon_41259:
+  id: 41259
+  source: Graficos.ini[Grh41259]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26607.png
+
+item_icon_41260:
+  id: 41260
+  source: Graficos.ini[Grh41260]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26608.png
+
+item_icon_41261:
+  id: 41261
+  source: Graficos.ini[Grh41261]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26609.png
+
+item_icon_41262:
+  id: 41262
+  source: Graficos.ini[Grh41262]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26610.png
+
+item_icon_41263:
+  id: 41263
+  source: Graficos.ini[Grh41263]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26611.png
+
+item_icon_41264:
+  id: 41264
+  source: Graficos.ini[Grh41264]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26612.png
+
+item_icon_41265:
+  id: 41265
+  source: Graficos.ini[Grh41265]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26613.png
+
+item_icon_41266:
+  id: 41266
+  source: Graficos.ini[Grh41266]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26614.png
+
+item_icon_41267:
+  id: 41267
+  source: Graficos.ini[Grh41267]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26615.png
+
+item_icon_41268:
+  id: 41268
+  source: Graficos.ini[Grh41268]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26616.png
+
+item_icon_41269:
+  id: 41269
+  source: Graficos.ini[Grh41269]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26617.png
+
+item_icon_41270:
+  id: 41270
+  source: Graficos.ini[Grh41270]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26618.png
+
+item_icon_41271:
+  id: 41271
+  source: Graficos.ini[Grh41271]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26619.png
+
+item_icon_41272:
+  id: 41272
+  source: Graficos.ini[Grh41272]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26620.png
+
+item_icon_41273:
+  id: 41273
+  source: Graficos.ini[Grh41273]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26621.png
+
+item_icon_41274:
+  id: 41274
+  source: Graficos.ini[Grh41274]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26622.png
+
+item_icon_41275:
+  id: 41275
+  source: Graficos.ini[Grh41275]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26623.png
+
+item_icon_41276:
+  id: 41276
+  source: Graficos.ini[Grh41276]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26624.png
+
+item_icon_41277:
+  id: 41277
+  source: Graficos.ini[Grh41277]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26625.png
+
+item_icon_41278:
+  id: 41278
+  source: Graficos.ini[Grh41278]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26626.png
+
+item_icon_41279:
+  id: 41279
+  source: Graficos.ini[Grh41279]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26627.png
+
+item_icon_41280:
+  id: 41280
+  source: Graficos.ini[Grh41280]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26628.png
+
+item_icon_41281:
+  id: 41281
+  source: Graficos.ini[Grh41281]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26629.png
+
+item_icon_41282:
+  id: 41282
+  source: Graficos.ini[Grh41282]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26630.png
+
+item_icon_41283:
+  id: 41283
+  source: Graficos.ini[Grh41283]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26631.png
+
+item_icon_41284:
+  id: 41284
+  source: Graficos.ini[Grh41284]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26632.png
+
+item_icon_41285:
+  id: 41285
+  source: Graficos.ini[Grh41285]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26633.png
+
+item_icon_41286:
+  id: 41286
+  source: Graficos.ini[Grh41286]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26634.png
+
+item_icon_41287:
+  id: 41287
+  source: Graficos.ini[Grh41287]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26635.png
+
+item_icon_42121:
+  id: 42121
+  source: Graficos.ini[Grh42121]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26588.png
+
+item_icon_32553:
+  id: 32553
+  source: Graficos.ini[Grh32553]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25690.png
+
+item_icon_32552:
+  id: 32552
+  source: Graficos.ini[Grh32552]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25689.png
+
+item_icon_42172:
+  id: 42172
+  source: Graficos.ini[Grh42172]
+  region:
+    x: 0
+    y: 0
+    w: 128
+    h: 128
+  file: 26697.png
+
+item_icon_42189:
+  id: 42189
+  source: Graficos.ini[Grh42189]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 22073.png
+
+item_icon_42227:
+  id: 42227
+  source: Graficos.ini[Grh42227]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 992.png
+
+item_icon_42256:
+  id: 42256
+  source: Graficos.ini[Grh42256]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1536.png
+
+item_icon_42283:
+  id: 42283
+  source: Graficos.ini[Grh42283]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1538.png
+
+item_icon_42310:
+  id: 42310
+  source: Graficos.ini[Grh42310]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1540.png
+
+item_icon_42311:
+  id: 42311
+  source: Graficos.ini[Grh42311]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1542.png
+
+item_icon_42338:
+  id: 42338
+  source: Graficos.ini[Grh42338]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1544.png
+
+item_icon_42365:
+  id: 42365
+  source: Graficos.ini[Grh42365]
+  region:
+    x: 0
+    y: 448
+    w: 64
+    h: 64
+  file: 1545.png
+
+item_icon_42392:
+  id: 42392
+  source: Graficos.ini[Grh42392]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1546.png
+
+item_icon_42445:
+  id: 42445
+  source: Graficos.ini[Grh42445]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1551.png
+
+item_icon_42472:
+  id: 42472
+  source: Graficos.ini[Grh42472]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1552.png
+
+item_icon_42499:
+  id: 42499
+  source: Graficos.ini[Grh42499]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 1553.png
+
+item_icon_42500:
+  id: 42500
+  source: Graficos.ini[Grh42500]
+  region:
+    x: 0
+    y: 0
+    w: 256
+    h: 128
+  file: 7078.png
+
+item_icon_41067:
+  id: 41067
+  source: Graficos.ini[Grh41067]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26549.png
+
+item_icon_27545:
+  id: 27545
+  source: Graficos.ini[Grh27545]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 25346.png
+
+item_icon_42672:
+  id: 42672
+  source: Graficos.ini[Grh42672]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26713.png
+
+item_icon_42673:
+  id: 42673
+  source: Graficos.ini[Grh42673]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26714.png
+
+item_icon_42674:
+  id: 42674
+  source: Graficos.ini[Grh42674]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26715.png
+
+item_icon_42675:
+  id: 42675
+  source: Graficos.ini[Grh42675]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26716.png
+
+item_icon_42676:
+  id: 42676
+  source: Graficos.ini[Grh42676]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26717.png
+
+item_icon_42677:
+  id: 42677
+  source: Graficos.ini[Grh42677]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26718.png
+
+item_icon_41054:
+  id: 41054
+  source: Graficos.ini[Grh41054]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26536.png
+
+item_icon_41051:
+  id: 41051
+  source: Graficos.ini[Grh41051]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26533.png
+
+item_icon_41063:
+  id: 41063
+  source: Graficos.ini[Grh41063]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26545.png
+
+item_icon_41064:
+  id: 41064
+  source: Graficos.ini[Grh41064]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26546.png
+
+item_icon_42652:
+  id: 42652
+  source: Graficos.ini[Grh42652]
+  region:
+    x: 514
+    y: 134
+    w: 96
+    h: 102
+  file: 26709.png
+
+item_icon_42538:
+  id: 42538
+  source: Graficos.ini[Grh42538]
+  region:
+    x: 380
+    y: 134
+    w: 96
+    h: 102
+  file: 26700.png
+
+item_icon_41053:
+  id: 41053
+  source: Graficos.ini[Grh41053]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26535.png
+
+item_icon_42678:
+  id: 42678
+  source: Graficos.ini[Grh42678]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26719.png
+
+item_icon_42623:
+  id: 42623
+  source: Graficos.ini[Grh42623]
+  region:
+    x: 380
+    y: 134
+    w: 96
+    h: 102
+  file: 26708.png
+
+item_icon_42510:
+  id: 42510
+  source: Graficos.ini[Grh42510]
+  region:
+    x: 380
+    y: 134
+    w: 96
+    h: 102
+  file: 26699.png
+
+item_icon_42566:
+  id: 42566
+  source: Graficos.ini[Grh42566]
+  region:
+    x: 396
+    y: 128
+    w: 124
+    h: 132
+  file: 26701.png
+
+item_icon_42696:
+  id: 42696
+  source: Graficos.ini[Grh42696]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 26720.png
+
+item_icon_43260:
+  id: 43260
+  source: Graficos.ini[Grh43260]
+  region:
+    x: 896
+    y: 960
+    w: 192
+    h: 256
+  file: 26737.png
+
+item_icon_43261:
+  id: 43261
+  source: Graficos.ini[Grh43261]
+  region:
+    x: 896
+    y: 960
+    w: 192
+    h: 256
+  file: 26738.png
+
+item_icon_43366:
+  id: 43366
+  source: Graficos.ini[Grh43366]
+  region:
+    x: 0
+    y: 0
+    w: 64
+    h: 64
+  file: 4358.png
+
