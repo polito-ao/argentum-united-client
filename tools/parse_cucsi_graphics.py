@@ -58,13 +58,26 @@ UPSCALED_DIR = CLIENT_ROOT / "assets" / "upscaled_2x"
 OUT_DIR = CLIENT_ROOT / "assets" / "sprite_data"
 MISSING_LOG = OUT_DIR / "missing_refs.txt"
 
+# Server's authoritative items.yml. Every `icon_grh_id` referenced here MUST
+# resolve to an entry in the emitted client catalog, otherwise dropped items
+# / inventory tiles will fall back to a yellow ColorRect at runtime.
+SERVER_ITEMS_YML = CLIENT_ROOT.parent / "argentum-united-server" / "config" / "items.yml"
+
 DIR_NAMES = ("walk_north", "walk_east", "walk_south", "walk_west")
 # Walk1=arriba, Walk2=derecha, Walk3=abajo, Walk4=izq -> N, E, S, W
 
 # ---------------------------------------------------------------------------
 # INI reader (tolerant of Cucsi's `key=value\t' comment` lines)
 
-_section_re = re.compile(r"^\[([^\]]+)\]\s*$")
+_section_re = re.compile(r"^\[([^\]]+)\]")
+# Cucsi tolerates inline comments after the section header, e.g.
+#   [OBJ16] 'CASA RUINAS
+#   [OBJ46]'Nieve 1
+# A strict `\]\s*$` rejects those headers entirely; the parser then keeps
+# writing keys into the *previous* section, silently overwriting fields.
+# That's how Daga's `GrhIndex=510` got clobbered with OBJ16's `GrhIndex=5600`.
+# We now match the bracketed name at the start of the line and ignore the
+# rest. (KV lines stay strict; they're already comment-stripped below.)
 _kv_re = re.compile(r"^([A-Za-z0-9_]+)\s*=\s*([^\r\n]*)$")
 
 
@@ -570,6 +583,52 @@ def build_item_icon_catalog(
 
 
 # ---------------------------------------------------------------------------
+# Server items.yml verification — every `icon_grh_id` referenced from the
+# server catalog must be present in the emitted client catalog.
+
+# Lightweight scanner; we only need icon_grh_id values, not full YAML parse.
+_ICON_GRH_RE = re.compile(r"^\s*icon_grh_id:\s*(\d+)\b")
+
+
+def collect_server_icon_grh_ids(items_yml: Path) -> List[int]:
+    """
+    Walk the server's items.yml and return every icon_grh_id referenced
+    (with duplicates allowed — useful for the "N items reference Grh X"
+    diagnostic). Returns [] if the file does not exist; the caller decides
+    whether that is fatal.
+    """
+    if not items_yml.exists():
+        return []
+    out: List[int] = []
+    with open(items_yml, "r", encoding="utf-8") as f:
+        for line in f:
+            m = _ICON_GRH_RE.match(line)
+            if m:
+                out.append(int(m.group(1)))
+    return out
+
+
+def verify_server_items_coverage(
+    items_catalog: Dict[str, Dict],
+    server_grh_ids: List[int],
+) -> List[str]:
+    """
+    Returns a list of human-readable error strings, one per icon_grh_id that
+    the server references but the client catalog does not contain. Empty
+    list = full coverage.
+    """
+    present = {entry["id"] for entry in items_catalog.values()}
+    errors: List[str] = []
+    for grh_id in sorted(set(server_grh_ids)):
+        if grh_id not in present:
+            errors.append(
+                f"server items.yml references icon_grh_id={grh_id} but "
+                f"item_icon_{grh_id} is NOT in the emitted client catalog"
+            )
+    return errors
+
+
+# ---------------------------------------------------------------------------
 # YAML emitter (minimal — keeps ordering, nests dicts/lists, no PyYAML dep)
 
 def _yaml_escape(v) -> str:
@@ -772,6 +831,32 @@ def main() -> int:
         print(f"  {name}: {len(data)} emitted / {raw_count} parsed  ({skipped} skipped)")
     print(f"  missing log: {MISSING_LOG}")
     print(f"  total skip-log lines: {len(missing)}")
+
+    # Hard-fail if the emitted catalog is missing any icon_grh_id the server
+    # actually ships. Prevents the "no sprite_catalog entry for icon_grh_id=X"
+    # runtime warning from regressing silently. Skipped only if the server
+    # repo isn't checked out next to this client.
+    print()
+    if not SERVER_ITEMS_YML.exists():
+        print(
+            f"NOTE: server items.yml not found at {SERVER_ITEMS_YML}; "
+            "skipping coverage verification."
+        )
+        return 0
+
+    server_grh_ids = collect_server_icon_grh_ids(SERVER_ITEMS_YML)
+    print(
+        f"Verifying server items.yml coverage "
+        f"({len(server_grh_ids)} icon_grh_id refs, "
+        f"{len(set(server_grh_ids))} unique) …"
+    )
+    errors = verify_server_items_coverage(items, server_grh_ids)
+    if errors:
+        print("ERROR: client items catalog does not cover all server references:")
+        for line in errors:
+            print(f"  {line}")
+        return 3
+    print("  OK — every server icon_grh_id is present in items catalog.")
     return 0
 
 

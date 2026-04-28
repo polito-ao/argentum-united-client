@@ -243,7 +243,12 @@ item_icon_42150 (obj.dat[OBJ1644].GrhIndex): Grh42150 -> 26687.png not in assets
 item_icon_42151 (obj.dat[OBJ1645].GrhIndex): Grh42151 -> 26688.png not in assets/upscaled_2x/
 item_icon_42152 (obj.dat[OBJ1646].GrhIndex): Grh42152 -> 26689.png not in assets/upscaled_2x/
 item_icon_42153 (obj.dat[OBJ1647].GrhIndex): Grh42153 -> 26690.png not in assets/upscaled_2x/
-item_icon_42159 (obj.dat[OBJ1648].GrhIndex): Grh42159 -> 26696.png not in assets/upscaled_2x/
+item_icon_42154 (obj.dat[OBJ1648].GrhIndex): Grh42154 -> 26691.png not in assets/upscaled_2x/
+item_icon_42155 (obj.dat[OBJ1649].GrhIndex): Grh42155 -> 26692.png not in assets/upscaled_2x/
+item_icon_42156 (obj.dat[OBJ1650].GrhIndex): Grh42156 -> 26693.png not in assets/upscaled_2x/
+item_icon_42157 (obj.dat[OBJ1651].GrhIndex): Grh42157 -> 26694.png not in assets/upscaled_2x/
+item_icon_42158 (obj.dat[OBJ1652].GrhIndex): Grh42158 -> 26695.png not in assets/upscaled_2x/
+item_icon_42159 (obj.dat[OBJ1653].GrhIndex): Grh42159 -> 26696.png not in assets/upscaled_2x/
 item_icon_42680 (obj.dat[OBJ1794].GrhIndex): Grh42680 -> 16190.png not in assets/upscaled_2x/
 item_icon_42685 (obj.dat[OBJ1795].GrhIndex): Grh42685 -> 1240.png not in assets/upscaled_2x/
 item_icon_42697 (obj.dat[OBJ1797].GrhIndex): Grh42697 -> 5615.png not in assets/upscaled_2x/
