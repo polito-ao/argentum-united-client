@@ -54,6 +54,28 @@
     },
     "file": "6071.png"
   },
+  "item_icon_7002": {
+    "id": 7002,
+    "source": "Graficos.ini[Grh7002]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 512,
+      "h": 512
+    },
+    "file": "6072.png"
+  },
+  "item_icon_5592": {
+    "id": 5592,
+    "source": "Graficos.ini[Grh5592]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 192,
+      "h": 128
+    },
+    "file": "11022.png"
+  },
   "item_icon_5593": {
     "id": 5593,
     "source": "Graficos.ini[Grh5593]",
@@ -130,6 +152,28 @@
       "h": 64
     },
     "file": "22009.png"
+  },
+  "item_icon_510": {
+    "id": 510,
+    "source": "Graficos.ini[Grh510]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "16039.png"
+  },
+  "item_icon_5599": {
+    "id": 5599,
+    "source": "Graficos.ini[Grh5599]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 192,
+      "h": 128
+    },
+    "file": "11025.png"
   },
   "item_icon_5600": {
     "id": 5600,
@@ -428,6 +472,17 @@
     },
     "file": "19017.png"
   },
+  "item_icon_544": {
+    "id": 544,
+    "source": "Graficos.ini[Grh544]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "270.png"
+  },
   "item_icon_641": {
     "id": 641,
     "source": "Graficos.ini[Grh641]",
@@ -438,6 +493,17 @@
       "h": 256
     },
     "file": "6065.png"
+  },
+  "item_icon_642": {
+    "id": 642,
+    "source": "Graficos.ini[Grh642]",
+    "region": {
+      "x": 24,
+      "y": 30,
+      "w": 130,
+      "h": 100
+    },
+    "file": "15031.png"
   },
   "item_icon_644": {
     "id": 644,
@@ -460,28 +526,6 @@
       "h": 256
     },
     "file": "6068.png"
-  },
-  "item_icon_5592": {
-    "id": 5592,
-    "source": "Graficos.ini[Grh5592]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 192,
-      "h": 128
-    },
-    "file": "11022.png"
-  },
-  "item_icon_5599": {
-    "id": 5599,
-    "source": "Graficos.ini[Grh5599]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 192,
-      "h": 128
-    },
-    "file": "11025.png"
   },
   "item_icon_550": {
     "id": 550,
@@ -846,17 +890,6 @@
     },
     "file": "25307.png"
   },
-  "item_icon_7002": {
-    "id": 7002,
-    "source": "Graficos.ini[Grh7002]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 512,
-      "h": 512
-    },
-    "file": "6072.png"
-  },
   "item_icon_7222": {
     "id": 7222,
     "source": "Graficos.ini[Grh7222]",
@@ -1076,6 +1109,17 @@
       "h": 64
     },
     "file": "15175.png"
+  },
+  "item_icon_602": {
+    "id": 602,
+    "source": "Graficos.ini[Grh602]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "273.png"
   },
   "item_icon_608": {
     "id": 608,
@@ -1528,6 +1572,28 @@
     },
     "file": "278.png"
   },
+  "item_icon_658": {
+    "id": 658,
+    "source": "Graficos.ini[Grh658]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "280.png"
+  },
+  "item_icon_8685": {
+    "id": 8685,
+    "source": "Graficos.ini[Grh8685]",
+    "region": {
+      "x": 192,
+      "y": 0,
+      "w": 192,
+      "h": 192
+    },
+    "file": "11037.png"
+  },
   "item_icon_8684": {
     "id": 8684,
     "source": "Graficos.ini[Grh8684]",
@@ -1538,6 +1604,116 @@
       "h": 192
     },
     "file": "11037.png"
+  },
+  "item_icon_659": {
+    "id": 659,
+    "source": "Graficos.ini[Grh659]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "281.png"
+  },
+  "item_icon_9200": {
+    "id": 9200,
+    "source": "Graficos.ini[Grh9200]",
+    "region": {
+      "x": 192,
+      "y": 0,
+      "w": 192,
+      "h": 192
+    },
+    "file": "11046.png"
+  },
+  "item_icon_9194": {
+    "id": 9194,
+    "source": "Graficos.ini[Grh9194]",
+    "region": {
+      "x": 192,
+      "y": 0,
+      "w": 192,
+      "h": 192
+    },
+    "file": "11045.png"
+  },
+  "item_icon_9201": {
+    "id": 9201,
+    "source": "Graficos.ini[Grh9201]",
+    "region": {
+      "x": 384,
+      "y": 0,
+      "w": 192,
+      "h": 192
+    },
+    "file": "11046.png"
+  },
+  "item_icon_9195": {
+    "id": 9195,
+    "source": "Graficos.ini[Grh9195]",
+    "region": {
+      "x": 384,
+      "y": 0,
+      "w": 192,
+      "h": 192
+    },
+    "file": "11045.png"
+  },
+  "item_icon_9202": {
+    "id": 9202,
+    "source": "Graficos.ini[Grh9202]",
+    "region": {
+      "x": 0,
+      "y": 192,
+      "w": 192,
+      "h": 192
+    },
+    "file": "11046.png"
+  },
+  "item_icon_9196": {
+    "id": 9196,
+    "source": "Graficos.ini[Grh9196]",
+    "region": {
+      "x": 0,
+      "y": 192,
+      "w": 192,
+      "h": 192
+    },
+    "file": "11045.png"
+  },
+  "item_icon_9203": {
+    "id": 9203,
+    "source": "Graficos.ini[Grh9203]",
+    "region": {
+      "x": 192,
+      "y": 192,
+      "w": 192,
+      "h": 192
+    },
+    "file": "11046.png"
+  },
+  "item_icon_9197": {
+    "id": 9197,
+    "source": "Graficos.ini[Grh9197]",
+    "region": {
+      "x": 192,
+      "y": 192,
+      "w": 192,
+      "h": 192
+    },
+    "file": "11045.png"
+  },
+  "item_icon_9204": {
+    "id": 9204,
+    "source": "Graficos.ini[Grh9204]",
+    "region": {
+      "x": 384,
+      "y": 192,
+      "w": 192,
+      "h": 192
+    },
+    "file": "11046.png"
   },
   "item_icon_9198": {
     "id": 9198,
@@ -1604,28 +1780,6 @@
       "h": 128
     },
     "file": "7051.png"
-  },
-  "item_icon_9201": {
-    "id": 9201,
-    "source": "Graficos.ini[Grh9201]",
-    "region": {
-      "x": 384,
-      "y": 0,
-      "w": 192,
-      "h": 192
-    },
-    "file": "11046.png"
-  },
-  "item_icon_9195": {
-    "id": 9195,
-    "source": "Graficos.ini[Grh9195]",
-    "region": {
-      "x": 384,
-      "y": 0,
-      "w": 192,
-      "h": 192
-    },
-    "file": "11045.png"
   },
   "item_icon_675": {
     "id": 675,
@@ -2133,49 +2287,27 @@
     },
     "file": "22038.png"
   },
-  "item_icon_9203": {
-    "id": 9203,
-    "source": "Graficos.ini[Grh9203]",
-    "region": {
-      "x": 192,
-      "y": 192,
-      "w": 192,
-      "h": 192
-    },
-    "file": "11046.png"
-  },
-  "item_icon_9197": {
-    "id": 9197,
-    "source": "Graficos.ini[Grh9197]",
-    "region": {
-      "x": 192,
-      "y": 192,
-      "w": 192,
-      "h": 192
-    },
-    "file": "11045.png"
-  },
-  "item_icon_9202": {
-    "id": 9202,
-    "source": "Graficos.ini[Grh9202]",
+  "item_icon_718": {
+    "id": 718,
+    "source": "Graficos.ini[Grh718]",
     "region": {
       "x": 0,
-      "y": 192,
-      "w": 192,
-      "h": 192
+      "y": 0,
+      "w": 256,
+      "h": 128
     },
-    "file": "11046.png"
+    "file": "7050.png"
   },
-  "item_icon_9196": {
-    "id": 9196,
-    "source": "Graficos.ini[Grh9196]",
+  "item_icon_720": {
+    "id": 720,
+    "source": "Graficos.ini[Grh720]",
     "region": {
       "x": 0,
-      "y": 192,
-      "w": 192,
-      "h": 192
+      "y": 0,
+      "w": 256,
+      "h": 128
     },
-    "file": "11045.png"
+    "file": "7052.png"
   },
   "item_icon_721": {
     "id": 721,
@@ -3112,6 +3244,17 @@
     },
     "file": "13030.png"
   },
+  "item_icon_874": {
+    "id": 874,
+    "source": "Graficos.ini[Grh874]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 128,
+      "h": 88
+    },
+    "file": "13031.png"
+  },
   "item_icon_875": {
     "id": 875,
     "source": "Graficos.ini[Grh875]",
@@ -3122,6 +3265,28 @@
       "h": 128
     },
     "file": "7056.png"
+  },
+  "item_icon_876": {
+    "id": 876,
+    "source": "Graficos.ini[Grh876]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 256,
+      "h": 128
+    },
+    "file": "7057.png"
+  },
+  "item_icon_877": {
+    "id": 877,
+    "source": "Graficos.ini[Grh877]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 256,
+      "h": 128
+    },
+    "file": "7058.png"
   },
   "item_icon_878": {
     "id": 878,
@@ -3178,6 +3343,17 @@
     },
     "file": "3070.png"
   },
+  "item_icon_275": {
+    "id": 275,
+    "source": "Graficos.ini[Grh275]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 30,
+      "h": 30
+    },
+    "file": "3106.png"
+  },
   "item_icon_687": {
     "id": 687,
     "source": "Graficos.ini[Grh687]",
@@ -3189,6 +3365,28 @@
     },
     "file": "287.png"
   },
+  "item_icon_688": {
+    "id": 688,
+    "source": "Graficos.ini[Grh688]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "288.png"
+  },
+  "item_icon_767": {
+    "id": 767,
+    "source": "Graficos.ini[Grh767]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "310.png"
+  },
   "item_icon_692": {
     "id": 692,
     "source": "Graficos.ini[Grh692]",
@@ -3199,6 +3397,17 @@
       "h": 64
     },
     "file": "292.png"
+  },
+  "item_icon_770": {
+    "id": 770,
+    "source": "Graficos.ini[Grh770]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "314.png"
   },
   "item_icon_654": {
     "id": 654,
@@ -4212,17 +4421,6 @@
     },
     "file": "15174.png"
   },
-  "item_icon_642": {
-    "id": 642,
-    "source": "Graficos.ini[Grh642]",
-    "region": {
-      "x": 24,
-      "y": 30,
-      "w": 130,
-      "h": 100
-    },
-    "file": "15031.png"
-  },
   "item_icon_648": {
     "id": 648,
     "source": "Graficos.ini[Grh648]",
@@ -5224,6 +5422,17 @@
     },
     "file": "15009.png"
   },
+  "item_icon_22039": {
+    "id": 22039,
+    "source": "Graficos.ini[Grh22039]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "674.png"
+  },
   "item_icon_388": {
     "id": 388,
     "source": "Graficos.ini[Grh388]",
@@ -5289,6 +5498,1161 @@
       "h": 64
     },
     "file": "22006.png"
+  },
+  "item_icon_1470": {
+    "id": 1470,
+    "source": "Graficos.ini[Grh1470]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "206.png"
+  },
+  "item_icon_28592": {
+    "id": 28592,
+    "source": "Graficos.ini[Grh28592]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "467.png"
+  },
+  "item_icon_15303": {
+    "id": 15303,
+    "source": "Graficos.ini[Grh15303]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "456.png"
+  },
+  "item_icon_16302": {
+    "id": 16302,
+    "source": "Graficos.ini[Grh16302]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "529.png"
+  },
+  "item_icon_16194": {
+    "id": 16194,
+    "source": "Graficos.ini[Grh16194]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "521.png"
+  },
+  "item_icon_16167": {
+    "id": 16167,
+    "source": "Graficos.ini[Grh16167]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "518.png"
+  },
+  "item_icon_15627": {
+    "id": 15627,
+    "source": "Graficos.ini[Grh15627]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "475.png"
+  },
+  "item_icon_15870": {
+    "id": 15870,
+    "source": "Graficos.ini[Grh15870]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "494.png"
+  },
+  "item_icon_15789": {
+    "id": 15789,
+    "source": "Graficos.ini[Grh15789]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "487.png"
+  },
+  "item_icon_15897": {
+    "id": 15897,
+    "source": "Graficos.ini[Grh15897]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "496.png"
+  },
+  "item_icon_16221": {
+    "id": 16221,
+    "source": "Graficos.ini[Grh16221]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "523.png"
+  },
+  "item_icon_16275": {
+    "id": 16275,
+    "source": "Graficos.ini[Grh16275]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "527.png"
+  },
+  "item_icon_15600": {
+    "id": 15600,
+    "source": "Graficos.ini[Grh15600]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "473.png"
+  },
+  "item_icon_15762": {
+    "id": 15762,
+    "source": "Graficos.ini[Grh15762]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "485.png"
+  },
+  "item_icon_15951": {
+    "id": 15951,
+    "source": "Graficos.ini[Grh15951]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "501.png"
+  },
+  "item_icon_15978": {
+    "id": 15978,
+    "source": "Graficos.ini[Grh15978]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "503.png"
+  },
+  "item_icon_16005": {
+    "id": 16005,
+    "source": "Graficos.ini[Grh16005]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "505.png"
+  },
+  "item_icon_16032": {
+    "id": 16032,
+    "source": "Graficos.ini[Grh16032]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "507.png"
+  },
+  "item_icon_16248": {
+    "id": 16248,
+    "source": "Graficos.ini[Grh16248]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "525.png"
+  },
+  "item_icon_16113": {
+    "id": 16113,
+    "source": "Graficos.ini[Grh16113]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "514.png"
+  },
+  "item_icon_15924": {
+    "id": 15924,
+    "source": "Graficos.ini[Grh15924]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "498.png"
+  },
+  "item_icon_16140": {
+    "id": 16140,
+    "source": "Graficos.ini[Grh16140]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "516.png"
+  },
+  "item_icon_15816": {
+    "id": 15816,
+    "source": "Graficos.ini[Grh15816]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "490.png"
+  },
+  "item_icon_15843": {
+    "id": 15843,
+    "source": "Graficos.ini[Grh15843]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "492.png"
+  },
+  "item_icon_15681": {
+    "id": 15681,
+    "source": "Graficos.ini[Grh15681]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "480.png"
+  },
+  "item_icon_16059": {
+    "id": 16059,
+    "source": "Graficos.ini[Grh16059]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "510.png"
+  },
+  "item_icon_15708": {
+    "id": 15708,
+    "source": "Graficos.ini[Grh15708]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "482.png"
+  },
+  "item_icon_16329": {
+    "id": 16329,
+    "source": "Graficos.ini[Grh16329]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "532.png"
+  },
+  "item_icon_15276": {
+    "id": 15276,
+    "source": "Graficos.ini[Grh15276]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "448.png"
+  },
+  "item_icon_14952": {
+    "id": 14952,
+    "source": "Graficos.ini[Grh14952]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "267.png"
+  },
+  "item_icon_14655": {
+    "id": 14655,
+    "source": "Graficos.ini[Grh14655]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "245.png"
+  },
+  "item_icon_15141": {
+    "id": 15141,
+    "source": "Graficos.ini[Grh15141]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "437.png"
+  },
+  "item_icon_15087": {
+    "id": 15087,
+    "source": "Graficos.ini[Grh15087]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "432.png"
+  },
+  "item_icon_14736": {
+    "id": 14736,
+    "source": "Graficos.ini[Grh14736]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "251.png"
+  },
+  "item_icon_14925": {
+    "id": 14925,
+    "source": "Graficos.ini[Grh14925]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "265.png"
+  },
+  "item_icon_15006": {
+    "id": 15006,
+    "source": "Graficos.ini[Grh15006]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "425.png"
+  },
+  "item_icon_15033": {
+    "id": 15033,
+    "source": "Graficos.ini[Grh15033]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "427.png"
+  },
+  "item_icon_15114": {
+    "id": 15114,
+    "source": "Graficos.ini[Grh15114]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "434.png"
+  },
+  "item_icon_14574": {
+    "id": 14574,
+    "source": "Graficos.ini[Grh14574]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "239.png"
+  },
+  "item_icon_14979": {
+    "id": 14979,
+    "source": "Graficos.ini[Grh14979]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "269.png"
+  },
+  "item_icon_15060": {
+    "id": 15060,
+    "source": "Graficos.ini[Grh15060]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "430.png"
+  },
+  "item_icon_15168": {
+    "id": 15168,
+    "source": "Graficos.ini[Grh15168]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "439.png"
+  },
+  "item_icon_15195": {
+    "id": 15195,
+    "source": "Graficos.ini[Grh15195]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "441.png"
+  },
+  "item_icon_15222": {
+    "id": 15222,
+    "source": "Graficos.ini[Grh15222]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "443.png"
+  },
+  "item_icon_14520": {
+    "id": 14520,
+    "source": "Graficos.ini[Grh14520]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "235.png"
+  },
+  "item_icon_14547": {
+    "id": 14547,
+    "source": "Graficos.ini[Grh14547]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "237.png"
+  },
+  "item_icon_14601": {
+    "id": 14601,
+    "source": "Graficos.ini[Grh14601]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "241.png"
+  },
+  "item_icon_14682": {
+    "id": 14682,
+    "source": "Graficos.ini[Grh14682]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "247.png"
+  },
+  "item_icon_14628": {
+    "id": 14628,
+    "source": "Graficos.ini[Grh14628]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "243.png"
+  },
+  "item_icon_14709": {
+    "id": 14709,
+    "source": "Graficos.ini[Grh14709]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "249.png"
+  },
+  "item_icon_28538": {
+    "id": 28538,
+    "source": "Graficos.ini[Grh28538]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "463.png"
+  },
+  "item_icon_28457": {
+    "id": 28457,
+    "source": "Graficos.ini[Grh28457]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "456.png"
+  },
+  "item_icon_15492": {
+    "id": 15492,
+    "source": "Graficos.ini[Grh15492]",
+    "region": {
+      "x": 768,
+      "y": 192,
+      "w": 64,
+      "h": 64
+    },
+    "file": "25418.png"
+  },
+  "item_icon_14817": {
+    "id": 14817,
+    "source": "Graficos.ini[Grh14817]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "257.png"
+  },
+  "item_icon_14871": {
+    "id": 14871,
+    "source": "Graficos.ini[Grh14871]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "261.png"
+  },
+  "item_icon_14844": {
+    "id": 14844,
+    "source": "Graficos.ini[Grh14844]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "259.png"
+  },
+  "item_icon_14790": {
+    "id": 14790,
+    "source": "Graficos.ini[Grh14790]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "255.png"
+  },
+  "item_icon_15330": {
+    "id": 15330,
+    "source": "Graficos.ini[Grh15330]",
+    "region": {
+      "x": 384,
+      "y": 128,
+      "w": 64,
+      "h": 64
+    },
+    "file": "25416.png"
+  },
+  "item_icon_15573": {
+    "id": 15573,
+    "source": "Graficos.ini[Grh15573]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "470.png"
+  },
+  "item_icon_14898": {
+    "id": 14898,
+    "source": "Graficos.ini[Grh14898]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "263.png"
+  },
+  "item_icon_28484": {
+    "id": 28484,
+    "source": "Graficos.ini[Grh28484]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "459.png"
+  },
+  "item_icon_15438": {
+    "id": 15438,
+    "source": "Graficos.ini[Grh15438]",
+    "region": {
+      "x": 128,
+      "y": 64,
+      "w": 64,
+      "h": 64
+    },
+    "file": "25418.png"
+  },
+  "item_icon_16356": {
+    "id": 16356,
+    "source": "Graficos.ini[Grh16356]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "534.png"
+  },
+  "item_icon_16410": {
+    "id": 16410,
+    "source": "Graficos.ini[Grh16410]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "538.png"
+  },
+  "item_icon_16383": {
+    "id": 16383,
+    "source": "Graficos.ini[Grh16383]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "536.png"
+  },
+  "item_icon_16625": {
+    "id": 16625,
+    "source": "Graficos.ini[Grh16625]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "555.png"
+  },
+  "item_icon_16679": {
+    "id": 16679,
+    "source": "Graficos.ini[Grh16679]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "559.png"
+  },
+  "item_icon_16707": {
+    "id": 16707,
+    "source": "Graficos.ini[Grh16707]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "561.png"
+  },
+  "item_icon_16571": {
+    "id": 16571,
+    "source": "Graficos.ini[Grh16571]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "550.png"
+  },
+  "item_icon_16652": {
+    "id": 16652,
+    "source": "Graficos.ini[Grh16652]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "557.png"
+  },
+  "item_icon_16598": {
+    "id": 16598,
+    "source": "Graficos.ini[Grh16598]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "552.png"
+  },
+  "item_icon_16544": {
+    "id": 16544,
+    "source": "Graficos.ini[Grh16544]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "548.png"
+  },
+  "item_icon_16437": {
+    "id": 16437,
+    "source": "Graficos.ini[Grh16437]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "541.png"
+  },
+  "item_icon_16490": {
+    "id": 16490,
+    "source": "Graficos.ini[Grh16490]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "544.png"
+  },
+  "item_icon_16517": {
+    "id": 16517,
+    "source": "Graficos.ini[Grh16517]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "546.png"
+  },
+  "item_icon_16734": {
+    "id": 16734,
+    "source": "Graficos.ini[Grh16734]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "563.png"
+  },
+  "item_icon_17274": {
+    "id": 17274,
+    "source": "Graficos.ini[Grh17274]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "34.png"
+  },
+  "item_icon_17139": {
+    "id": 17139,
+    "source": "Graficos.ini[Grh17139]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "24.png"
+  },
+  "item_icon_17220": {
+    "id": 17220,
+    "source": "Graficos.ini[Grh17220]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "30.png"
+  },
+  "item_icon_17085": {
+    "id": 17085,
+    "source": "Graficos.ini[Grh17085]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "16.png"
+  },
+  "item_icon_16977": {
+    "id": 16977,
+    "source": "Graficos.ini[Grh16977]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "581.png"
+  },
+  "item_icon_17166": {
+    "id": 17166,
+    "source": "Graficos.ini[Grh17166]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26.png"
+  },
+  "item_icon_17247": {
+    "id": 17247,
+    "source": "Graficos.ini[Grh17247]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "32.png"
+  },
+  "item_icon_16896": {
+    "id": 16896,
+    "source": "Graficos.ini[Grh16896]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "574.png"
+  },
+  "item_icon_16869": {
+    "id": 16869,
+    "source": "Graficos.ini[Grh16869]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "572.png"
+  },
+  "item_icon_17193": {
+    "id": 17193,
+    "source": "Graficos.ini[Grh17193]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "28.png"
+  },
+  "item_icon_17301": {
+    "id": 17301,
+    "source": "Graficos.ini[Grh17301]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "36.png"
+  },
+  "item_icon_16842": {
+    "id": 16842,
+    "source": "Graficos.ini[Grh16842]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "570.png"
+  },
+  "item_icon_16950": {
+    "id": 16950,
+    "source": "Graficos.ini[Grh16950]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "579.png"
+  },
+  "item_icon_16761": {
+    "id": 16761,
+    "source": "Graficos.ini[Grh16761]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "566.png"
+  },
+  "item_icon_16923": {
+    "id": 16923,
+    "source": "Graficos.ini[Grh16923]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "577.png"
+  },
+  "item_icon_17004": {
+    "id": 17004,
+    "source": "Graficos.ini[Grh17004]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "583.png"
+  },
+  "item_icon_17328": {
+    "id": 17328,
+    "source": "Graficos.ini[Grh17328]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "38.png"
+  },
+  "item_icon_17058": {
+    "id": 17058,
+    "source": "Graficos.ini[Grh17058]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "4.png"
+  },
+  "item_icon_17031": {
+    "id": 17031,
+    "source": "Graficos.ini[Grh17031]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "585.png"
+  },
+  "item_icon_16788": {
+    "id": 16788,
+    "source": "Graficos.ini[Grh16788]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "568.png"
+  },
+  "item_icon_17409": {
+    "id": 17409,
+    "source": "Graficos.ini[Grh17409]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "44.png"
+  },
+  "item_icon_17382": {
+    "id": 17382,
+    "source": "Graficos.ini[Grh17382]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "42.png"
+  },
+  "item_icon_17355": {
+    "id": 17355,
+    "source": "Graficos.ini[Grh17355]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "40.png"
+  },
+  "item_icon_16706": {
+    "id": 16706,
+    "source": "Graficos.ini[Grh16706]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "55.png"
+  },
+  "item_icon_17436": {
+    "id": 17436,
+    "source": "Graficos.ini[Grh17436]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "46.png"
+  },
+  "item_icon_17463": {
+    "id": 17463,
+    "source": "Graficos.ini[Grh17463]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "48.png"
+  },
+  "item_icon_17490": {
+    "id": 17490,
+    "source": "Graficos.ini[Grh17490]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "50.png"
+  },
+  "item_icon_17517": {
+    "id": 17517,
+    "source": "Graficos.ini[Grh17517]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "52.png"
+  },
+  "item_icon_17544": {
+    "id": 17544,
+    "source": "Graficos.ini[Grh17544]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "54.png"
   },
   "item_icon_681": {
     "id": 681,
@@ -5674,6 +7038,17 @@
       "h": 128
     },
     "file": "7074.png"
+  },
+  "item_icon_3716": {
+    "id": 3716,
+    "source": "Graficos.ini[Grh3716]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 128,
+      "h": 64
+    },
+    "file": "7073.png"
   },
   "item_icon_4986": {
     "id": 4986,
@@ -9712,6 +11087,160 @@
     },
     "file": "8225.png"
   },
+  "item_icon_41057": {
+    "id": 41057,
+    "source": "Graficos.ini[Grh41057]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26539.png"
+  },
+  "item_icon_41055": {
+    "id": 41055,
+    "source": "Graficos.ini[Grh41055]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26537.png"
+  },
+  "item_icon_41061": {
+    "id": 41061,
+    "source": "Graficos.ini[Grh41061]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26543.png"
+  },
+  "item_icon_41054": {
+    "id": 41054,
+    "source": "Graficos.ini[Grh41054]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26536.png"
+  },
+  "item_icon_41051": {
+    "id": 41051,
+    "source": "Graficos.ini[Grh41051]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26533.png"
+  },
+  "item_icon_41063": {
+    "id": 41063,
+    "source": "Graficos.ini[Grh41063]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26545.png"
+  },
+  "item_icon_41064": {
+    "id": 41064,
+    "source": "Graficos.ini[Grh41064]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26546.png"
+  },
+  "item_icon_41060": {
+    "id": 41060,
+    "source": "Graficos.ini[Grh41060]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26542.png"
+  },
+  "item_icon_41056": {
+    "id": 41056,
+    "source": "Graficos.ini[Grh41056]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26538.png"
+  },
+  "item_icon_41059": {
+    "id": 41059,
+    "source": "Graficos.ini[Grh41059]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26541.png"
+  },
+  "item_icon_41053": {
+    "id": 41053,
+    "source": "Graficos.ini[Grh41053]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26535.png"
+  },
+  "item_icon_41067": {
+    "id": 41067,
+    "source": "Graficos.ini[Grh41067]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26549.png"
+  },
+  "item_icon_41066": {
+    "id": 41066,
+    "source": "Graficos.ini[Grh41066]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26548.png"
+  },
+  "item_icon_41065": {
+    "id": 41065,
+    "source": "Graficos.ini[Grh41065]",
+    "region": {
+      "x": 0,
+      "y": 0,
+      "w": 64,
+      "h": 64
+    },
+    "file": "26547.png"
+  },
   "item_icon_41062": {
     "id": 41062,
     "source": "Graficos.ini[Grh41062]",
@@ -9733,50 +11262,6 @@
       "h": 64
     },
     "file": "26534.png"
-  },
-  "item_icon_41057": {
-    "id": 41057,
-    "source": "Graficos.ini[Grh41057]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 64,
-      "h": 64
-    },
-    "file": "26539.png"
-  },
-  "item_icon_41066": {
-    "id": 41066,
-    "source": "Graficos.ini[Grh41066]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 64,
-      "h": 64
-    },
-    "file": "26548.png"
-  },
-  "item_icon_41056": {
-    "id": 41056,
-    "source": "Graficos.ini[Grh41056]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 64,
-      "h": 64
-    },
-    "file": "26538.png"
-  },
-  "item_icon_41065": {
-    "id": 41065,
-    "source": "Graficos.ini[Grh41065]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 64,
-      "h": 64
-    },
-    "file": "26547.png"
   },
   "item_icon_41258": {
     "id": 41258,
@@ -10295,17 +11780,6 @@
     },
     "file": "7078.png"
   },
-  "item_icon_41067": {
-    "id": 41067,
-    "source": "Graficos.ini[Grh41067]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 64,
-      "h": 64
-    },
-    "file": "26549.png"
-  },
   "item_icon_27545": {
     "id": 27545,
     "source": "Graficos.ini[Grh27545]",
@@ -10383,50 +11857,6 @@
     },
     "file": "26718.png"
   },
-  "item_icon_41054": {
-    "id": 41054,
-    "source": "Graficos.ini[Grh41054]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 64,
-      "h": 64
-    },
-    "file": "26536.png"
-  },
-  "item_icon_41051": {
-    "id": 41051,
-    "source": "Graficos.ini[Grh41051]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 64,
-      "h": 64
-    },
-    "file": "26533.png"
-  },
-  "item_icon_41063": {
-    "id": 41063,
-    "source": "Graficos.ini[Grh41063]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 64,
-      "h": 64
-    },
-    "file": "26545.png"
-  },
-  "item_icon_41064": {
-    "id": 41064,
-    "source": "Graficos.ini[Grh41064]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 64,
-      "h": 64
-    },
-    "file": "26546.png"
-  },
   "item_icon_42652": {
     "id": 42652,
     "source": "Graficos.ini[Grh42652]",
@@ -10448,17 +11878,6 @@
       "h": 102
     },
     "file": "26700.png"
-  },
-  "item_icon_41053": {
-    "id": 41053,
-    "source": "Graficos.ini[Grh41053]",
-    "region": {
-      "x": 0,
-      "y": 0,
-      "w": 64,
-      "h": 64
-    },
-    "file": "26535.png"
   },
   "item_icon_42678": {
     "id": 42678,
