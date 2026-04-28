@@ -130,12 +130,19 @@ func _build(entry: Dictionary) -> SpriteFrames:
 	return sf
 
 
+# Walk-cycle multiplier — applied to Cucsi's source speed_ms before computing
+# FPS. >1.0 makes the cycle slower (longer per cycle); <1.0 makes it faster.
+# Tuned by eye against the 5 tiles/sec walk speed: 1.20 (= +20% on 555ms →
+# 666ms cycle) feels grounded without dragging.
+const WALK_SPEED_MULTIPLIER := 1.20
+
 func _fps_for(num_frames: int, speed_ms: int) -> float:
 	# Cucsi convention: speed_ms is the duration of the FULL cycle through
 	# all frames. So FPS = frames / seconds.
 	if speed_ms <= 0:
 		return 1.0
-	var fps := float(num_frames) / (float(speed_ms) / 1000.0)
+	var tuned_ms := float(speed_ms) * WALK_SPEED_MULTIPLIER
+	var fps := float(num_frames) / (tuned_ms / 1000.0)
 	return max(fps, 1.0)
 
 

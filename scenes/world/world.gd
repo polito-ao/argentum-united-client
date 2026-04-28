@@ -1065,6 +1065,12 @@ func _update_player_position():
 	# any tile-exit transition routes through here.
 	if _move_tween and _move_tween.is_valid():
 		_move_tween.kill()
+	# Killing the tween short-circuits the on-tween-end callback that sets
+	# walking=false on the LayeredCharacter. Reset it explicitly here so the
+	# walk animation doesn't persist after a snap (was: sprite stuck cycling
+	# walk frames after a map transition).
+	if _self_layered != null:
+		_self_layered.set_walking(false)
 	player_sprite.position = tile_to_world(my_pos.x, my_pos.y, _tile_size)
 	camera.position = player_sprite.position + CAMERA_WORLD_OFFSET
 	hud.set_position_label(map_id, my_pos.x, my_pos.y)
