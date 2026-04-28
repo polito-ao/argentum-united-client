@@ -2,9 +2,16 @@
 
 Reads the three Cucsi audio folders (MIDI, WAV, MP3) and produces:
 
-    <out>/music/<n>.ogg     <-- MIDIs rendered via fluidsynth + FluidR3_GM.sf2
     <out>/sfx/<n>.wav       <-- WAVs (PCM verbatim; non-PCM force-converted)
     <out>/themes/<n>.mp3    <-- MP3 copies (used for login + character_select themes)
+    <out>/music/<n>.ogg     <-- MIDIs rendered via fluidsynth + FluidR3_GM.sf2
+                                (OPT-IN: pass --render-midis to enable)
+
+Music policy (2026-04-27): the rendered-MIDI path is OFF by default. Cucsi's
+MIDIs sound generic and don't match the Argentum United identity; the music
+direction is hand-curated MP3s dropped in `assets/audio/music_curated/<id>.mp3`.
+Pass `--render-midis` if you want quick generic placeholders (e.g. for
+prototyping or when you have no curated tracks yet).
 
 Why fluidsynth: Godot 4 cannot play MIDI natively. We bake to Ogg Vorbis
 once at build time. fluidsynth is invoked as a CLI binary (not via the
@@ -253,11 +260,20 @@ def main() -> int:
     parser.add_argument("--soundfont", default=str(DEFAULT_SOUNDFONT), help="Path to .sf2 soundfont")
     parser.add_argument("--ffprobe", default=None, help="Path to ffprobe binary")
     parser.add_argument("--ffmpeg", default=None, help="Path to ffmpeg binary")
+    parser.add_argument(
+        "--render-midis",
+        action="store_true",
+        default=False,
+        help=(
+            "Opt in to rendering Cucsi MIDIs to Ogg Vorbis (off by default). "
+            "Music is hand-curated via assets/audio/music_curated/; this "
+            "fallback is for placeholders only."
+        ),
+    )
     args = parser.parse_args()
 
     cucsi_root = Path(args.cucsi)
     out_root = Path(args.out)
-    fluidsynth = Path(args.fluidsynth)
     soundfont = Path(args.soundfont)
 
     ffprobe = resolve_tool(args.ffprobe, WINGET_FFPROBE)
@@ -266,12 +282,17 @@ def main() -> int:
     if not cucsi_root.exists():
         print(f"ERROR: --cucsi {cucsi_root} does not exist", file=sys.stderr)
         return 2
-    if not fluidsynth.exists():
-        print(f"ERROR: --fluidsynth {fluidsynth} does not exist", file=sys.stderr)
-        return 2
-    if not soundfont.exists():
-        print(f"ERROR: --soundfont {soundfont} does not exist", file=sys.stderr)
-        return 2
+    # MIDI tooling is only required when --render-midis is set. WAV + MP3
+    # conversion needs only ffmpeg/ffprobe.
+    fluidsynth: Path | None = None
+    if args.render_midis:
+        fluidsynth = Path(args.fluidsynth)
+        if not fluidsynth.exists():
+            print(f"ERROR: --fluidsynth {fluidsynth} does not exist", file=sys.stderr)
+            return 2
+        if not soundfont.exists():
+            print(f"ERROR: --soundfont {soundfont} does not exist", file=sys.stderr)
+            return 2
     if ffprobe is None or not ffprobe.exists():
         print("ERROR: ffprobe not found. Install ffmpeg (Windows: `winget install Gyan.FFmpeg`)", file=sys.stderr)
         return 2
@@ -280,19 +301,29 @@ def main() -> int:
         return 2
 
     print(f"== convert_cucsi_audio ==")
-    print(f"  cucsi:     {cucsi_root}")
-    print(f"  out:       {out_root}")
-    print(f"  fluidsynth:{fluidsynth}")
-    print(f"  soundfont: {soundfont}")
-    print(f"  ffprobe:   {ffprobe}")
-    print(f"  ffmpeg:    {ffmpeg}")
+    print(f"  cucsi:        {cucsi_root}")
+    print(f"  out:          {out_root}")
+    print(f"  ffprobe:      {ffprobe}")
+    print(f"  ffmpeg:       {ffmpeg}")
+    print(f"  render-midis: {args.render_midis}")
+    if args.render_midis:
+        print(f"  fluidsynth:   {fluidsynth}")
+        print(f"  soundfont:    {soundfont}")
 
-    ok, fail = convert_midis(cucsi_root, out_root, fluidsynth, soundfont)
+    ok = fail = 0
+    if args.render_midis:
+        ok, fail = convert_midis(cucsi_root, out_root, fluidsynth, soundfont)
+    else:
+        print("[midi] SKIPPED (use --render-midis to enable). "
+              "Music: drop curated MP3s in assets/audio/music_curated/<id>.mp3.")
     n_wav, forced = convert_wavs(cucsi_root, out_root, ffprobe, ffmpeg)
     n_mp3 = copy_tree(cucsi_root / "MP3", out_root / "themes", "mp3")
 
     print()
-    print(f"DONE: {ok}/{ok + fail} MIDIs -> ogg, {n_wav} WAVs -> sfx, {n_mp3} MP3s -> themes")
+    if args.render_midis:
+        print(f"DONE: {ok}/{ok + fail} MIDIs -> ogg, {n_wav} WAVs -> sfx, {n_mp3} MP3s -> themes")
+    else:
+        print(f"DONE: MIDI render skipped, {n_wav} WAVs -> sfx, {n_mp3} MP3s -> themes")
     if forced:
         print(f"Force-converted to PCM ({len(forced)}):")
         for entry in forced:

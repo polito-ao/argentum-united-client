@@ -5,6 +5,24 @@ Cucsi's audio (MIDI / WAV / MP3) into Godot-friendly streams. The audio
 output itself lands in `assets/audio/` and is **not** committed (same
 pattern as `assets/upscaled_2x/`). New devs run the conversion locally.
 
+## Music policy (2026-04-27)
+
+**Music is hand-curated MP3s only.** Drop user-curated tracks in
+`assets/audio/music_curated/<id>.mp3` — that's the canonical music
+source. Cucsi's MIDIs sound generic and don't match the Argentum United
+identity, so the previous `--render-midis` fluidsynth fallback is now
+**opt-in** (off by default). Pass `--render-midis` to the convert script
+if you want quick generic placeholders (e.g. early prototyping before
+curated tracks exist).
+
+Cucsi's 11 MP3 themes in `assets/audio/themes/` are kept as-is —
+high-quality pre-exports already done by the Cucsi authors.
+
+Existing `assets/audio/music/*.ogg` from prior `--render-midis` runs
+is still picked up by the in-game AudioPlayer (it's gitignored). If you
+want to wipe stale renders, `rm -rf assets/audio/music/` and re-run
+without `--render-midis`.
+
 ## Contents
 
 - `FluidR3_GM.sf2` — **Default General MIDI soundfont.** ~140 MB.
@@ -60,20 +78,22 @@ python tools/convert_cucsi_audio.py \
     --out assets/audio
 ```
 
-This script:
+This script (default mode):
 
-1. Renders every `.mid` from `Cucsi/AUDIO/MIDI/` to `assets/audio/music/<n>.ogg`
-   via fluidsynth + FluidR3_GM.sf2 (Ogg Vorbis, 44.1 kHz stereo).
-2. Probes every `.wav` from `Cucsi/AUDIO/WAV/` with ffprobe; PCM ones
+1. Probes every `.wav` from `Cucsi/AUDIO/WAV/` with ffprobe; PCM ones
    are copied verbatim to `assets/audio/sfx/`, anything else (ADPCM /
    mu-law / GSM / ...) is force-converted to `pcm_s16le @ 44.1 kHz`
    via ffmpeg. Each force-conversion is logged.
-3. Copies every `.mp3` from `Cucsi/AUDIO/MP3/` into `assets/audio/themes/`
+2. Copies every `.mp3` from `Cucsi/AUDIO/MP3/` into `assets/audio/themes/`
    verbatim.
+3. **Skips MIDI rendering by default.** Pass `--render-midis` to enable
+   the fluidsynth fallback (renders to `assets/audio/music/<n>.ogg`).
 
-Total runtime: ~5-8 minutes (FluidR3 is heavier than Tim). Total
-output: ~400-500 MB (the 112 Ogg music files dominate). Failed MIDIs
-(rare) are logged and skipped.
+Total runtime in default mode: ~30-60 seconds (just WAV probe/copy +
+MP3 copy). Total output: ~30-50 MB.
+
+With `--render-midis` enabled: add ~5-8 minutes and ~350 MB of Ogg
+music. Failed MIDIs (rare) are logged and skipped.
 
 ## Why this lives here, not on disk-image
 
