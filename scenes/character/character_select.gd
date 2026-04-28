@@ -50,10 +50,11 @@ var RACES: Array = []
 
 func _ready() -> void:
 	_apply_time_of_day_background()
-	# Crossfade from the login theme into the character_select theme.
-	# AudioPlayer is a global autoload; if the MP3 is missing on disk
-	# the call silently no-ops.
-	AudioPlayer.play_theme("character_select")
+	# MusicDirector resolves "character_select" -> clasica-ao.ogg, the
+	# same track as login, so this is a no-op when transitioning from
+	# login (continuous playback). Re-entering from world (after /salir)
+	# crossfades back to clasica-ao.
+	MusicDirector.set_scene("character_select")
 
 
 func _apply_time_of_day_background() -> void:
@@ -306,9 +307,10 @@ func _enter_world(map_payload: Dictionary):
 	if connection.disconnected.is_connected(_on_connection_lost):
 		connection.disconnected.disconnect(_on_connection_lost)
 
-	# Stop the menu theme; the world's MUSIC_CHANGE packet (if any) will
-	# crossfade into the city/zone music after spawn.
-	AudioPlayer.stop_theme()
+	# World scene's _ready() hands off to MusicDirector.set_scene("world").
+	# We don't stop anything here -- if the world's resolved track equals
+	# the menu track (rare), the director keeps playing without a restart;
+	# otherwise it crossfades.
 
 	var world_scene: PackedScene = load("res://scenes/world/world.tscn")
 	var world = world_scene.instantiate()
@@ -324,9 +326,8 @@ func _on_logout_confirmed():
 	if is_instance_valid(connection):
 		connection.disconnect_from_server()
 		connection.queue_free()
-	# Stop the character_select theme; login._ready() will start the
-	# login theme back up when the new scene mounts.
-	AudioPlayer.stop_theme()
+	# login._ready() will MusicDirector.set_scene("login") on mount,
+	# which resolves to the same clasica-ao.ogg track -- no restart.
 	_return_to_login()
 
 func _on_connection_lost():

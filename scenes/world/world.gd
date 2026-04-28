@@ -374,6 +374,11 @@ func setup(conn: ServerConnection, select_payload: Dictionary, map_data: Diction
 	_setup_minimap()
 
 func _ready():
+	# Hand music control to the director. It resolves the open-world
+	# day/night fallback immediately; a subsequent MUSIC_CHANGE packet
+	# (set_music_id) overrides with city/zone music if applicable.
+	MusicDirector.set_scene("world")
+
 	hud = HUDController.new({
 		hp_bar         = %HPBar,
 		hp_text        = %HPText,
@@ -1446,10 +1451,10 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			# 0/0 = non-spatial UI sound (still routed through SFX bus).
 			AudioPlayer.play_sfx(int(payload.get("wav_id", 0)), int(payload.get("x", 0)), int(payload.get("y", 0)))
 		PacketIds.MUSIC_CHANGE:
-			# music_id may be null/0 to stop the music. AudioPlayer
-			# handles both shapes uniformly.
+			# music_id may be null/0; MusicDirector falls through to the
+			# day/night open-world fallback in either case.
 			var raw = payload.get("music_id", 0)
-			AudioPlayer.play_music(0 if raw == null else int(raw))
+			MusicDirector.set_music_id(0 if raw == null else int(raw))
 		PacketIds.DISCOVERY_UNLOCKED:
 			# Server fires this once per (character, category, slug) on first
 			# unlock. Show a system line in chat — no other UI yet.

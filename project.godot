@@ -29,6 +29,7 @@ SpriteCatalog="*res://scripts/game/sprite_catalog.gd"
 SpriteFramesBuilder="*res://scripts/game/sprite_frames_builder.gd"
 AudioCatalog="*res://scripts/game/audio_catalog.gd"
 AudioPlayer="*res://scripts/game/audio_player.gd"
+MusicDirector="*res://scripts/game/music_director.gd"
 
 [display]
 
