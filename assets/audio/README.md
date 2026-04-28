@@ -30,10 +30,14 @@ by default; pass `--cucsi <path>` if your Cucsi tree lives elsewhere.
 
 Requires fluidsynth (Windows binary downloaded from
 https://github.com/FluidSynth/fluidsynth/releases — see
-`tools/audio/README.md` for full install notes) plus the bundled
-`tools/audio/TimGM6mb.sf2` soundfont (GPL-2.0).
+`tools/audio/README.md` for full install notes), the
+`tools/audio/FluidR3_GM.sf2` soundfont (MIT, ~140 MB), and ffmpeg /
+ffprobe (Windows: `winget install Gyan.FFmpeg`). The ffmpeg toolchain
+is used to detect non-PCM WAVs (a chunk of Cucsi's SFX library is
+ADPCM / mu-law / GSM) and force-convert them to `pcm_s16le` so Godot
+can import them.
 
-Total runtime: ~3-5 minutes. Output ~400 MB.
+Total runtime: ~5-8 minutes. Output ~400-500 MB.
 
 ### Option B: pull from Google Drive
 
