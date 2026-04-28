@@ -13,7 +13,8 @@ assets/needs_upscale/
 assets/audio/*
 !assets/audio/README.md
 
-# fluidsynth + GPL soundfont used by the audio conversion script.
+# fluidsynth soundfonts used by the audio conversion script.
 # Bundled binary deps don't need to be checked in; tools/audio/README.md
 # documents where to grab them.
 tools/audio/TimGM6mb.sf2
+tools/audio/FluidR3_GM.sf2
