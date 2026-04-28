@@ -1059,7 +1059,10 @@ func _update_player_position():
 	# Any in-flight smooth-walk tween from the prior tile (or prior MAP) must
 	# be killed here, otherwise it keeps tweening to its old target and
 	# overrides the snap a frame later. That was the visible "I'm at far-east
-	# of map 1 even though server says X=14" bug on edge-tile transitions.
+	# of map 1 even though server says X=14" bug on edge-tile transitions:
+	# the player would render at the prior map's east edge until the next
+	# step kicked off a fresh tween. Symmetric across all 4 edges (N/S/E/W);
+	# any tile-exit transition routes through here.
 	if _move_tween and _move_tween.is_valid():
 		_move_tween.kill()
 	player_sprite.position = tile_to_world(my_pos.x, my_pos.y, _tile_size)
