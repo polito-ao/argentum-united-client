@@ -9,6 +9,15 @@ const FALLBACK_TILE_SIZE := 32
 # scripts/parse_map_binary.py + scripts/apply_floor_catalog.py drives everything:
 #   tile_size, graficos_root, floors_root, per-grh lookup entries (atlas region
 #   for L2-4 or {floor:true, file} for individualised L1 floor tiles).
+# Map layer rendering split:
+#   GROUND_LAYERS (1, 2, 3) → drawn under `_MapDrawer` on $Ground (z=0).
+#   OVERHEAD_LAYER (4)      → drawn under a separate `_MapDrawer` on $Overhead
+#     (z=10), which is ABOVE the player + NPCs (z=5). Layer 4 is Cucsi's
+#     "above-player" layer (trees, roof corners, hanging signs); rendering it
+#     overhead gives AO-style occlusion — the player walks behind trees.
+# DRAW_LAYERS preserved for any caller still asking for "all map layers".
+const GROUND_LAYERS := [1, 2, 3]
+const OVERHEAD_LAYER := 4
 const DRAW_LAYERS := [1, 2, 3, 4]
 const BLACK_KEY_THRESHOLD_255 := 16
 var _tile_size: int = FALLBACK_TILE_SIZE
@@ -59,6 +68,7 @@ var _warned_missing_item_icons: Dictionary = {}
 @onready var ground_items_layer: Node2D      = $GroundItems
 @onready var chests_layer: Node2D             = $Chests
 @onready var ground_layer: Node2D            = $Ground
+@onready var overhead_layer: Node2D          = $Overhead
 @onready var player_sprite: Node2D           = $PlayerSprite
 
 # === HUD widgets ===
@@ -696,6 +706,9 @@ func _render_ground():
 	var _t_total := Time.get_ticks_msec()
 	for child in ground_layer.get_children():
 		child.queue_free()
+	# Layer 4 lives on $Overhead so it renders above the player; clear that too.
+	for child in overhead_layer.get_children():
+		child.queue_free()
 	# Persistent texture/missing caches across renders: the ImageTextures don't
 	# change between maps, so re-entry to a previously-loaded map skips disk I/O
 	# entirely. Memory cost is small (atlases are PNG-sized in RAM).
@@ -775,11 +788,16 @@ func _render_ground():
 	_perf_color_key_calls = 0
 
 	# --- Phase 3: build the draw plan (every texture is now cached).
-	# Outer loop = layer, so the plan is naturally in z-order.
+	# Two plans now: one for layers 1-3 (ground / below player), one for
+	# layer 4 (overhead — trees, roof corners). They render to separate
+	# Node2D parents at different z values so the player walks BEHIND
+	# layer 4. See world.tscn for the z-stack reference.
 	var _t_tiles := Time.get_ticks_msec()
-	var draw_plan: Array = []
+	var ground_plan: Array = []
+	var overhead_plan: Array = []
 	var drawn := 0
 	for layer_num in DRAW_LAYERS:
+		var target_plan: Array = overhead_plan if layer_num == OVERHEAD_LAYER else ground_plan
 		for tile in tiles:
 			var grh_id: int = int(tile["layer%d" % layer_num])
 			if grh_id == 0:
@@ -798,15 +816,21 @@ func _render_ground():
 				sprite_w, sprite_h
 			)
 			var src := Rect2(int(info["sx"]), int(info["sy"]), sprite_w, sprite_h)
-			draw_plan.append({"texture": texture, "dest": dest, "src": src})
+			target_plan.append({"texture": texture, "dest": dest, "src": src})
 			drawn += 1
 	var drawer := _MapDrawer.new()
-	drawer.draw_plan = draw_plan
+	drawer.draw_plan = ground_plan
 	ground_layer.add_child(drawer)
 	drawer.queue_redraw()
+	# Overhead drawer runs even when its plan is empty — keeps the scene
+	# tree shape stable for tests + future-map JSONs that lack layer 4.
+	var overhead_drawer := _MapDrawer.new()
+	overhead_drawer.draw_plan = overhead_plan
+	overhead_layer.add_child(overhead_drawer)
+	overhead_drawer.queue_redraw()
 	var dt_tiles := Time.get_ticks_msec() - _t_tiles
 	var dt_total := Time.get_ticks_msec() - _t_total
-	print("[world] map %d: %d tiles drawn, tile_size=%d, cache=%d" % [map_id, drawn, _tile_size, MapTextureCache.count()])
+	print("[world] map %d: %d tiles drawn (%d ground, %d overhead), tile_size=%d, cache=%d" % [map_id, drawn, ground_plan.size(), overhead_plan.size(), _tile_size, MapTextureCache.count()])
 	print("  perf: total=%dms json=%dms collect=%dms tile_loop=%dms" % [dt_total, dt_json, dt_collect, dt_tiles])
 	print("  perf: image_load %d files / %dms (parallel, %d failed)" % [_perf_load_image_calls, _perf_load_image_ms, failures])
 
@@ -1024,8 +1048,21 @@ func _update_xp_bar(xp_in_level: int):
 
 # --- Movement / player sprite ---
 
+# Pure tile -> world-pixel conversion. Lifted out of _update_player_position so
+# unit tests can exercise the math without spinning up a scene tree, and so
+# every caller that needs sprite-pixel coords goes through one definition.
+static func tile_to_world(tile_x: int, tile_y: int, tile_size: int) -> Vector2:
+	return Vector2(tile_x * tile_size, tile_y * tile_size)
+
 func _update_player_position():
-	player_sprite.position = Vector2(my_pos.x * _tile_size, my_pos.y * _tile_size)
+	# This is the SNAP path — initial spawn, MAP_TRANSITION, MOVE_REJECTED.
+	# Any in-flight smooth-walk tween from the prior tile (or prior MAP) must
+	# be killed here, otherwise it keeps tweening to its old target and
+	# overrides the snap a frame later. That was the visible "I'm at far-east
+	# of map 1 even though server says X=14" bug on edge-tile transitions.
+	if _move_tween and _move_tween.is_valid():
+		_move_tween.kill()
+	player_sprite.position = tile_to_world(my_pos.x, my_pos.y, _tile_size)
 	camera.position = player_sprite.position + CAMERA_WORLD_OFFSET
 	hud.set_position_label(map_id, my_pos.x, my_pos.y)
 	if _minimap_drawer:
@@ -1040,7 +1077,7 @@ func _update_player_position():
 var _move_tween: Tween
 
 func _tween_player_step() -> void:
-	var target_sprite = Vector2(my_pos.x * _tile_size, my_pos.y * _tile_size)
+	var target_sprite = tile_to_world(my_pos.x, my_pos.y, _tile_size)
 	var target_camera = target_sprite + CAMERA_WORLD_OFFSET
 	if _move_tween and _move_tween.is_valid():
 		_move_tween.kill()
