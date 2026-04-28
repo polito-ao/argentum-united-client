@@ -10,8 +10,12 @@ assets/needs_upscale/
 # Audio assets are generated locally from Cucsi via tools/convert_cucsi_audio.py
 # (or downloaded from Google Drive). See assets/audio/README.md.
 # Negate the README so the docs ship even though the audio doesn't.
+# Also negate music_curated/ — those are user-authored / hand-rendered
+# tracks (originals, not derived from Cucsi), small enough to track in git.
 assets/audio/*
 !assets/audio/README.md
+!assets/audio/music_curated/
+!assets/audio/music_curated/**
 
 # fluidsynth soundfonts used by the audio conversion script.
 # Bundled binary deps don't need to be checked in; tools/audio/README.md
