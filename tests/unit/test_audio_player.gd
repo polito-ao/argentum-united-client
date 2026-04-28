@@ -1,7 +1,10 @@
 extends GutTest
 ## Unit tests for AudioPlayer autoload. We don't actually emit sound
-## (headless mode), so the assertions cover state + bus routing + the
-## crossfade tween bookkeeping rather than acoustic output.
+## (headless mode), so the assertions cover state + bus routing rather
+## than acoustic output.
+##
+## Music + theme APIs moved to MusicDirector; AudioPlayer now only owns
+## the spatial SFX pool + bus volume helpers used by settings.
 
 func before_each():
 	AudioPlayer._reset_for_tests()
@@ -39,34 +42,23 @@ func test_play_sfx_with_missing_id_is_silent_noop():
 	assert_true(true)
 
 
-# --- play_music + stop_music ---------------------------------------------
+# --- bus volume helpers --------------------------------------------------
 
-func test_play_music_with_zero_stops_music():
-	# Tracks the documented contract: music_id <= 0 stops playback.
-	AudioPlayer.play_music(0)
-	assert_eq(AudioPlayer.current_music_id(), 0)
-
-
-func test_play_music_with_missing_id_clears_current():
-	# If we ask for a track that isn't on disk, current_music_id should
-	# end up cleared (we can't fulfill the request -- silent > wrong).
-	AudioPlayer.play_music(99999)
-	assert_eq(AudioPlayer.current_music_id(), 0)
+func test_set_bus_volume_linear_zero_mutes_bus():
+	AudioPlayer.set_bus_volume_linear("Music", 0.0)
+	assert_eq(AudioPlayer.get_bus_volume_linear("Music"), 0.0)
 
 
-func test_stop_music_clears_current_id():
-	# Even if there's no track playing, stop should be safe + idempotent.
-	AudioPlayer.stop_music()
-	assert_eq(AudioPlayer.current_music_id(), 0)
+func test_set_bus_volume_linear_full_unmutes_bus():
+	# After silencing, going back to 1.0 should unmute and report ~1.0.
+	AudioPlayer.set_bus_volume_linear("Music", 0.0)
+	AudioPlayer.set_bus_volume_linear("Music", 1.0)
+	var got := AudioPlayer.get_bus_volume_linear("Music")
+	assert_almost_eq(got, 1.0, 0.01)
 
 
-# --- themes ------------------------------------------------------------
-
-func test_play_theme_unknown_name_clears_current():
-	AudioPlayer.play_theme("not_a_real_theme")
-	assert_eq(AudioPlayer.current_theme(), "")
-
-
-func test_stop_theme_clears_current_name():
-	AudioPlayer.stop_theme()
-	assert_eq(AudioPlayer.current_theme(), "")
+func test_set_bus_volume_linear_unknown_bus_warns_no_crash():
+	# Defensive: the settings overlay shouldn't be able to crash the audio
+	# subsystem by misnaming a bus.
+	AudioPlayer.set_bus_volume_linear("DoesNotExist", 0.5)
+	assert_true(true)
