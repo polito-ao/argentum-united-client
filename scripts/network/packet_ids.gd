@@ -102,7 +102,7 @@ const EFFECT_ID_MEDITATION = 1
 # boots with these as the default; validate_server_config() hard-fails at
 # boot if drift exists, giving us a loud signal to bump the constants.
 # Same defensive pattern as PLAYER_LAYERS_UPDATE / EFFECT_START above.
-const PLAY_SFX = 0x008B       # server -> client: { wav_id, x, y } (0/0 = non-spatial UI)
+const PLAY_SFX = 0x008B       # server -> client: { wav_id? | wav_name?, x, y } (0/0 = non-spatial UI; wav_name wins if both set)
 const MUSIC_CHANGE = 0x008C   # server -> client: { music_id } (null = stop music)
 const DISCOVERY_UNLOCKED = 0x008D  # server -> client (only that player): { category, slug, name }
 # TODO: confirm ID against the server's `broadcast-service` PR once it lands.

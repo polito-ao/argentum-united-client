@@ -82,7 +82,23 @@ func play_sfx(wav_id: int, world_x: int = 0, world_y: int = 0) -> void:
 	var stream: AudioStream = AudioCatalog.sfx(wav_id)
 	if stream == null:
 		return  # AudioCatalog already warned -- silent no-op for caller
+	_play_via_pool(stream, world_x, world_y)
 
+
+# Spatial SFX by curated wav_name. Same routing + pool semantics as
+# play_sfx; the only difference is the source catalog. Used for
+# hand-authored SFX (assets/audio/sfx_curated/) addressed by string
+# rather than the numeric Cucsi id.
+func play_sfx_curated(wav_name: String, world_x: int = 0, world_y: int = 0) -> void:
+	if wav_name.is_empty():
+		return
+	var stream: AudioStream = AudioCatalog.sfx_curated(wav_name)
+	if stream == null:
+		return  # AudioCatalog already warned -- silent no-op for caller
+	_play_via_pool(stream, world_x, world_y)
+
+
+func _play_via_pool(stream: AudioStream, world_x: int, world_y: int) -> void:
 	var player: AudioStreamPlayer2D = _sfx_pool[_next_sfx_index]
 	_next_sfx_index = (_next_sfx_index + 1) % _sfx_pool.size()
 
