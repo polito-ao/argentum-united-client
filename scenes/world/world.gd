@@ -62,6 +62,12 @@ var chests: Dictionary = {}        # chest_id -> { pos: Vector2i, state: String,
 # Prevents log spam when the same item type spawns repeatedly.
 var _warned_missing_item_icons: Dictionary = {}
 
+# One-shot guard: if a PLAY_SFX payload arrives with BOTH wav_name and
+# wav_id set, we prefer wav_name (the new field wins) and warn once so
+# the server team knows to drop the legacy field. Repeated payloads
+# don't re-warn.
+var _warned_play_sfx_both: bool = false
+
 # === World scene nodes ===
 @onready var camera: Camera2D                = $Camera
 @onready var entities_layer: Node2D          = $Entities
@@ -1447,9 +1453,25 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 		PacketIds.HIDE_STATE_CHANGED:
 			_handle_hide_state_changed(payload)
 		PacketIds.PLAY_SFX:
-			# Spatial SFX from the server. payload = { wav_id, x, y }.
+			# Spatial SFX from the server. payload = { wav_id?, wav_name?, x, y }.
 			# 0/0 = non-spatial UI sound (still routed through SFX bus).
-			AudioPlayer.play_sfx(int(payload.get("wav_id", 0)), int(payload.get("x", 0)), int(payload.get("y", 0)))
+			# Dispatch rules:
+			#   wav_name set                       -> curated SFX (string lookup)
+			#   wav_name unset, wav_id set         -> legacy numeric SFX
+			#   both set                           -> wav_name wins, warn once
+			#   neither set                        -> silent no-op
+			var wav_name = payload.get("wav_name", "")
+			var wav_id = int(payload.get("wav_id", 0))
+			var sfx_x = int(payload.get("x", 0))
+			var sfx_y = int(payload.get("y", 0))
+			if wav_name != "":
+				if wav_id > 0 and not _warned_play_sfx_both:
+					_warned_play_sfx_both = true
+					push_warning("PLAY_SFX: payload has both wav_name='%s' and wav_id=%d; using wav_name (server should drop wav_id once curated routing is canonical)" % [wav_name, wav_id])
+				AudioPlayer.play_sfx_curated(String(wav_name), sfx_x, sfx_y)
+			elif wav_id > 0:
+				AudioPlayer.play_sfx(wav_id, sfx_x, sfx_y)
+			# else: neither set -- silent, intentional
 		PacketIds.MUSIC_CHANGE:
 			# music_id may be null/0; MusicDirector falls through to the
 			# day/night open-world fallback in either case.
