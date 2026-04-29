@@ -44,3 +44,26 @@ func test_for_effect_is_cached_on_second_call():
 func test_for_effect_unknown_id_returns_null():
 	assert_null(SpriteFramesBuilder.for_effect(999999))
 	assert_null(SpriteFramesBuilder.for_effect(0))
+
+
+# --- Issue #22: dormant effects (4-7) build the same as the wired ones ------
+# When the server eventually emits EFFECT_START for blessings / status visuals
+# the resource pipeline must already cope. We don't try to *play* them here —
+# just confirm SpriteFramesBuilder produces a non-empty SpriteFrames.
+
+func test_for_effect_dormant_ids_build():
+	# Skip when the upscaled_2x bundle is absent (gitignored in CI clones).
+	if not FileAccess.file_exists("res://assets/upscaled_2x/3069.png"):
+		pending("upscaled_2x assets not present — skipping dormant build check")
+		return
+	for eid in [4, 5, 6, 7]:
+		var sf := SpriteFramesBuilder.for_effect(eid)
+		assert_not_null(sf, "dormant effect %d should build" % eid)
+		assert_true(sf.has_animation("default"),
+			"dormant effect %d animation is keyed under 'default'" % eid)
+		assert_gt(sf.get_frame_count("default"), 0,
+			"dormant effect %d animation has frames" % eid)
+		assert_true(sf.get_animation_loop("default"),
+			"dormant effect %d should loop" % eid)
+		assert_gte(sf.get_animation_speed("default"), 1.0,
+			"dormant effect %d speed must be >= 1 fps" % eid)
