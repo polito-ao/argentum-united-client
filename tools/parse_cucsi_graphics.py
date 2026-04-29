@@ -303,6 +303,46 @@ EFFECT_MAP: List[Dict] = [
         "source_file": "Fxs.ini",
         "fx_index": 6,   # FX6 = FxMeditar.GRANDE (Cucsi level 30-37 upgrade)
     },
+    # --- Issue #22: dormant catalog entries (server does not emit yet) ------
+    # IDs 4-7 are scaffolding for future EFFECT_START emissions. Sourced from
+    # Cucsi's spell FX catalog (Hechizos.dat -> FXgrh -> Fxs.ini[FXgrh]) so the
+    # PNG / region metadata round-trips through the existing Fxs.ini pipeline.
+    {
+        "id": 4,
+        "name": "effect_blessing_real",
+        "source_file": "Fxs.ini",
+        # FX9 = "Bendicion de Sortilego" (Hechizos.dat[HECHIZO40]). Golden
+        # blessing aura; the most direct Cucsi analogue for "Royal Army"
+        # (Bendicion Real) until a faction-specific FX is authored.
+        "fx_index": 9,
+    },
+    {
+        "id": 5,
+        "name": "effect_blessing_caos",
+        "source_file": "Fxs.ini",
+        # FX13 = "Apocalipsis" (Hechizos.dat[HECHIZO25/65/76]). Dark/fiery
+        # 21-frame burst; placeholder for "Legion Caos" blessing until a
+        # bespoke chaos-aura FX is authored.
+        "fx_index": 13,
+    },
+    {
+        "id": 6,
+        "name": "effect_status_paralysis",
+        "source_file": "Fxs.ini",
+        # FX8 = "Paralizar" (Hechizos.dat[HECHIZO9/93]). Electric/freeze halo
+        # — used by Cucsi as the spell-cast FX; we reuse it as the persistent
+        # status marker on the affected character.
+        "fx_index": 8,
+    },
+    {
+        "id": 7,
+        "name": "effect_status_poison",
+        "source_file": "Fxs.ini",
+        # FX3 = "Envenenar" (Hechizos.dat[HECHIZO4]). Green poison cloud —
+        # spell-cast FX in Cucsi, repurposed as the persistent poison-status
+        # marker.
+        "fx_index": 3,
+    },
 ]
 
 
