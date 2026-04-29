@@ -8,14 +8,14 @@
 **Server repo**: polito-ao/argentum-united-server
 **Project board**: argentum-united
 
-## Last verified state (2026-04-27)
+## Last verified state (2026-04-28)
 
-- **Tests**: 257 GUT tests, all passing. Run with:
+- **Tests**: 400 GUT tests, all passing. Run with:
   ```
   godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests/unit/ -gexit
   ```
-- **Last commit**: `fd465e8` (ground items: render Cucsi icon sprites instead of yellow rect)
-- **M2**: feature-complete on visual axis. Layered character pipeline (body + head + equipment + effect aura) live for player / other players / NPCs; race-distinct bodies; equipment overlay updates live on equip; meditation aura with picker; FIFA-card character select; cosmetic login + char-select scenes; ground items render Cucsi icon sprites. Remaining: spells hotbar, sound/music, more content.
+- **Last commit**: `81a8c1e` (audio: sfx_curated/ folder + wav_name routing in PLAY_SFX)
+- **M2**: visual + audio axes feature-complete. Music director, layered animations, equipment overlay, meditation aura, FIFA cards, cosmetic scenes, ground item icons, system messages unified into chat with click-to-inspect, tree z-index walk-behind, click-link broadcasts, reconnect modal — all live. Remaining M2 polish: walking SFX with surface detection (server #122), AmbientAudioDirector (#38), spells hotbar, more content.
 - **Editor cache nuke if needed**: if you see "class not registered" / unresolved `%UniqueName` errors on first open, run `rm .godot/global_script_class_cache.cfg .godot/uid_cache.bin && godot --headless --path . --import` then reopen.
 
 ## Tech stack
@@ -51,10 +51,16 @@ scripts/
                     class_race_hints.gd        35-cell class+race playstyle hint matrix
   game/           map_texture_cache (autoload), parsed-JSON helpers
                     sprite_catalog.gd (autoload)        loads bodies/heads/helmets/weapons/shields/effects/items YAML
-                    sprite_frames_builder.gd            id → cached SpriteFrames resource
+                    sprite_frames_builder.gd            id → cached SpriteFrames resource (WALK_SPEED_MULTIPLIER = 1.20)
                     layered_character.gd                Node2D with 5 AnimatedSprite2D layers + EffectSprite
                     meditation_aura.gd                  effect aura node (real Cucsi sprite + placeholder fallback)
                     character_direction.gd              delta → cardinal direction
+                    audio_catalog.gd (autoload)         resolves wav_id (numeric) and wav_name (curated) → AudioStream
+                    audio_player.gd (autoload)          spatial pool (8 voices), SFX, theme/music routing
+                    music_director.gd (autoload)        state-driven music: scene × music_id × time-of-day, 800ms crossfade
+  ui/             continued
+                    reconnect_modal_controller.gd       Rocket-League-style "rejoin in-progress match?" modal
+                    broadcast_link_dispatcher.gd        click-link kinds (`map_jump` shipped; future kinds plug in)
 
 tests/
   unit/           GUT unit tests, one per controller + smoke
@@ -104,13 +110,27 @@ Each interactive subsystem lives in `scripts/ui/<controller>.gd` as a `RefCounte
 - [x] **Ground item icons** — Cucsi item sprites driven by `icon_grh_id` from server, with yellow ColorRect fallback for missing refs.
 - [x] **Other-players smoothing** — fell out for free from layered character work; PLAYER_MOVE no longer snaps.
 
+### Done since 2026-04-27
+- [x] **Audio pipeline** — `AudioCatalog` autoload (numeric `wav_id` + curated `wav_name` routing), `AudioPlayer` 8-voice spatial pool, FluidR3-rendered MIDIs (now opt-in only; default skips them), force-PCM on broken Cucsi WAVs.
+- [x] **MusicDirector** — state-driven autoload (scene + music_id + time-of-day) with 800ms crossfade. Tracks: clasica-ao on login/char-select (continuous), ulla on Ullathorpe, open-world day/night by clock.
+- [x] **Curated audio** — `assets/audio/{music,sfx}_curated/` tracked in git. User-authored MP3/WAV/FLAC/OGG. `wav_name` field in PLAY_SFX routes to these.
+- [x] **Reconnect modal** — Rocket-League "rejoin in-progress match?" overlay wired into character_select + world; Esc dismisses; countdown auto-closes.
+- [x] **Broadcast renderer** — chat console renders typed announcements with category badge + level color + clickable `[url=...]` links. `BroadcastLinkDispatcher.dispatch` handles `map_jump` (camera/minimap pulse) today; future kinds plug in.
+- [x] **Click-to-inspect** — left-click any tile reports contents to chat (self / other-players / NPCs / ground items / chests). System messages unified into chat (no more mid-screen overlay).
+- [x] **Tree z-index** — overhead map layer renders above player + NPCs (walk-behind).
+- [x] **Map transition fix** — kills stale tween + clears walking flag on snap.
+- [x] **Walk speed tuning** — 5 tiles/sec (was 10, now Cucsi-exact). Walk cycle 666ms (was 555, +20% on user feedback).
+- [x] **Item icon parser fix** — 959 → 1088 unique GRHs after the `[OBJ16] 'CASA RUINAS` regex bug fix.
+- [x] **Chat HUD UX** — input alignment, smaller font (13pt), scroll-respect with jump-to-present button.
+
 ### Pending / not started
 - [ ] Spells hotbar — spell list in tab works, no quick-cast bar yet
-- [ ] Sound / music (whole pass deferred)
+- [ ] Walking SFX with surface detection — server #122 tracks; client renders via `wav_name` once server emits
+- [ ] AmbientAudioDirector — client #38 tracks (parallel to MusicDirector for bird/cricket/owl/rain/etc.)
 - [ ] Clan / citizenship UI (M4)
-- [ ] Settings panel: keybind UI doesn't show new actions automatically (e.g. `bank: KEY_V` is in `DEFAULT_BINDINGS` but the rebinder UI may need a refresh — verify when touched)
-- [ ] **Shrine of Fortune mechanic** — dice rolls deferred to level 2 unlock; data path is ready (`Character.dice_roll` JSONB, `to_summary` ships it), only the mechanic + UI are missing.
-- [ ] **Gender axis on Character** — schema column + dice roller + creation UI; Cucsi `_M_` female head arrays are already emitted in `race_heads.yml`, just unused.
+- [ ] Settings panel: keybind UI doesn't show new actions automatically — verify when touched
+- [ ] **Shrine of Fortune mechanic** — dice rolls deferred to level 2 unlock; data path is ready, only the mechanic + UI are missing.
+- [ ] **Gender axis on Character** — schema column + dice roller + creation UI; Cucsi `_M_` female head arrays already emitted in `race_heads.yml`.
 - [ ] **Effect catalog expansion** — only meditation auras live today (CHICO/MEDIANO/GRANDE). Mine remaining Cucsi auras (blessings, VIP indicators, status effect visuals).
 - [ ] **More maps** — only 3 maps loaded; Cucsi has 624 maps and the parser is in place.
 
