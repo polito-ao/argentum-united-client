@@ -39,8 +39,24 @@ const SFX_POOL_SIZE := 8
 # linear_to_db -- handled in set_bus_volume_linear().
 const BUS_MAX_DB := 0.0
 
+# Y-axis pitch shift: per-pixel-Y delta between source and listener. With
+# TILE_SIZE_PX = 64 and Y_PITCH_SCALE = 0.001, a 1-tile vertical delta is
+# +/-6.4% pitch and the +/-10% clamp engages around ~1.5 tiles. Tuned to
+# be perceptible but not cartoonish; revisit once footstep SFX ships.
+const Y_PITCH_SCALE := 0.001
+# Hard cap on pitch deviation either way. Mirrors typical "subtle cue"
+# territory -- beyond +/-10% the SFX starts to sound like a different
+# asset, which defeats the spatial-cue purpose.
+const Y_PITCH_CLAMP := 0.10
+
 var _sfx_pool: Array = []   # Array[AudioStreamPlayer2D]
 var _next_sfx_index: int = 0
+# Listener position in world tile coords. world.gd pushes this every time
+# the local player moves (see set_listener_position). Defaults to 0/0
+# which matches "non-spatial" semantics for the very first SFX after boot
+# -- before the player tile is known the pitch shift is a no-op.
+var _listener_x: float = 0.0
+var _listener_y: float = 0.0
 
 
 func _ready() -> void:
@@ -67,6 +83,13 @@ func _setup_pool() -> void:
 		# matches Cucsi's straight-line falloff. Tune later if needed.
 		p.max_distance = float(MAX_DISTANCE_TILES * TILE_SIZE_PX)
 		p.attenuation = 1.0
+		# Doppler note: `doppler_tracking` is 3D-only in Godot 4
+		# (AudioStreamPlayer3D + Camera3D). AudioStreamPlayer2D does not
+		# expose it -- verified against Godot 4.6.2 class docs. So the
+		# "approaching/receding" pitch cue would have to be computed
+		# manually from listener+source velocities, which is deferred:
+		# Y-pitch shift below already gives a vertical-axis cue and
+		# benefits every existing PLAY_SFX caller.
 		add_child(p)
 		_sfx_pool.append(p)
 
@@ -108,12 +131,46 @@ func _play_via_pool(stream: AudioStream, world_x: int, world_y: int) -> void:
 		# to disable distance falloff entirely for this play.
 		player.position = Vector2.ZERO
 		player.max_distance = 1e9
+		# Non-spatial sounds don't get a pitch shift -- they're UI-ish.
+		player.pitch_scale = 1.0
 	else:
 		player.position = Vector2(world_x * TILE_SIZE_PX, world_y * TILE_SIZE_PX)
 		player.max_distance = float(MAX_DISTANCE_TILES * TILE_SIZE_PX)
+		# Y-pitch shift: source above listener (smaller world_y in
+		# top-down screen space) renders slightly higher-pitched, source
+		# below renders lower. Adds a vertical-axis cue on top of
+		# AudioStreamPlayer2D's built-in left/right panning + falloff.
+		player.pitch_scale = compute_y_pitch_shift(_listener_y, float(world_y), Y_PITCH_SCALE)
 
 	player.stream = stream
 	player.play()
+
+
+# Pure function (no node access, no state) so the spec suite can exercise
+# it without spinning up the autoload. listener_y / source_y are tile
+# coords; scale_factor is "pitch delta per pixel-Y delta" (Y_PITCH_SCALE
+# at the call site). Result is clamped to [1 - Y_PITCH_CLAMP, 1 + Y_PITCH_CLAMP].
+#
+# Convention: in Godot 2D top-down, y increases downward. Source above
+# the listener (source_y < listener_y) -> positive shift (higher pitch).
+# Source below (source_y > listener_y) -> negative shift (lower pitch).
+# That matches "voice carries up, footsteps thud down" intuition.
+static func compute_y_pitch_shift(listener_y: float, source_y: float, scale_factor: float) -> float:
+	var dy_tiles: float = listener_y - source_y
+	var dy_pixels: float = dy_tiles * float(TILE_SIZE_PX)
+	var raw_delta: float = dy_pixels * scale_factor
+	# clampf (not clamp) so the inferred type stays float -- the project
+	# treats Variant inference as a parse error.
+	var clamped_delta: float = clampf(raw_delta, -Y_PITCH_CLAMP, Y_PITCH_CLAMP)
+	return 1.0 + clamped_delta
+
+
+# Listener position update. world.gd calls this whenever the local
+# player moves (snap or smooth-walk). Stored as float so future
+# sub-tile listeners (e.g. mounts, vehicles) plug in cleanly.
+func set_listener_position(world_x: float, world_y: float) -> void:
+	_listener_x = world_x
+	_listener_y = world_y
 
 
 # --- Bus volume helpers (for settings sliders) --------------------------

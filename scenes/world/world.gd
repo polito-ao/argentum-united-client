@@ -1085,6 +1085,10 @@ func _update_player_position():
 	player_sprite.position = tile_to_world(my_pos.x, my_pos.y, _tile_size)
 	camera.position = player_sprite.position + CAMERA_WORLD_OFFSET
 	hud.set_position_label(map_id, my_pos.x, my_pos.y)
+	# Spatial-audio listener follows the player tile (not the camera) so
+	# Y-pitch shift uses the player's vertical position even if the
+	# camera is offset. Snap path -- initial spawn / map transition.
+	AudioPlayer.set_listener_position(float(my_pos.x), float(my_pos.y))
 	if _minimap_drawer:
 		_minimap_drawer.queue_redraw()
 
@@ -1112,6 +1116,10 @@ func _tween_player_step() -> void:
 		_self_layered.set_walking(true)
 		_move_tween.finished.connect(_on_self_step_finished, CONNECT_ONE_SHOT)
 	hud.set_position_label(map_id, my_pos.x, my_pos.y)
+	# Update the spatial-audio listener on every smooth-walk step so
+	# Y-pitch shift on incoming SFX tracks the player's tile, not the
+	# stale value from before this step. Cheap (no allocations).
+	AudioPlayer.set_listener_position(float(my_pos.x), float(my_pos.y))
 	if _minimap_drawer:
 		_minimap_drawer.queue_redraw()
 
