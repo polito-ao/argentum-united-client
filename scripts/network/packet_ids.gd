@@ -116,6 +116,13 @@ const BROADCAST_MESSAGE = 0x008E   # server -> recipients: { category, level, me
 const RECONNECT_PROMPT = 0x008F     # server -> that one client: { match_id, match_type, expires_at }
 const RECONNECT_RESPONSE = 0x00C0   # client -> server: { match_id, accept }
 
+# FACE — client -> server: { direction: "north"|"south"|"east"|"west" }.
+# Sent when a directional input would have stepped into an NPC, player,
+# or map edge. Updates the server's @heading so subsequent attacks pass
+# combat_handler#facing? (the server otherwise only updates heading on
+# successful PLAYER_MOVE). Local sprite rotation is handled in world.gd.
+const FACE = 0x00C1
+
 # Called on boot after CONFIG_RESPONSE arrives.
 # Errors hard if server's IDs don't match our constants.
 static func validate_server_config(server_packet_ids: Dictionary) -> Array:
