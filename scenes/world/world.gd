@@ -1308,6 +1308,13 @@ func _input(event):
 			_try_open_adjacent_chest()
 
 func _send_move(dx: int, dy: int):
+	# Always update facing on a directional input — even if the move ends up
+	# blocked by an edge, NPC, or player. AO convention: pressing a direction
+	# rotates the character so they can interact (attack, talk) with whatever
+	# is in front of them, regardless of whether stepping forward is possible.
+	if _self_layered != null:
+		_self_layered.set_direction(my_heading)
+
 	var new_x = my_pos.x + dx
 	var new_y = my_pos.y + dy
 
