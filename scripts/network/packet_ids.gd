@@ -123,6 +123,14 @@ const RECONNECT_RESPONSE = 0x00C0   # client -> server: { match_id, accept }
 # successful PLAYER_MOVE). Local sprite rotation is handled in world.gd.
 const FACE = 0x00C1
 
+# PLAYER_FACED — server -> broadcast: { id, direction }. Tells observers
+# a player rotated in place without moving. Movement-driven rotation is
+# already covered by PLAYER_MOVED (we derive direction from the position
+# delta). This packet exists only for stationary rotations triggered by
+# the FACE packet — without it, victims see attackers facing the wrong
+# way at the moment they get hit, and assume cheating.
+const PLAYER_FACED = 0x00C2
+
 # Called on boot after CONFIG_RESPONSE arrives.
 # Errors hard if server's IDs don't match our constants.
 static func validate_server_config(server_packet_ids: Dictionary) -> Array:

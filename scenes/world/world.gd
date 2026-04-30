@@ -1376,6 +1376,8 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			_handle_player_spawn(payload)
 		PacketIds.PLAYER_MOVED:
 			_handle_player_moved(payload)
+		PacketIds.PLAYER_FACED:
+			_handle_player_faced(payload)
 		PacketIds.PLAYER_DESPAWN:
 			_handle_player_despawn(payload)
 		PacketIds.NPC_SPAWN, PacketIds.NPC_RESPAWN:
@@ -1577,6 +1579,21 @@ func _handle_player_moved(payload: Dictionary):
 			if is_instance_valid(layered):
 				layered.set_walking(false)
 		tween.finished.connect(stop_walking, CONNECT_ONE_SHOT)
+
+func _handle_player_faced(payload: Dictionary):
+	# Server tells us another player rotated in place (FACE packet, not a
+	# move). Update their LayeredCharacter direction so observers see the
+	# correct facing — without this, an attacker still appears to face
+	# their previous direction at the moment they hit you.
+	var id = payload.get("id", 0)
+	if not (id in players):
+		return
+	var direction = payload.get("direction", "")
+	if direction == "":
+		return
+	var layered: LayeredCharacter = players[id].get("layered", null)
+	if layered != null:
+		layered.set_direction(direction)
 
 func _handle_player_despawn(payload: Dictionary):
 	var id = payload.get("id", 0)
