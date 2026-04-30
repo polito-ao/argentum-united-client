@@ -1308,23 +1308,39 @@ func _input(event):
 			_try_open_adjacent_chest()
 
 func _send_move(dx: int, dy: int):
+	# Always update facing on a directional input — even if the move ends up
+	# blocked by an edge, NPC, or player. AO convention: pressing a direction
+	# rotates the character so they can interact (attack, talk) with whatever
+	# is in front of them, regardless of whether stepping forward is possible.
+	if _self_layered != null:
+		_self_layered.set_direction(my_heading)
+
 	var new_x = my_pos.x + dx
 	var new_y = my_pos.y + dy
 
 	if new_x < 0 or new_y < 0 or new_x >= map_size.x or new_y >= map_size.y:
+		_send_face()
 		return
 
 	for npc_id in npcs:
 		if npcs[npc_id].pos == Vector2i(new_x, new_y):
+			_send_face()
 			return
 
 	for player_id in players:
 		if players[player_id].pos == Vector2i(new_x, new_y):
+			_send_face()
 			return
 
 	connection.send_packet(PacketIds.PLAYER_MOVE, {"x": new_x, "y": new_y})
 	my_pos = Vector2i(new_x, new_y)
 	_tween_player_step()
+
+# Tells the server we rotated in place. Without this the server's
+# combat_handler#facing? check uses the stale heading from the last
+# successful PLAYER_MOVE — making "rotate then attack" silently fail.
+func _send_face() -> void:
+	connection.send_packet(PacketIds.FACE, {"direction": my_heading})
 
 func _attack_facing():
 	var facing = _facing_offset()
