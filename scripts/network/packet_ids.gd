@@ -131,6 +131,14 @@ const FACE = 0x00C1
 # way at the moment they get hit, and assume cheating.
 const PLAYER_FACED = 0x00C2
 
+# NPC_FACED — server -> broadcast: { npc_id, direction }. The NPC AI
+# turns to face an adjacent target before attacking — the AO "dance"
+# window where good players sidestep around an NPC faster than it can
+# turn. Movement-driven NPC rotation is already covered by NPC_MOVED
+# (we derive direction from delta in _handle_npc_moved); this is only
+# for stationary turns issued by the server's run_npc_attacks tick.
+const NPC_FACED = 0x00C3
+
 # Called on boot after CONFIG_RESPONSE arrives.
 # Errors hard if server's IDs don't match our constants.
 static func validate_server_config(server_packet_ids: Dictionary) -> Array:

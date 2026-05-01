@@ -1384,6 +1384,8 @@ func _on_packet_received(packet_id: int, payload: Dictionary):
 			_handle_npc_spawn(payload)
 		PacketIds.NPC_MOVED:
 			_handle_npc_moved(payload)
+		PacketIds.NPC_FACED:
+			_handle_npc_faced(payload)
 		PacketIds.NPC_DEATH:
 			_handle_npc_death(payload)
 		PacketIds.NPC_ATTACK:
@@ -1661,6 +1663,21 @@ func _handle_npc_moved(payload: Dictionary):
 			if is_instance_valid(layered):
 				layered.set_walking(false)
 		tween.finished.connect(stop_walking, CONNECT_ONE_SHOT)
+
+func _handle_npc_faced(payload: Dictionary):
+	# Server tells us an NPC turned in place to face its target — the AO
+	# "dance" tick where the NPC spends a beat rotating before it can
+	# attack. Update the LayeredCharacter direction so the player sees
+	# the rotation and can read the windup.
+	var id = int(payload.get("npc_id", 0))
+	if not (id in npcs):
+		return
+	var direction = payload.get("direction", "")
+	if direction == "":
+		return
+	var layered: LayeredCharacter = npcs[id].get("layered", null)
+	if layered != null:
+		layered.set_direction(direction)
 
 func _handle_npc_death(payload: Dictionary):
 	var id = payload.get("npc_id", 0)
