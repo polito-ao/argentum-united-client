@@ -8,15 +8,22 @@
 **Server repo**: polito-ao/argentum-united-server
 **Project board**: argentum-united
 
-## Last verified state (2026-04-28)
+## Last verified state (2026-05-01)
 
-- **Tests**: 400 GUT tests, all passing. Run with:
+- **Tests**: 407+ GUT tests, all passing (400 baseline + audio_player + effect-catalog + combat-facing additions). Run with:
   ```
   godot --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests/unit/ -gexit
   ```
-- **Last commit**: `81a8c1e` (audio: sfx_curated/ folder + wav_name routing in PLAY_SFX)
-- **M2**: visual + audio axes feature-complete. Music director, layered animations, equipment overlay, meditation aura, FIFA cards, cosmetic scenes, ground item icons, system messages unified into chat with click-to-inspect, tree z-index walk-behind, click-link broadcasts, reconnect modal — all live. Remaining M2 polish: walking SFX with surface detection (server #122), AmbientAudioDirector (#38), spells hotbar, more content.
+- **Last commit**: `acf9df4` (chore: track music_curated .import files + gitignore .claude/, #45)
+- **M2**: visual + audio + combat-facing UX axes feature-complete. Music director, layered animations, equipment overlay, meditation aura, FIFA cards, cosmetic scenes, ground item icons, system messages unified into chat with click-to-inspect, tree z-index walk-behind, click-link broadcasts, reconnect modal, walking SFX with Y-pitch on spatial pool, effect catalog 4-7 (dormant), rotate-on-blocked + FACE / PLAYER_FACED / NPC_FACED facing wires — all live. Remaining M2 polish: AmbientAudioDirector (#38), spells hotbar, more content.
 - **Editor cache nuke if needed**: if you see "class not registered" / unresolved `%UniqueName` errors on first open, run `rm .godot/global_script_class_cache.cfg .godot/uid_cache.bin && godot --headless --path . --import` then reopen.
+
+## Recent work (2026-04-28 → 2026-05-01)
+
+- **Combat-facing UX** (PRs #42 / #43 / #44): pressing a direction key against a blocked tile rotates the character locally (no movement) AND fires a `FACE` packet (0x00C1) so the server's heading stays in sync — letting subsequent attacks pass `combat_handler#facing?`. Other players see your stationary rotation via `PLAYER_FACED` (0x00C2) broadcast handler. NPCs render their turn-before-attack via `NPC_FACED` (0x00C3) broadcast — the classic AO "dance" window where good players sidestep faster than the AI turns.
+- **Effect catalog 4-7** (PR #40): mined Cucsi `Auras.ini` + `Fxs.ini` for `blessing_real`, `blessing_caos`, `status_paralysis`, `status_poison`. Dormant — server doesn't emit these effect_ids yet.
+- **Y-pitch shift on spatial pool** (PR #41): listener-relative pitch shift on `AudioStreamPlayer2D` voices for above/below spatial cue. Doppler is 3D-only in Godot 4 and not wired (deferred).
+- **Repo hygiene** (PR #45): tracks `music_curated/*.import` (Godot metadata for tracked audio); `.gitignore` now excludes `.claude/` workspace state.
 
 ## Tech stack
 
